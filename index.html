@@ -12,20 +12,44 @@
             background-color: #f2f2f2;
         }
         .container {
-            max-width: 800px;
-            margin: 50px auto;
+            width: 1920px;
+            margin: 0 auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         h1 {
-            text-align: center;
             color: #333;
         }
         p {
             line-height: 1.6;
             color: #666;
+        }
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 0 10px;
+            cursor: pointer; /* Add cursor pointer */
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px -20px;
         }
     </style>
 </head>
@@ -33,7 +57,32 @@
 
 <div class="container">
     <h1>Welcome to Dante's GitHub Page!</h1>
+    <div class="divider"></div>
+    <div class="button-container">
+        <a href="#about" class="button">About Me</a>
+        <a href="#projects" class="button">Projects</a>
+    </div>
+    <p>This is a placeholder page. You can customize it to showcase your projects, bio, or any other information you'd like to share.</p>
+    <p>Feel free to edit this <code>index.html</code> file to personalize your page.</p>
+    <div id="about">
+        <h2>About Me</h2>
+        <p>Add your information about yourself here.</p>
+    </div>
+    <br>
+    <div id="projects">
+        <h2>Projects</h2>
+        <p>Add information about your projects here.</p>
+        <!-- JavaScript to handle redirection -->
+        <button class="button" onclick="redirectToProject()">10 mil juego</button>
+    </div>
 </div>
+
+<script>
+    function redirectToProject() {
+        // Redirect to the GitHub project page
+        window.location.href = "https://daantesiito.github.io/10-mil-juego";
+    }
+</script>
 
 </body>
 </html>
