@@ -6,43 +6,59 @@
     <title>10 mil juego</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             margin: 0;
             padding: 20px;
+            background-color: #fef2bf; /* Light yellow */
         }
         h1 {
             text-align: center;
+            color: #f7921e; /* Orange */
+            margin-bottom: 20px;
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
+            background-color: #fff; /* White */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Shadow effect */
         }
         label {
             display: block;
             margin-bottom: 5px;
+            color: #f7921e; /* Orange */
         }
         input[type="text"], input[type="number"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
             box-sizing: border-box;
+            border: 2px solid #f7921e; /* Orange */
+            border-radius: 5px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
         }
         button {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #75baff; /* Light blue */
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #4299e1; /* Darker blue on hover */
         }
         .output {
             margin-top: 20px;
-            border: 1px solid #ccc;
+            border: 2px solid #f7921e; /* Orange */
             padding: 10px;
             border-radius: 5px;
+            background-color: #fff; /* White */
+            overflow-wrap: break-word;
         }
     </style>
 </head>
@@ -51,39 +67,72 @@
 <h1>10 mil juego</h1>
 
 <div class="container">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" placeholder="Ingrese un nombre">
+    <div id="setup">
+        <label for="numPlayers">Number of Players:</label>
+        <input type="number" id="numPlayers" min="1" value="1">
+        <button onclick="setupPlayers()">Start Game</button>
+    </div>
 
-    <label for="puntaje">Puntaje obtenido:</label>
-    <input type="number" id="puntaje" placeholder="Ingrese el puntaje obtenido">
-
-    <button onclick="sumarPuntos()">Sumar Puntos</button>
-
-    <div class="output" id="output"></div>
+    <div id="game" style="display: none;">
+        <div id="playerInputs"></div>
+        <button onclick="sumarPuntos()">Sumar Puntos</button>
+        <div class="output" id="output"></div>
+    </div>
 </div>
 
 <script>
-    var listaNombres = [];
+    var numPlayers;
+    var currentPlayer = 0;
+    var players = {}; // Object to store players and their scores
 
-    function sumarPuntos() {
-        var nombre = document.getElementById("nombre").value;
-        var puntaje = parseInt(document.getElementById("puntaje").value);
-
-        if (nombre.trim() === "" || isNaN(puntaje)) {
-            alert("Ingrese un nombre y un puntaje válido.");
+    function setupPlayers() {
+        numPlayers = parseInt(document.getElementById("numPlayers").value);
+        if (numPlayers < 1 || isNaN(numPlayers)) {
+            alert("Please enter a valid number of players.");
             return;
         }
-
-        // Add the name and score to the list
-        listaNombres.push([nombre, puntaje]);
-
-        var output = document.getElementById("output");
-        output.innerHTML += "<p>El jugador " + nombre + " tiene " + puntaje + " puntos.</p>";
-
-        if (puntaje === 10000) {
-            output.innerHTML += "<p>¡El jugador " + nombre + " ganó!</p>";
-            // You can perform any additional actions here, like showing top scores, etc.
+        var playerInputsHtml = "";
+        for (var i = 0; i < numPlayers; i++) {
+            playerInputsHtml += "<label for='nombre" + (i + 1) + "'>Player " + (i + 1) + " Name:</label>";
+            playerInputsHtml += "<input type='text' id='nombre" + (i + 1) + "' placeholder='Enter name for player " + (i + 1) + "'><br>";
         }
+        document.getElementById("playerInputs").innerHTML = playerInputsHtml;
+        document.getElementById("setup").style.display = "none";
+        document.getElementById("game").style.display = "block";
+    }
+
+    function sumarPuntos() {
+        currentPlayer++;
+        if (currentPlayer > numPlayers) {
+            currentPlayer = 1;
+        }
+        var nombre = document.getElementById("nombre" + currentPlayer).value;
+        var puntaje = parseInt(prompt("Enter score for " + nombre + ":"));
+        if (isNaN(puntaje)) {
+            alert("Please enter a valid score.");
+            return;
+        }
+        if (!players[nombre]) {
+            players[nombre] = puntaje; // Initialize score for new player
+        } else {
+            players[nombre] += puntaje; // Update score for existing player
+        }
+        displayScores();
+    }
+
+    function displayScores() {
+        var sortedPlayers = Object.entries(players).sort((a, b) => b[1] - a[1]); // Sort players by score
+        var output = "";
+        for (var i = 0; i < sortedPlayers.length; i++) {
+            var playerNumber = i + 1;
+            output += "<p>" + playerNumber + ": " + sortedPlayers[i][0] + " has " + sortedPlayers[i][1] + " points.</p>";
+            if (sortedPlayers[i][1] >= 10000) {
+                output += "<p>" + sortedPlayers[i][0] + " has won the game!</p>";
+                document.getElementById("output").innerHTML = output;
+                return;
+            }
+        }
+        document.getElementById("output").innerHTML = output;
     }
 </script>
 
