@@ -1,81 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10 mil juego</title>
-    <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #fef2bf; /* Light yellow */
-        }
-        h1 {
-            text-align: center;
-            color: #f7921e; /* Orange */
-            margin-bottom: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff; /* White */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Shadow effect */
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #f7921e; /* Orange */
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            border: 2px solid #f7921e; /* Orange */
-            border-radius: 5px;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #75baff; /* Light blue */
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-        button:hover {
-            background-color: #4299e1; /* Darker blue on hover */
-        }
-        .output {
-            margin-top: 20px;
-            border: 2px solid #f7921e; /* Orange */
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #fff; /* White */
-            overflow-wrap: break-word;
-        }
-    </style>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>10 MIL JUEGO</title>
+        <style>
+            html {
+                font-family: Arial, sans-serif; /* Define a default font-family for the entire document */
+            }
+            body {
+                background: #000000;
+                color: #999;
+                font-family: inherit; /* Inherit the font-family from the parent (html) */
+                font-size: 18px;
+                font-weight: bold;
+            }
+            h1 {
+                text-align: center;
+                color: #ffffff;
+                font-weight: bold;
+                margin-bottom: 20px;
+                padding: 15px 0;
+                color: #D43F52;
+                font-family: inherit; /* Inherit the font-family from the parent (body) */
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #1a1a1a;
+                border: 2px solid #D43F52;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Shadow effect */
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+                color: #fff;
+            }
+            input[type="text"],
+            input[type="number"] {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                border: 2px solid #D43F52;
+                border-radius: 5px;
+                font-family: inherit; /* Inherit the font-family from the parent (body) */
+            }
+            button {
+                padding: 10px 20px;
+                background-color: #fff;
+                color: #1a1a1a;
+                border: 2px solid #D43F52;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: background-color 0.3s;
+                font-family: inherit; /* Inherit the font-family from the parent (body) */
+            }
+            button:hover {
+                background-color: #fff;
+            }
+            .output {
+                margin-top: 20px;
+                border: 2px solid #fff;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #1a1a1a;
+                overflow-wrap: break-word;
+            }
+        </style>
+    </head>    
 <body>
 
-<h1>10 mil juego</h1>
+<h1>10 MIL</h1>
 
 <div class="container">
     <div id="setup">
-        <label for="numPlayers">Number of Players:</label>
+        <label for="numPlayers">INGRESE EL NUMERO DE JUGADORES:</label>
         <input type="number" id="numPlayers" min="1" value="1">
-        <button onclick="setupPlayers()">Start Game</button>
+        <button onclick="setupPlayers()">EMPEZAR</button>
     </div>
 
     <div id="game" style="display: none;">
         <div id="playerInputs"></div>
-        <button onclick="sumarPuntos()">Sumar Puntos</button>
+        <button onclick="sumarPuntos()">SUMAR PUNTOS</button>
         <div class="output" id="output"></div>
     </div>
 </div>
@@ -88,13 +98,13 @@
     function setupPlayers() {
         numPlayers = parseInt(document.getElementById("numPlayers").value);
         if (numPlayers < 1 || isNaN(numPlayers)) {
-            alert("Please enter a valid number of players.");
+            alert("INGRESE UN NUMERO VALIDO DE PERSONAS.");
             return;
         }
         var playerInputsHtml = "";
         for (var i = 0; i < numPlayers; i++) {
-            playerInputsHtml += "<label for='nombre" + (i + 1) + "'>Player " + (i + 1) + " Name:</label>";
-            playerInputsHtml += "<input type='text' id='nombre" + (i + 1) + "' placeholder='Enter name for player " + (i + 1) + "'><br>";
+            playerInputsHtml += "<label for='nombre" + (i + 1) + "'>JUGADOR N" + (i + 1) + ":</label>";
+            playerInputsHtml += "<input type='text' id='nombre" + (i + 1) + "' placeholder='INGRESE JUGADOR N" + (i + 1) + "'><br>";
         }
         document.getElementById("playerInputs").innerHTML = playerInputsHtml;
         document.getElementById("setup").style.display = "none";
@@ -106,10 +116,10 @@
         if (currentPlayer > numPlayers) {
             currentPlayer = 1;
         }
-        var nombre = document.getElementById("nombre" + currentPlayer).value;
-        var puntaje = parseInt(prompt("Enter score for " + nombre + ":"));
+        var nombre = document.getElementById("nombre" + currentPlayer).value; // Corrected ID
+        var puntaje = parseInt(prompt("INGRESE EL PUNTAJE DE " + nombre + ":"));
         if (isNaN(puntaje)) {
-            alert("Please enter a valid score.");
+            alert("INGRESE UN DATO VALIDO.");
             return;
         }
         if (!players[nombre]) {
@@ -120,14 +130,15 @@
         displayScores();
     }
 
+
     function displayScores() {
         var sortedPlayers = Object.entries(players).sort((a, b) => b[1] - a[1]); // Sort players by score
         var output = "";
         for (var i = 0; i < sortedPlayers.length; i++) {
             var playerNumber = i + 1;
-            output += "<p>" + playerNumber + ": " + sortedPlayers[i][0] + " has " + sortedPlayers[i][1] + " points.</p>";
+            output += "<p>" + playerNumber + ": " + sortedPlayers[i][0] + " TIENE " + sortedPlayers[i][1] + " PUNTOS.</p>";
             if (sortedPlayers[i][1] >= 10000) {
-                output += "<p>" + sortedPlayers[i][0] + " has won the game!</p>";
+                output += "<p>" + sortedPlayers[i][0] + " GANO!</p>";
                 document.getElementById("output").innerHTML = output;
                 return;
             }

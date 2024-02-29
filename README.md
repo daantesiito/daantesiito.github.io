@@ -1,1 +1,1 @@
-This is my personal webpage where you can find my projects.
+Pagina personal para guardar proyectos, writeups, scripts, fotos, etc.
