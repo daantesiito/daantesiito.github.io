@@ -1,100 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>10 MIL JUEGO</title>
-        <style>
-            html {
-                font-family: Arial, sans-serif; /* Define a default font-family for the entire document */
-            }
-            body {
-                background: #000000;
-                color: #999;
-                font-family: inherit; /* Inherit the font-family from the parent (html) */
-                font-size: 18px;
-                font-weight: bold;
-            }
-            h1 {
-                text-align: center;
-                color: #ffffff;
-                font-weight: bold;
-                margin-bottom: 20px;
-                padding: 15px 0;
-                color: #D43F52;
-                font-family: inherit; /* Inherit the font-family from the parent (body) */
-            }
-            h5 {
-                text-align: center;
-                color: #ffffff;
-                font-weight: bold;
-                margin-bottom: 20px;
-                padding: 80px 0;
-                color: #D43F52;
-                font-family: inherit; /* Inherit the font-family from the parent (body) */
-            }
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                background-color: #1a1a1a;
-                border: 2px solid #D43F52;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Shadow effect */
-            }
-            label {
-                display: block;
-                margin-bottom: 5px;
-                color: #fff;
-            }
-            input[type="text"],
-            input[type="number"] {
-                width: 100%;
-                padding: 8px;
-                margin-bottom: 10px;
-                box-sizing: border-box;
-                border: 2px solid #D43F52;
-                border-radius: 5px;
-                font-family: inherit; /* Inherit the font-family from the parent (body) */
-            }
-            button {
-                padding: 10px 20px;
-                background-color: #fff;
-                color: #1a1a1a;
-                border: 2px solid #D43F52;
-                border-radius: 5px;
-                cursor: pointer;
-                font-weight: bold;
-                transition: background-color 0.3s;
-                font-family: inherit; /* Inherit the font-family from the parent (body) */
-            }
-            button:hover {
-                background-color: #fff;
-            }
-            .output {
-                margin-top: 20px;
-                border: 2px solid #fff;
-                padding: 10px;
-                border-radius: 5px;
-                background-color: #1a1a1a;
-                overflow-wrap: break-word;
-            }
-        </style>
-    </head>    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 MIL JUEGO</title>
+    <style>
+        html {
+            font-family: Arial, sans-serif; /* Define a default font-family for the entire document */
+        }
+        body {
+            background: #000000;
+            color: #999;
+            font-family: inherit; /* Inherit the font-family from the parent (html) */
+            font-size: 18px;
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            color: #D43F52;
+            font-family: inherit; /* Inherit the font-family from the parent (body) */
+        }
+        h5 {
+            text-align: center;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 80px 0;
+            color: #D43F52;
+            font-family: inherit; /* Inherit the font-family from the parent (body) */
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            border: 2px solid #D43F52;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Shadow effect */
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 2px solid #D43F52;
+            border-radius: 5px;
+            font-family: inherit; /* Inherit the font-family from the parent (body) */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #1a1a1a;
+            border: 2px solid #D43F52;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-family: inherit; /* Inherit the font-family from the parent (body) */
+        }
+        button:hover {
+            background-color: #fff;
+        }
+        .output {
+            margin-top: 20px;
+            border: 2px solid #fff;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #1a1a1a;
+            overflow-wrap: break-word;
+        }
+        .button-like-select {
+        text-align: center;
+        appearance: none;
+        padding: 6px 12px;
+        font-size: 14px;
+        border: 2px solid #D43F52;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #1a1a1a;
+        cursor: pointer;
+        margin-bottom: 8px;
+        }
+
+        .button-like-select:hover {
+            background-color: #f2f2f2;
+        }
+
+        .button-like-select:focus {
+            outline: none;
+            border-color: #D43F52;
+            box-shadow: 0 0 5px rgba(212, 63, 82, 0.5);
+        }
+    </style>
+</head>
 <body>
 
 <h1>10 MIL</h1>
 
-<div class="container">
-    <div id="setup">
+<div class="container" id="setup">
+    <div>
         <label for="numPlayers">INGRESE EL NUMERO DE JUGADORES:</label>
         <input type="number" id="numPlayers" min="1" value="1">
         <button onclick="setupPlayers()">EMPEZAR</button>
     </div>
+</div>
 
-    <div id="game" style="display: none;">
-        <div id="playerInputs"></div>
-        <button onclick="sumarPuntos()">SUMAR PUNTOS</button>
+<div class="container" id="nameEntry" style="display: none;">
+    <div id="playerInputs"></div>
+    <button onclick="proceedToGame()">Continuar al juego</button>
+</div>
+
+<div class="container" id="gameContainer" style="display: none;">
+    <div id="game">
+        <label for="selectPlayer">Seleccione el jugador:</label>
+        <select id="selectPlayer" class="button-like-select">
+            <!-- Options will be dynamically added via JavaScript -->
+        </select>        
+        <label for="addPoints">Ingrese los puntos:</label>
+        <input type="number" id="addPoints" min="1" value="1">
+        <button onclick="addPoints()">Agregar Puntos</button>
+        <button onclick="modifyPoints()">Modificar Puntos</button>
         <div class="output" id="output"></div>
     </div>
 </div>
@@ -103,6 +138,7 @@
     var numPlayers;
     var currentPlayer = 0;
     var players = {}; // Object to store players and their scores
+    var pointsAdded = {}; // Object to store the number of times points are added for each player
 
     function setupPlayers() {
         numPlayers = parseInt(document.getElementById("numPlayers").value);
@@ -116,43 +152,82 @@
             playerInputsHtml += "<input type='text' id='nombre" + (i + 1) + "' placeholder='INGRESE JUGADOR N" + (i + 1) + "'><br>";
         }
         document.getElementById("playerInputs").innerHTML = playerInputsHtml;
+        document.getElementById("nameEntry").style.display = "block";
         document.getElementById("setup").style.display = "none";
-        document.getElementById("game").style.display = "block";
     }
 
-    function sumarPuntos() {
-        currentPlayer++;
-        if (currentPlayer > numPlayers) {
-            currentPlayer = 1;
-        }
-        var nombre = document.getElementById("nombre" + currentPlayer).value; // Corrected ID
-        var puntaje = parseInt(prompt("INGRESE EL PUNTAJE DE " + nombre + ":"));
-        if (isNaN(puntaje)) {
-            alert("INGRESE UN DATO VALIDO.");
-            return;
-        }
-        if (!players[nombre]) {
-            players[nombre] = puntaje; // Initialize score for new player
-        } else {
-            players[nombre] += puntaje; // Update score for existing player
-        }
-        displayScores();
-    }
-
-
-    function displayScores() {
-        var sortedPlayers = Object.entries(players).sort((a, b) => b[1] - a[1]); // Sort players by score
-        var output = "";
-        for (var i = 0; i < sortedPlayers.length; i++) {
-            var playerNumber = i + 1;
-            output += "<p>" + playerNumber + ": " + sortedPlayers[i][0] + " TIENE " + sortedPlayers[i][1] + " PUNTOS.</p>";
-            if (sortedPlayers[i][1] >= 10000) {
-                output += "<p>" + sortedPlayers[i][0] + " GANO!</p>";
-                document.getElementById("output").innerHTML = output;
+    function proceedToGame() {
+        for (var i = 0; i < numPlayers; i++) {
+            var playerName = document.getElementById("nombre" + (i + 1)).value;
+            if (playerName.trim() === "") {
+                alert("Por favor ingrese el nombre de todos los jugadores.");
                 return;
             }
+            players[playerName] = 0; // Initialize score for each player
+            pointsAdded[playerName] = 0; // Initialize points added counter for each player
         }
-        document.getElementById("output").innerHTML = output;
+        document.getElementById("nameEntry").style.display = "none";
+        document.getElementById("gameContainer").style.display = "block";
+        populatePlayerDropdown();
+    }
+
+    function addPoints() {
+    var selectedPlayer = document.getElementById("selectPlayer").value;
+    var pointsInput = document.getElementById("addPoints").value;
+    // Validate points input
+    if (!isValidPoints(pointsInput)) {
+        alert("Por favor ingrese una cantidad válida de puntos.");
+        return;
+    }
+    // Update points and display scores
+    players[selectedPlayer] += parseInt(pointsInput);
+    pointsAdded[selectedPlayer]++;
+    displayScores();
+    checkForWinner(selectedPlayer);
+    }
+
+    function isValidPoints(points) {
+        // Check if points end with 00 or 50 and are numeric
+        return /^[1-9]\d*(50|00)$/.test(points);
+    }
+
+    function checkForWinner(playerName) {
+        if (players[playerName] >= 10000) {
+            document.getElementById("output").innerHTML += "<p>" + playerName + " GANO!</p>";
+        }
+    }
+
+    function displayScores() {
+    var sortedPlayers = Object.entries(players).sort((a, b) => b[1] - a[1]); // Sort players by score
+    var output = "";
+    for (var i = 0; i < sortedPlayers.length; i++) {
+        var playerNumber = i + 1;
+        output += "<p>" + playerNumber + ": " + sortedPlayers[i][0] + " TIENE " + sortedPlayers[i][1] + " PUNTOS";
+        output += " (" + (pointsAdded[sortedPlayers[i][0]] || 0) + " veces añadidos)</p>";
+    }
+    document.getElementById("output").innerHTML = output;
+    }
+
+    function populatePlayerDropdown() {
+        var selectPlayerDropdown = document.getElementById("selectPlayer");
+        selectPlayerDropdown.innerHTML = ""; // Clear previous options
+        for (var player in players) {
+            var option = document.createElement("option");
+            option.value = player;
+            option.text = player;
+            selectPlayerDropdown.appendChild(option);
+        }
+    }
+
+    function modifyPoints() {
+        var selectedPlayer = document.getElementById("selectPlayer").value;
+        var newPoints = parseInt(prompt("Ingrese el nuevo puntaje para " + selectedPlayer + ":"));
+        if (isNaN(newPoints)) {
+            alert("Por favor ingrese una cantidad válida de puntos.");
+            return;
+        }
+        players[selectedPlayer] = newPoints;
+        displayScores(); // Update the displayed scores after modifying points
     }
 </script>
 
