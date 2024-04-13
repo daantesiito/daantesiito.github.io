@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Posiciones</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <style>
+        /* Estilos específicos para la tabla de posiciones */
+        table {
+            width: calc(100% - 20px);
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center; /* Centrar todo el texto */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 970px; /* Ajustar el ancho del contenido */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 970px; /* Reducir el ancho máximo del contenedor */
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 0px;
+            padding-right: 15px;
+        }
+        th:first-child,
+        td:first-child {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="fullpage">
+        <div id="work" class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 wow bounce">
+                        <h2 class="text-center">Tabla de Posiciones</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>TOP</th>
+                                    <th>NOMBRE Y APELLIDO</th>
+                                    <th>TIEMPO</th>
+                                    <th>FECHA</th>
+                                    <th>LINK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Juan Pérez</td>
+                                    <td>1 hora</td>
+                                    <td>2024-04-12</td>
+                                    <td><a href="#">Enlace</a></td>
+                                </tr>
+                                <!-- Puedes agregar más filas según sea necesario -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/bootstrap.min.js"></script>
+<!-- Agrega cualquier otro JavaScript necesario -->
+</body>
+</html>
