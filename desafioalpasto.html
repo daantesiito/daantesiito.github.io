@@ -12,7 +12,7 @@
     <style>
         /* Estilos específicos para la tabla de posiciones */
         table {
-            width: calc(100% - 20px);
+            width: 100%;
             margin-left: auto;
             margin-right: auto;
             border-collapse: collapse;
@@ -24,24 +24,35 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 970px; /* Ajustar el ancho del contenido */
         }
         th {
             background-color: #f2f2f2;
         }
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
+        tbody tr {
+            background-color: #222222; /* Establecer el fondo de todas las filas en negro */
+            color: #ffffff; /* Establecer el color del texto en blanco */
         }
         .container {
-            max-width: 970px; /* Reducir el ancho máximo del contenedor */
+            max-width: 100%; /* Ancho máximo del contenedor */
             margin-left: auto;
             margin-right: auto;
-            padding-left: 0px;
-            padding-right: 15px;
+            padding-left: 15px; /* Agregar un poco de espacio a la izquierda */
+            padding-right: 15px; /* Agregar un poco de espacio a la derecha */
         }
         th:first-child,
         td:first-child {
             text-align: center;
+        }
+
+        /* Media queries para dispositivos móviles */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 5px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -76,8 +87,7 @@
                                     <td>2024-04-12</td>
                                     <td><a href="https://youtu.be/n7hHz6w_LN8">Video</a></td>
                                 </tr>
-                            </tbody>
-                            <tbody>
+                                <!-- Puedes agregar más filas según sea necesario -->
                                 <tr>
                                     <td>2</td>
                                     <td>Santino Puddu</td>
@@ -85,8 +95,6 @@
                                     <td>2024-04-12</td>
                                     <td><a href="https://youtu.be/_Q4Kf5hro3o">Video</a></td>
                                 </tr>
-                            </tbody>
-                            <tbody>
                                 <tr>
                                     <td>3</td>
                                     <td>Octavio Torres</td>
@@ -94,8 +102,6 @@
                                     <td>2024-04-12</td>
                                     <td><a href="https://youtu.be/cNloGQKrv2U">Video</a></td>
                                 </tr>
-                            </tbody>
-                            <tbody>
                                 <tr>
                                     <td>4</td>
                                     <td>Bautista Ferraro</td>
@@ -103,8 +109,6 @@
                                     <td>2024-04-12</td>
                                     <td><a href="https://youtu.be/dror6nJ7NKI">Video</a></td>
                                 </tr>
-                            </tbody>
-                            <tbody>
                                 <tr>
                                     <td>5</td>
                                     <td>Tomas Zorzoli</td>
@@ -112,8 +116,6 @@
                                     <td>2024-04-12</td>
                                     <td><a href="https://youtu.be/zFHKqCPSlIU">Video</a></td>
                                 </tr>
-                            </tbody>
-                            <tbody>
                                 <tr>
                                     <td>6</td>
                                     <td>Santiago Caporale</td>
@@ -121,8 +123,6 @@
                                     <td>2024-04-12</td>
                                     <td><a href="https://youtu.be/X3huypVyeOU">Video</a></td>
                                 </tr>
-                            </tbody>
-                            <tbody>
                                 <tr>
                                     <td>7</td>
                                     <td>Giuliana Montecalvo</td>
