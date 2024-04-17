@@ -1,22 +1,25 @@
 const carousel = document.querySelector('.carousel');
-const prevBtn = document.querySelector('.arrow.prev');
-const nextBtn = document.querySelector('.arrow.next');
 const imgs = document.querySelectorAll('.carousel img');
-let counter = 0;
-
-// Calcula el ancho de una imagen incluyendo el margen
 const imgWidth = imgs[0].getBoundingClientRect().width;
+const totalImgs = imgs.length;
 
-nextBtn.addEventListener('click', () => {
-    if (counter < Math.ceil(imgs.length / 3) - 1) {
-        counter++;
-        carousel.style.transform = `translateX(-${counter * imgWidth * 3}px)`;
+let currentIndex = 0;
+
+function updateCarousel() {
+    carousel.style.transition = 'transform 0.4s ease-in-out';
+    carousel.style.transform = `translateX(-${currentIndex * (imgWidth * 3)}px)`;
+}
+
+document.querySelector('.arrow.prev').addEventListener('click', () => {
+    if (currentIndex > 0) {
+        currentIndex -= 3;
+        updateCarousel();
     }
 });
 
-prevBtn.addEventListener('click', () => {
-    if (counter > 0) {
-        counter--;
-        carousel.style.transform = `translateX(-${counter * imgWidth * 3}px)`;
+document.querySelector('.arrow.next').addEventListener('click', () => {
+    if (currentIndex < totalImgs - 3) {
+        currentIndex += 3;
+        updateCarousel();
     }
 });
