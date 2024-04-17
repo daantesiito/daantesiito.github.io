@@ -567,3 +567,106 @@ footer hr
         color: #D43F52;
     }
 /* end social icon */
+/* Estilos generales */
+/* Resetear márgenes predeterminados */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para la sección de bienvenida */
+.welcome-section {
+    background-color: #303030;
+    padding: 20px;
+    padding-bottom: 20px; /* Agrega un espacio de 20px en la parte inferior de cada sección */
+}
+
+.welcome-section h2,
+.welcome-section h1,
+.welcome-section p {
+    color: #ffffff; /* Color de texto blanco */
+    text-align: center; /* Centra el texto */
+    padding-bottom: 20px; /* Agrega un espacio de 20px en la parte inferior de cada sección */
+}
+
+/* Estilos específicos para la tabla de posiciones */
+.table-section {
+    background-color: #303030; /* Cambia el color de fondo de la sección de la tabla */
+    margin-bottom: 20px; /* Añade margen inferior */
+    padding-bottom: 20px; /* Agrega un espacio de 20px en la parte inferior de cada sección */
+}
+
+.table-section h2,
+#photos-section h2 {
+    padding-bottom: 20px; /* Agrega un espacio de 20px debajo de los títulos */
+}
+
+table {
+    width: 100%;
+    max-width: 100%; /* Agregamos un ancho máximo */
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center; /* Centrar todo el texto */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+th {
+    background-color: #f2f2f2;
+}
+tbody tr {
+    background-color: #222222; /* Establecer el fondo de todas las filas en negro */
+    color: #ffffff; /* Establecer el color del texto en blanco */
+}
+
+/* Estilos para el contenedor de las fotos */
+.photos-container {
+    overflow: hidden;
+    position: relative; /* Añadido para asegurar que las flechas de navegación queden correctamente posicionadas */
+    margin-bottom: 20px; /* Añade margen inferior */
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel img {
+    width: calc(100% / 3 - 10px); /* Ancho de una imagen (33.33% del contenedor) menos el espacio entre las imágenes */
+    margin-right: 10px; /* Espacio entre las imágenes */
+}
+
+/* Estilos para las flechas */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    z-index: 1;
+}
+
+.arrow:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+/* Estilos para el título "FOTOS" */
+.carousel-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
