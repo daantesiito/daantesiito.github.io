@@ -629,17 +629,25 @@ tbody tr {
     margin-bottom: 20px; /* Añade margen inferior */
 }
 
+.carousel-container {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%; /* Ajusta el ancho según sea necesario */
+}
+
 .carousel {
     display: flex;
     transition: transform 0.5s ease;
 }
 
 .carousel img {
-    width: calc(100% / 3 - 10px); /* Ancho de una imagen (33.33% del contenedor) menos el espacio entre las imágenes */
-    margin-right: 10px; /* Espacio entre las imágenes */
+    width: calc(50% - 10px); /* Ancho de una imagen (50% del contenedor) menos el espacio entre las imágenes */
+    margin-right: 10px; /* Eliminar el margen derecho para evitar espacio adicional entre las imágenes */
+    max-width: 100%;
+    height: auto;
 }
 
-/* Estilos para las flechas */
 .arrow {
     position: absolute;
     top: 50%;
@@ -657,12 +665,13 @@ tbody tr {
 }
 
 .prev {
-    left: 10px;
+    left: 25px;
 }
 
 .next {
-    right: 10px;
+    right: 25px;
 }
+
 
 /* Estilos para el título "FOTOS" */
 .carousel-title {
