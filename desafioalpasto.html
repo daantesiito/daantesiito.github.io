@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- google font -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
-    <!-- fullpage -->
-    <link rel="stylesheet" href="css/jquery.fullPage.css">
     <!-- custom -->
     <link rel="stylesheet" href="css/templatemo-style.css">
     <!-- Raleway Font -->
@@ -141,27 +139,5 @@
 
     <!-- Scripts -->
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        const carousel = document.querySelector('.carousel');
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const imgs = document.querySelectorAll('.carousel img');
-        const imgWidth = imgs[0].clientWidth + 10; // Ancho de una imagen (incluyendo margen)
-        let counter = 0;
-
-        nextBtn.addEventListener('click', () => {
-            if (counter < Math.ceil(imgs.length / 3) - 1) {
-                counter++;
-                carousel.style.transform = `translateX(-${counter * imgWidth * 3}px)`;
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (counter > 0) {
-                counter--;
-                carousel.style.transform = `translateX(-${counter * imgWidth * 3}px)`;
-            }
-        });
-    </script>
 </body>
 </html>
