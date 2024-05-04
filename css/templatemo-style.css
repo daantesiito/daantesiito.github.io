@@ -679,3 +679,15 @@ tbody tr {
     font-size: 24px;
     margin-bottom: 20px;
 }
+
+/* Estilos para centrar la tabla en dispositivos móviles */
+@media only screen and (max-width: 600px) {
+    .table-container {
+        text-align: center; /* Centra el contenido horizontalmente */
+        overflow-x: auto; /* Habilita el desplazamiento horizontal si es necesario */
+        max-width: 100%; /* Establece el ancho máximo del contenedor */
+    }
+    .table {
+        display: inline-block; /* Permite que la tabla sea centrada */
+    }
+}

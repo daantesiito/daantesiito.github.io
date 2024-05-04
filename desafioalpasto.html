@@ -17,18 +17,6 @@
     <link rel="stylesheet" href="css/templatemo-style.css">
     <!-- Raleway Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
-    <style>
-        /* Estilos específicos para dispositivos móviles */
-        @media only screen and (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-            .container {
-                width: 90%;
-                margin: 0 auto;
-            }
-        }
-    </style>
 </head>
 <body>
     <div id="fullpage">
@@ -51,82 +39,83 @@
 
         <!-- Sección de Tabla de Posiciones -->
         <div class="table-section" id="table-section">
-            <div class="container"> <!-- Eliminamos la división en secciones -->
+            <div class="container">
                 <h2>Tabla de Posiciones</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>TOP</th>
-                            <th>NOMBRE Y APELLIDO</th>
-                            <th>TIEMPO</th>
-                            <th>FECHA</th>
-                            <th>LINK</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Daniel Puddu</td>
-                            <td>1:46.643</td>
-                            <td>13-04-2024</td>
-                            <td><a href="https://youtu.be/ODlrfy1v5nU">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Celso Gimenez</td>
-                            <td>1:47.095</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/n7hHz6w_LN8">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Santino Puddu</td>
-                            <td>1:47.251</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/_Q4Kf5hro3o">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Octavio Torres</td>
-                            <td>1:48.911</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/cNloGQKrv2U">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Bautista Ferraro</td>
-                            <td>1:49.221</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/dror6nJ7NKI">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Franco Gonzales</td>
-                            <td>1:49.941</td>
-                            <td>21-04-2024</td>
-                            <td><a href="https://www.youtube.com/watch?v=VVMPIF1NK98">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>Tomas Zorzoli</td>
-                            <td>1:50.980</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/zFHKqCPSlIU">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>Santiago Caporale</td>
-                            <td>1:57.615</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/X3huypVyeOU">Video</a></td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>Giuliana Montecalvo</td>
-                            <td>2:08.587</td>
-                            <td>12-04-2024</td>
-                            <td><a href="https://youtu.be/Dy6DoEXORh4">Video</a></td>
-                        </tr>
+                <div class="table-responsive"> <!-- Agregamos una clase para hacer la tabla adaptable -->
+                    <table class="table"> <!-- Agregamos clases Bootstrap para estilizar la tabla -->
+                        <thead>
+                            <tr>
+                                <th>TOP</th>
+                                <th>NOMBRE Y APELLIDO</th>
+                                <th>TIEMPO</th>
+                                <th>FECHA</th>
+                                <th>LINK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Daniel Puddu</td>
+                                <td>1:46.643</td>
+                                <td>13-04-2024</td>
+                                <td><a href="https://youtu.be/ODlrfy1v5nU">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Celso Gimenez</td>
+                                <td>1:47.095</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/n7hHz6w_LN8">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Santino Puddu</td>
+                                <td>1:47.251</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/_Q4Kf5hro3o">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Octavio Torres</td>
+                                <td>1:48.911</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/cNloGQKrv2U">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Bautista Ferraro</td>
+                                <td>1:49.221</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/dror6nJ7NKI">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Franco Gonzales</td>
+                                <td>1:49.941</td>
+                                <td>21-04-2024</td>
+                                <td><a href="https://www.youtube.com/watch?v=VVMPIF1NK98">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Tomas Zorzoli</td>
+                                <td>1:50.980</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/zFHKqCPSlIU">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Santiago Caporale</td>
+                                <td>1:57.615</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/X3huypVyeOU">Video</a></td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>Giuliana Montecalvo</td>
+                                <td>2:08.587</td>
+                                <td>12-04-2024</td>
+                                <td><a href="https://youtu.be/Dy6DoEXORh4">Video</a></td>
+                            </tr>
                     </tbody>
                 </table>
             </div>
