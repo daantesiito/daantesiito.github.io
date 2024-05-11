@@ -581,12 +581,24 @@ body, h1, h2, h3, p, ul, li {
     padding-bottom: 20px; /* Agrega un espacio de 20px en la parte inferior de cada sección */
 }
 
-.welcome-section h2,
-.welcome-section h1,
+.welcome-section h2 {
+    color: #ffffff; /* Color de texto blanco */
+    text-align: center; /* Centra el texto */
+    padding-bottom: 20px; /* Agrega un espacio de 20px en la parte inferior de cada sección */    
+}
 .welcome-section p {
     color: #ffffff; /* Color de texto blanco */
     text-align: center; /* Centra el texto */
+    padding-bottom: 10px; /* Agrega un espacio de 20px en la parte inferior de cada sección */
+    padding-top: 20px;
+}
+
+.welcome-section h1 {
+    color: #ffffff; /* Color de texto blanco */
+    text-align: center; /* Centra el texto */
     padding-bottom: 20px; /* Agrega un espacio de 20px en la parte inferior de cada sección */
+    border-bottom: 2px solid #D43F52; /* Línea roja debajo del h1 */
+    padding-bottom: 10px; /* Ajusta el relleno debajo del h1 */
 }
 
 /* Estilos específicos para la tabla de posiciones */
@@ -599,6 +611,7 @@ body, h1, h2, h3, p, ul, li {
 .table-section h2,
 #photos-section h2 {
     padding-bottom: 20px; /* Agrega un espacio de 20px debajo de los títulos */
+    text-align: center;
 }
 
 table {
@@ -690,4 +703,61 @@ tbody tr {
     .table {
         display: inline-block; /* Permite que la tabla sea centrada */
     }
+}
+
+.top-section {
+    text-align: center;
+    background-color: #303030; /* Color de fondo gris */
+}
+
+.top-section .record {
+    background-color: #303030; /* Color de fondo gris */
+    padding: 30px; /* Ajusta el relleno según lo necesites */
+    margin-bottom: 25px; /* Ajusta el margen inferior según lo necesites */
+    display: inline-block;
+    border: 3px solid #D43F52; /* Contorno negro */
+    color: #ffffff; /* Color del texto */
+}
+
+.top-section .record h3 {
+    color: #ffffff; /* Color del texto */
+    font-weight: normal; /* Elimina el estilo negrita */
+    margin-bottom: 10px; /* Agrega espacio entre el h3 y la línea */
+    border-bottom: 2px solid #D43F52; /* Línea roja debajo del h3 */
+    padding-bottom: 10px; /* Ajusta el relleno debajo del h3 */
+}
+
+.top-section .record h4 {
+    color: #ffffff; /* Color del texto */
+    font-weight: normal; /* Elimina el estilo negrita */
+}
+
+.top-section .record a {
+    display: inline-block; /* Cambiado a inline-block */
+    margin-top: 10px;
+    color: #D43F52; /* Color del texto del enlace */
+    font-weight: bold;
+    border: 3px solid #D43F52; /* Contorno negro */
+    padding: 10px 20px; /* Ajusta el relleno del enlace */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+.top-section .record a:hover {
+    background-color: #D43F52; /* Cambia el color de fondo al pasar el ratón */
+    color: #ffffff; /* Cambia el color del texto al pasar el ratón */
+}
+
+.top-section h2 {
+    margin-bottom: 40px;
+    color: #ffffff; /* Color del texto */
+    font-weight: bold;
+    border-top: 2px solid #D43F52; /* Línea roja debajo del h2 */
+    padding-top: 10px; /* Ajusta el relleno debajo del h2 */
+}
+
+br {
+    display: block;
+    margin-top: 1em; /* Establece el espacio mínimo entre líneas */
+    content: ""; /* Agrega un espacio en blanco */
 }
