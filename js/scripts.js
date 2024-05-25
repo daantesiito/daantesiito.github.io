@@ -20,12 +20,12 @@ function prevSlide() {
 }
 
 function nextSlide() {
-    if (currentIndex < Math.ceil(imgs.length / imgsPerSlide) - 1) {
-        currentIndex += 1;
-    } else {
-        currentIndex = 0;
-    }
-    updateCarousel();
+        if (currentIndex < Math.ceil(imgs.length / imgsPerSlide) - 1) {
+                currentIndex += 1;
+        } else {
+                currentIndex = 0;
+        }
+        updateCarousel();
 }
 
 document.querySelector('.arrow.prev').addEventListener('click', prevSlide);

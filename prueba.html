@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Audios de Viewers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- animate -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
+    <!-- fullpage -->
+    <link rel="stylesheet" href="css/jquery.fullPage.css">
+    <!-- custom -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!-- Raleway Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
+    <!-- Lock screen CSS -->
+</head>
+<body class="body-prueba">
+
+    <!-- Bloqueo de pantalla -->
+    <div class="lock-screen" id="lockScreen">
+        <div>
+            <input type="password" id="passwordInput" placeholder="Enter Password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+    </div>
+
+    <div class="container" id="mainContent" style="display: none;">
+        <h2 class="section-title">Sueños de Viewers</h2>
+        <div class="user-container">
+            <div class="user-card viewer">
+                <h3>daantesiito</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="E:\boludeces/audio1.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card vip">
+                <h3>Miachir</h3>
+                <p class="user-type">Vip</p>
+                <audio controls>
+                    <source src="E:\boludeces/audio2.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card mod">
+                <h3>brandonlucciano</h3>
+                <p class="user-type">Mod</p>
+                <audio controls>
+                    <source src="E:\boludeces/audio3.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card sub">
+                <h3>JulianPz7</h3>
+                <p class="user-type">Sub</p>
+                <audio controls>
+                    <source src="E:\boludeces/audio1.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!-- bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- fullpage -->
+    <script src="js/jquery.fullPage.js"></script>
+    <!-- smoothScroll -->
+    <script src="js/smoothscroll.js"></script>
+    <!-- wow -->
+    <script src="js/wow.min.js"></script>
+    <!-- text rotater -->
+    <script src="js/jquery.simple-text-rotator.js"></script>
+    <!-- custom -->
+    <script src="js/custom.js"></script>
+    <!-- Lock screen JS -->
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("passwordInput").value;
+            if (password === "123") {
+                document.getElementById("lockScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                fetchTwitchProfile('daantesiito');
+            } else {
+                alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -761,3 +761,95 @@ br {
     margin-top: 1em; /* Establece el espacio mínimo entre líneas */
     content: ""; /* Agrega un espacio en blanco */
 }
+
+.body-prueba {
+    background: #303030;
+	color: #999;
+	font-family: 'Raleway';
+	font-size: 16px;
+	font-weight: 400;
+}
+
+/* Estilos para la pantalla de bloqueo */
+.lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lock-screen input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Cuadros de Usuarios con audio */
+.user-container {
+    text-align: center;
+}
+
+.user-card {
+    width: 350px;
+    background-color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px;
+    border: 4px solid; /* Borde por defecto */
+}
+
+.user-card img {
+    width: 75px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.user-card p.username {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.user-card p.user-type {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.user-card h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Colores de borde para diferentes tipos de usuarios */
+.user-card.viewer {
+    border-color: blue;
+}
+
+.user-card.sub {
+    border-color: red;
+}
+
+.user-card.mod {
+    border-color: green;
+}
+
+.user-card.vip {
+    border-color: pink;
+}
