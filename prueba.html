@@ -19,7 +19,123 @@
     <link rel="stylesheet" href="css/templatemo-style.css">
     <!-- Raleway Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
-    <!-- Lock screen CSS -->
+    <!-- CSS -->
+    <style>
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lock-screen > div {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .lock-screen input[type="password"] {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .lock-screen button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .lock-screen button:hover {
+            background-color: #45a049;
+        }
+
+        .body-prueba {
+            background: #303030;
+            color: #999;
+            font-family: 'Raleway';
+            font-size: 16px;
+            font-weight: 400;
+        }
+        /* Cuadros de Usuarios con audio */
+        .user-container {
+            text-align: center;
+        }
+
+        .user-card {
+            width: 350px;
+            background-color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: inline-block;
+            vertical-align: top;
+            margin: 10px;
+            border: 4px solid; /* Borde por defecto */
+        }
+
+        .user-card img {
+            width: 75px;
+            height: 70px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .user-card p.username {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .user-card p.user-type {
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+
+        .user-card h3 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Colores de borde para diferentes tipos de usuarios */
+        .user-card.viewer {
+            border-color: blue;
+        }
+
+        .user-card.sub {
+            border-color: red;
+        }
+
+        .user-card.mod {
+            border-color: green;
+        }
+
+        .user-card.vip {
+            border-color: pink;
+        }
+    </style>
 </head>
 <body class="body-prueba">
 
