@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invertir Palabra</title>
+    <link rel="stylesheet" href="styles.css">
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    }
+
+    .container {
+        text-align: center;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 200px;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin-top: 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        color: #333;
+    }
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Invertir Palabra</h1>
+        <input type="text" id="wordInput" placeholder="Introduce una palabra">
+        <button onclick="reverseWord()">Invertir</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function reverseWord() {
+        // Obtener la palabra del input
+        const word = document.getElementById('wordInput').value;
+        
+        // Invertir la palabra
+        const reversedWord = word.split('').reverse().join('');
+        
+        // Mostrar la palabra invertida
+        document.getElementById('result').innerText = `La palabra al revés es: ${reversedWord}`;
+        }
+    </script>
+</body>
+</html>

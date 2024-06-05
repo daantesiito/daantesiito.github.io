@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fotos editadas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- animate -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
+    <!-- fullpage -->
+    <link rel="stylesheet" href="css/jquery.fullPage.css">
+    <!-- custom -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!-- Raleway Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
+    <!-- Custom CSS -->
+    <style>
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lock-screen > div {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .lock-screen input[type="password"] {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .lock-screen button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .lock-screen button:hover {
+            background-color: #45a049;
+        }
+
+        .body-prueba-fotos {
+            background: #303030;
+            color: #999;
+            font-family: 'Raleway';
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .photo-gallery {
+            text-align: center;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .photo-frame {
+            width: calc(33.33% - 20px);
+            height: 300px;
+            margin: 10px;
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background: #000;
+            border: 2px solid white;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(20px);
+            transition: filter 0.3s;
+        }
+
+        .photo-frame.revealed img {
+            filter: none;
+        }
+
+        .photo-frame.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .photo-frame.fullscreen img {
+            width: auto;
+            height: 80vh;
+            filter: none;
+            border: 3px solid #D43F52;
+            box-sizing: border-box;
+        }
+
+        .photo-frame .username {
+            text-align: center;
+            font-size: 18px;
+            color: white;
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 0;
+        }
+
+        .photo-frame.fullscreen .username {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            width: 30%;
+            background: black;
+            border: 2px solid #D43F52
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 36px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="body-prueba-fotos">
+
+    <!-- Bloqueo de pantalla -->
+    <div class="lock-screen" id="lockScreen">
+        <div>
+            <input type="password" id="passwordInput" placeholder="Enter Password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+    </div>
+
+    <!-- Main content (hidden by default) -->
+    <div id="mainContent" style="display: none;">
+        <!-- Title -->
+        <h1>Fotos Editadas de Viewers</h1>
+        <!-- Gallery of photos -->
+        <div id="photoGallery" class="photo-gallery">
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/11.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">dante</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">macdemac</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">brandon</div>
+            </div>
+            <!-- Add more photo frames as needed -->
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/logo-F1.png?raw=true" alt="Imagen 9">
+                <div class="username">miachir</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">mari</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/HTB/Knife%20Easy.png?raw=true" alt="Imagen 9">
+                <div class="username">flor</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/My%20Projects/DesafioAlPasto.jpg?raw=true" alt="Imagen 9">
+                <div class="username">slynack</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">patu</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">cate</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/11.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">thiago</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">julian</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">illojuan</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/11.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">dante</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">macdemac</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">brandon</div>
+            </div>
+            <!-- Add more photo frames as needed -->
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/logo-F1.png?raw=true" alt="Imagen 9">
+                <div class="username">miachir</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">mari</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/HTB/Knife%20Easy.png?raw=true" alt="Imagen 9">
+                <div class="username">flor</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/My%20Projects/DesafioAlPasto.jpg?raw=true" alt="Imagen 9">
+                <div class="username">slynack</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">patu</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">cate</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/11.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">thiago</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">julian</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">illojuan</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/11.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">dante</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">macdemac</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">brandon</div>
+            </div>
+            <!-- Add more photo frames as needed -->
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/logo-F1.png?raw=true" alt="Imagen 9">
+                <div class="username">miachir</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">mari</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/HTB/Knife%20Easy.png?raw=true" alt="Imagen 9">
+                <div class="username">flor</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/My%20Projects/DesafioAlPasto.jpg?raw=true" alt="Imagen 9">
+                <div class="username">slynack</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">patu</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">cate</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/11.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">thiago</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/9.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">julian</div>
+            </div>
+            <div class="photo-frame" onclick="revealPhoto(this)">
+                <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/10.JPEG?raw=true" alt="Imagen 9">
+                <div class="username">illojuan</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!-- bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- fullpage -->
+    <script src="js/jquery.fullPage.js"></script>
+    <!-- smoothScroll -->
+    <script src="js/smoothscroll.js"></script>
+    <!-- wow -->
+    <script src="js/wow.min.js"></script>
+    <!-- text rotater -->
+    <script src="js/jquery.simple-text-rotator.js"></script>
+    <!-- custom -->
+    <script src="js/custom.js"></script>
+    <!-- Lock screen JS -->
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("passwordInput").value;
+            if (password === "123") {
+                document.getElementById("lockScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+            } else {
+                alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            }
+        }
+
+        function revealPhoto(photoFrame) {
+            if (!photoFrame.classList.contains('revealed')) {
+                photoFrame.classList.add('revealed');
+            } else {
+                photoFrame.classList.toggle('fullscreen');
+            }
+        }
+    </script>
+</body>
+</html>
