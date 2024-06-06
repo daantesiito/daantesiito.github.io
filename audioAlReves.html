@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grabar y Revertir Audio</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: #fff;
+        }
+
+        #controls {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #8e44ad;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #recordingMessage {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button id="recordButton">Grabar</button>
+        <button id="stopButton" disabled>Detener</button>
+        <button id="playButton" disabled>Reproducir en Reversa</button>
+        <audio id="audioPlayer" controls style="display:none;"></audio>
+        <p id="recordingMessage" style="display:none;">Grabando...</p>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        const recordButton = document.getElementById('recordButton');
+        const stopButton = document.getElementById('stopButton');
+        const playButton = document.getElementById('playButton');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const recordingMessage = document.getElementById('recordingMessage');
+
+        recordButton.addEventListener('click', async () => {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                audioChunks = []; // Reiniciar los chunks de audio
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+                    // Invertir el audio
+                    const reversedBuffer = audioContext.createBuffer(
+                        audioBuffer.numberOfChannels,
+                        audioBuffer.length,
+                        audioBuffer.sampleRate
+                    );
+
+                    for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                        const channelData = audioBuffer.getChannelData(i);
+                        const reversedData = reversedBuffer.getChannelData(i);
+                        for (let j = 0; j < channelData.length; j++) {
+                            reversedData[j] = channelData[channelData.length - 1 - j];
+                        }
+                    }
+
+                    const reversedBlob = bufferToWave(reversedBuffer, reversedBuffer.length);
+                    const reversedUrl = URL.createObjectURL(reversedBlob);
+                    audioPlayer.src = reversedUrl;
+                    audioPlayer.style.display = 'block';
+                    playButton.disabled = false;
+                    recordingMessage.style.display = 'none';
+                };
+
+                mediaRecorder.start();
+                recordButton.disabled = true;
+                stopButton.disabled = false;
+                recordingMessage.style.display = 'block';
+            } else {
+                alert('getUserMedia no es soportado en este navegador.');
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            recordButton.disabled = false;
+            stopButton.disabled = true;
+            recordingMessage.style.display = 'none';
+        });
+
+        playButton.addEventListener('click', () => {
+            audioPlayer.play();
+        });
+
+        function bufferToWave(buffer, len) {
+            const numOfChan = buffer.numberOfChannels;
+            const length = len * numOfChan * 2 + 44;
+            const bufferArray = new ArrayBuffer(length);
+            const view = new DataView(bufferArray);
+            const channels = [];
+            let pos = 0;
+
+            // RIFF identifier
+            writeString(view, pos, 'RIFF'); pos += 4;
+            // RIFF chunk length
+            view.setUint32(pos, length - 8, true); pos += 4;
+            // RIFF type
+            writeString(view, pos, 'WAVE'); pos += 4;
+            // format chunk identifier
+            writeString(view, pos, 'fmt '); pos += 4;
+            // format chunk length
+            view.setUint32(pos, 16, true); pos += 4;
+            // sample format (raw)
+            view.setUint16(pos, 1, true); pos += 2;
+            // channel count
+            view.setUint16(pos, numOfChan, true); pos += 2;
+            // sample rate
+            view.setUint32(pos, buffer.sampleRate, true); pos += 4;
+            // byte rate (sample rate * block align)
+            view.setUint32(pos, buffer.sampleRate * numOfChan * 2, true); pos += 4;
+            // block align (channel count * bytes per sample)
+            view.setUint16(pos, numOfChan * 2, true); pos += 2;
+            // bits per sample
+            view.setUint16(pos, 16, true); pos += 2;
+            // data chunk identifier
+            writeString(view, pos, 'data'); pos += 4;
+            // data chunk length
+            view.setUint32(pos, length - pos - 4, true); pos += 4;
+
+            // write interleaved data
+            for (let i = 0; i < buffer.length; i++) {
+                for (let channel = 0; channel < numOfChan; channel++) {
+                    channels[channel] = buffer.getChannelData(channel);
+                    const sample = Math.max(-1, Math.min(1, channels[channel][i]));
+                    view.setInt16(pos, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                    pos += 2;
+                }
+            }
+
+            return new Blob([bufferArray], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+    </script>
+</body>
+</html>
