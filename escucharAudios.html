@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Audios de Viewers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- animate -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
+    <!-- fullpage -->
+    <link rel="stylesheet" href="css/jquery.fullPage.css">
+    <!-- custom -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!-- Raleway Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
+    <!-- CSS -->
+    <style>
+       /* Estilos generales del cuerpo */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Título de la sección */
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        /* Contenedor de las tarjetas de usuario */
+        .user-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Tarjetas de usuario */
+        .user-card {
+            width: 280px;
+            background-color: #1c1c1c;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-in-out;
+            border: 3px solid transparent;
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Imagen de perfil */
+        .user-card img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 2px solid #fff;
+        }
+
+        /* Nombre de usuario */
+        .user-card h3 {
+            font-size: 24px;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        /* Tipo de usuario */
+        .user-card p.user-type {
+            font-size: 16px;
+            color: #c7c7c7;
+            margin-bottom: 15px;
+        }
+
+        /* Controles de audio */
+        .user-card audio {
+            width: 100%;
+            border-radius: 5px;
+            background: none;
+            box-shadow: none;
+            border: none;
+        }
+
+        /* Colores de borde de las tarjetas según el tipo de usuario */
+        .user-card.viewer {
+            border-color: #3498db;
+        }
+
+        .user-card.sub {
+            border-color: #e74c3c;
+        }
+
+        .user-card.mod {
+            border-color: #2ecc71;
+        }
+
+        .user-card.vip {
+            border-color: #f39c12;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 3;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Controles de grabación de audio */
+        #controls {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: #8e44ad;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+            border: none;
+            background: none;
+            box-shadow: none;
+        }
+
+        #recordingMessage {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #e74c3c;
+        }
+
+        /* Estilos para la pantalla de bloqueo */
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lock-screen > div {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .lock-screen input[type="password"] {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            color: #000;  /* Color del texto */
+            background-color: #fff;  /* Color de fondo */
+        }
+
+        .lock-screen button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        .lock-screen button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body class="body-prueba">
+
+    <!-- Bloqueo de pantalla -->
+    <div class="lock-screen" id="lockScreen">
+        <div>
+            <input type="password" id="passwordInput" placeholder="Enter Password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+    </div>
+
+    <div class="container" id="mainContent" style="display: none;">
+        <h2 class="section-title">ANECDOTAS CON PROFESORES</h2>
+        <div class="user-container">
+            
+            <div class="user-card viewer">
+                <h3>daantesiito</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio1.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card viewer">
+                <h3>JulianPz7</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Julianpz7_viewer_1717730897461.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card viewer">
+                <h3>ANONIMO</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO TENEDOR 1_viewer_1717729795159.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card viewer">
+                <h3>ANONIMO</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO hola_viewer_1717725497802.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card vip">
+                <h3>Mari</h3>
+                <p class="user-type">Vip</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio2.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card vip">
+                <h3>angel</h3>
+                <p class="user-type">Vip</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/dantesito2_vip_1717724306199.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card mod">
+                <h3>brandonlucciano</h3>
+                <p class="user-type">Mod</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio3.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card mod">
+                <h3>Miachir</h3>
+                <p class="user-type">Mod</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/miachir_mod_1717724630945.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card sub">
+                <h3>hola123</h3>
+                <p class="user-type">Sub</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/usuariorandom_sub_1717724816630.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card sub">
+                <h3>gonza</h3>
+                <p class="user-type">Sub</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/brandon_mod_1717726231645.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card viewer">
+                <h3>daantesiito</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio1.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card viewer">
+                <h3>JulianPz7</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Julianpz7_viewer_1717730897461.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card viewer">
+                <h3>ANONIMO</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO TENEDOR 1_viewer_1717729795159.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card viewer">
+                <h3>ANONIMO</h3>
+                <p class="user-type">Viewer</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO hola_viewer_1717725497802.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card vip">
+                <h3>Mari</h3>
+                <p class="user-type">Vip</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio2.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card vip">
+                <h3>angel</h3>
+                <p class="user-type">Vip</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/dantesito2_vip_1717724306199.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card mod">
+                <h3>brandonlucciano</h3>
+                <p class="user-type">Mod</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio3.ogg" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card mod">
+                <h3>Miachir</h3>
+                <p class="user-type">Mod</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/miachir_mod_1717724630945.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card sub">
+                <h3>hola123</h3>
+                <p class="user-type">Sub</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/usuariorandom_sub_1717724816630.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card sub">
+                <h3>gonza</h3>
+                <p class="user-type">Sub</p>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/brandon_mod_1717726231645.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!-- bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- fullpage -->
+    <script src="js/jquery.fullPage.js"></script>
+    <!-- smoothScroll -->
+    <script src="js/smoothscroll.js"></script>
+    <!-- wow -->
+    <script src="js/wow.min.js"></script>
+    <!-- text rotater -->
+    <script src="js/jquery.simple-text-rotator.js"></script>
+    <!-- custom -->
+    <script src="js/custom.js"></script>
+    <!-- Lock screen JS -->
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("passwordInput").value;
+            if (password === "123") {
+                document.getElementById("lockScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+            } else {
+                alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            }
+        }
+    </script>
+</body>
+</html>
