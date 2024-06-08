@@ -35,27 +35,42 @@
         }
 
         /* Contenedor principal */
+        /* Centrar contenido dentro del contenedor */
         .container {
-            text-align: center;
+            display: flex;
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente, si el contenedor tiene altura suficiente */
+            flex-direction: column; /* Apilar los elementos verticalmente */
             padding: 20px;
             border-radius: 10px;
             background: rgba(0, 0, 0, 0.7);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: fadeIn 1.5s ease-in-out;
+            text-align: center; /* Asegura que el texto dentro de `.container` esté centrado */
         }
 
+        /* Estilo para el h2 */
         .container h2 {
             color: #6441a5;
             border: 2px solid #6441a5;
             border-radius: 10px;
-            width: 42%;
-            position: center;
-            margin-left: 330px;
+            padding: 10px; /* Añade espacio interno */
+            margin: 10px; /* Espacio entre los elementos */
+            text-align: center; /* Asegura que el texto dentro del h2 esté centrado */
+            display: inline-block; /* Mantiene el ancho ajustado al contenido */
         }
-        
+
+        /* Estilo para el enlace dentro del h2 */
         .container h2 a {
-            color: inherit; /* Esto hará que el enlace use el color de su elemento padre */
+            color: inherit; /* Mantiene el color del enlace igual que el color del texto padre */
             text-decoration: none; /* Opcional: elimina el subrayado de los enlaces */
+        }
+
+        /* Estilo para el h1 */
+        .container h1 {
+            color: white;
+            margin-top: 20px; /* Espacio entre el h2 y el h1 */
+            font-size: 48px; /* Ajusta el tamaño de fuente */
         }
 
         /* Título de la sección */
