@@ -12,10 +12,16 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
+        @font-face {
+            font-family: 'Level Up Level Up';
+            src: url('./fonts/Level Up Level Up.otf') format('truetype');
+        }
+
         body {
-            background: #303030;
+            background: url('https://github.com/daantesiito/daantesiito.github.io/tree/a481ae9f9bd916540dcaa09b084112643a66001b/images/MinecraftFondo.gif') no-repeat center center fixed; /* Ajusta la ruta a tu archivo .gif */
+            background-size: cover;
             color: #999;
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Level Up Level Up', sans-serif;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -27,19 +33,23 @@
 
         h2, h3 {
             color: white;
+            font-size: 100px;
+            text-shadow: 2px 2px 5px #000, -2px 2px 5px #000, 2px -2px 5px #000, -2px -2px 5px #000; 
         }
 
         h4, h5 {
-            color: red;
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
         }
 
         #uploadForm {
+            font-family: 'Raleway', sans-serif; /* Fuente original del formulario */
             margin-bottom: 20px;
             text-align: center;
         }
 
-        #uploadForm input[type="text"],
-        #uploadForm select {
+        #uploadForm input[type="text"] {
             margin: 5px;
             padding: 10px;
             border-radius: 5px;
@@ -63,6 +73,9 @@
 
         #controls {
             margin-top: 20px;
+            color: black;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
         }
 
         #controls button {
@@ -81,10 +94,14 @@
         }
 
         #audioPlayer {
-            margin-top: 20px;
+            width: 300px;
+            margin: 20px auto;
+            text-align: center; 
         }
 
         #confirmButton {
+            color: black;
+            font-family: 'Raleway', sans-serif;
             display: block;
             margin: 20px auto 0;
             padding: 10px 20px;
@@ -92,16 +109,19 @@
 
         #recordingMessage {
             font-size: 1.2em;
-            font-weight: bold;
-            color: red;
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
             display: none;
         }
 
         #warningMessage {
-            color: red;
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
             text-align: center;
             margin: 10px 0;
-            display: none; /* Oculto inicialmente */
+            display: none;
         }
 
         .center-content {
@@ -115,33 +135,16 @@
 <body>
     <!-- Textos Agregados -->
     <div>
-        <h2>GRABAR AUDIO</h2>
+        <h2>ANECDOTAS</h2>
     </div>
     
     <div>
-        <h3>ANECDOTA PRIMER BESO</h3>
+        <h3>MI PRIMER BESO</h3>
     </div>
 
     <!-- Formulario para la grabación de audio -->
     <form id="uploadForm">
-        <div>
-            <h4>Si queres mandar un audio ANONIMO, inserta de usuario "ANONIMO", y rol "VIEWER".</h4>
-        </div>
-    
-        <div>
-            <h5>Tene en cuenta que si es ANONIMO y mandas mas de 1 audio, tenes que poner alguna palabra clave.</h5>
-        </div>
-    
-        <div>
-            <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE AUDIO" que haga referencia a tu audio.</h5>
-        </div>
         <input type="text" id="username" placeholder="Username" required>
-        <select id="userType" required>
-            <option value="viewer">Viewer</option>
-            <option value="vip">VIP</option>
-            <option value="mod">Mod</option>
-            <option value="sub">Sub</option>
-        </select>
         <button type="button" onclick="startRecording()">Comenzar a Grabar</button>
     </form>
 
@@ -152,6 +155,19 @@
         <div class="center-content">
             <div id="warningMessage">Si el audio no tiene sonido no te preocupes que se grabó bien. Por permisos de navegador no te deja reproducirlo en algunos celulares.</div>
             <button id="confirmButton" style="display: none;" onclick="confirmAndUploadAudio()">Confirmar Audio y Enviar</button>
+        </div>
+    </div>
+    <div id="anonymInstructions">
+        <div>
+            <h4>Si queres mandar un audio ANONIMO, inserta de usuario "ANONIMO".</h4>
+        </div>
+
+        <div>
+            <h5>Tene en cuenta que si es ANONIMO y mandas mas de 1 audio, tenes que poner alguna palabra clave.</h5>
+        </div>
+
+        <div>
+            <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE AUDIO" que haga referencia a tu audio.</h5>
         </div>
     </div>
 
@@ -191,6 +207,9 @@
                             audioPlayer.style.display = 'block';
                             document.getElementById('confirmButton').style.display = 'block';
                             document.getElementById('warningMessage').style.display = 'block'; // Mostrar el mensaje de advertencia después de grabar
+                            // Ocultar el texto de instrucciones y el botón de detener
+                            document.getElementById('anonymInstructions').style.display = 'none';
+                            document.getElementById('stopButton').style.display = 'none';
                         };
                         audioChunks = []; // Limpiar el array antes de empezar una nueva grabación
                         mediaRecorder.start();
@@ -198,6 +217,7 @@
                         document.getElementById('controls').style.display = 'block';
                         document.getElementById('stopButton').disabled = false;
                         document.getElementById('recordingMessage').style.display = 'block';
+                        document.getElementById('anonymInstructions').style.display = 'none';
                     }).catch(function(err) {
                         alert('Error al acceder al micrófono: ' + err.message);
                     });
@@ -214,12 +234,11 @@
 
         async function confirmAndUploadAudio() {
             const username = document.getElementById('username').value;
-            const userType = document.getElementById('userType').value;
 
-            if (username && userType) {
+            if (username) {
                 const storageRef = firebase.storage().ref();
                 const timestamp = Date.now();
-                const audioRef = storageRef.child(`audios/${username}_${userType}_${timestamp}.wav`);
+                const audioRef = storageRef.child(`audios/${username}_${timestamp}.wav`);
 
                 try {
                     await audioRef.put(audioBlob);
