@@ -96,6 +96,20 @@
             color: red;
             display: none;
         }
+
+        #warningMessage {
+            color: red;
+            text-align: center;
+            margin: 10px 0;
+            display: none; /* Oculto inicialmente */
+        }
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -105,7 +119,7 @@
     </div>
     
     <div>
-        <h3>ANECDOTA CON PROFESORES</h3>
+        <h3>ANECDOTA PRIMER BESO</h3>
     </div>
 
     <!-- Formulario para la grabación de audio -->
@@ -135,7 +149,10 @@
         <div id="recordingMessage">Grabando...</div>
         <button id="stopButton" onclick="stopRecording()">Detener</button>
         <audio id="audioPlayer" controls style="display:none;"></audio>
-        <button id="confirmButton" style="display: none;" onclick="confirmAndUploadAudio()">Confirmar Audio y Enviar</button>
+        <div class="center-content">
+            <div id="warningMessage">Si el audio no tiene sonido no te preocupes que se grabó bien. Por permisos de navegador no te deja reproducirlo en algunos celulares.</div>
+            <button id="confirmButton" style="display: none;" onclick="confirmAndUploadAudio()">Confirmar Audio y Enviar</button>
+        </div>
     </div>
 
     <!-- Firebase -->
@@ -173,8 +190,9 @@
                             audioPlayer.src = audioUrl;
                             audioPlayer.style.display = 'block';
                             document.getElementById('confirmButton').style.display = 'block';
+                            document.getElementById('warningMessage').style.display = 'block'; // Mostrar el mensaje de advertencia después de grabar
                         };
-                        audioChunks = []; // Clear the audioChunks array before starting a new recording
+                        audioChunks = []; // Limpiar el array antes de empezar una nueva grabación
                         mediaRecorder.start();
                         document.getElementById('uploadForm').style.display = 'none';
                         document.getElementById('controls').style.display = 'block';
