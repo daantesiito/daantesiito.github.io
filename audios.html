@@ -9,8 +9,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.9.0/firebase-storage-compat.js"></script>
 
-    <!-- CSS -->
+    <!-- Bootstrap CSS (opcional) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- CSS Personalizado -->
     <style>
         @font-face {
             font-family: 'Level Up Level Up';
@@ -18,7 +20,7 @@
         }
 
         body {
-            background: url('https://github.com/daantesiito/daantesiito.github.io/blob/main/images/MinecraftFondo.gif?raw=true') no-repeat center center fixed; /* Ajusta la ruta a tu archivo .gif */
+            background: url('https://github.com/daantesiito/daantesiito.github.io/blob/main/images/MinecraftFondo.gif?raw=true') no-repeat center center fixed;
             background-size: cover;
             color: #999;
             font-family: 'Level Up Level Up', sans-serif;
@@ -33,20 +35,23 @@
 
         h2, h3 {
             color: white;
-            font-size: 100px;
+            font-size: 6.5em; /* Ajustado para adaptarse mejor */
+            font-family: 'Level Up Level Up', sans-serif;
             text-shadow: 2px 2px 5px #000, -2px 2px 5px #000, 2px -2px 5px #000, -2px -2px 5px #000; 
+            margin: 0.05em 0; /* Ajuste de margen */
         }
 
         h4, h5 {
             color: white;
             font-family: 'Raleway', sans-serif;
             text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+            margin: 0.5em 0; /* Ajuste de margen */
         }
 
         #uploadForm {
-            font-family: 'Raleway', sans-serif; /* Fuente original del formulario */
             margin-bottom: 20px;
             text-align: center;
+            font-family: 'Raleway', sans-serif;
         }
 
         #uploadForm input[type="text"] {
@@ -94,8 +99,9 @@
         }
 
         #audioPlayer {
-            width: 300px;
-            margin: 20px auto;
+            width: 100%; /* Ocupa todo el ancho disponible */
+            max-width: 300px; /* Ancho máximo para evitar que se extienda demasiado */
+            margin: 20px auto; /* Centrado horizontal */
             text-align: center; 
         }
 
