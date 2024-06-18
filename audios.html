@@ -169,10 +169,12 @@
                         mediaRecorder.onstop = () => {
                             audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                             const audioUrl = URL.createObjectURL(audioBlob);
-                            document.getElementById('audioPlayer').src = audioUrl;
-                            document.getElementById('audioPlayer').style.display = 'block';
+                            const audioPlayer = document.getElementById('audioPlayer');
+                            audioPlayer.src = audioUrl;
+                            audioPlayer.style.display = 'block';
                             document.getElementById('confirmButton').style.display = 'block';
                         };
+                        audioChunks = []; // Clear the audioChunks array before starting a new recording
                         mediaRecorder.start();
                         document.getElementById('uploadForm').style.display = 'none';
                         document.getElementById('controls').style.display = 'block';

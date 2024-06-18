@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Web con Pestañas</title>
+    <!-- CSS -->
+    <style>
+        .tab-subir-archivos body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .tab-subir-archivos .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+            text-align: center;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        .tab-subir-archivos .container h2 {
+            color: #6441a5;
+            border: 2px solid #6441a5;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .tab-subir-archivos .container h2 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .tab-subir-archivos .container h1 {
+            color: white;
+            margin-top: 20px;
+            font-size: 48px;
+        }
+
+        .tab-subir-archivos .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .tab-subir-archivos .user-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-subir-archivos .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .tab-subir-archivos .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .tab-subir-archivos .form-group input, .tab-subir-archivos .form-group select, .tab-subir-archivos .form-group button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .tab-subir-archivos .form-group input[type="file"] {
+            padding: 5px;
+        }
+
+        .tab-subir-archivos .form-group button {
+            background: #9b59b6;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .tab-subir-archivos .form-group button:hover {
+            background: #8e44ad;
+            transform: scale(1.05);
+        }
+
+        .tab-subir-archivos .form-group button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .tab-subir-archivos .instructions {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: red;
+            text-align: center;
+        }
+
+        .tab-subir-audios body {
+            background: #303030;
+            color: #999;
+            font-family: 'Raleway', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .tab-subir-audios h2, h3 {
+            color: white;
+        }
+
+        .tab-subir-audios h4, h5 {
+            color: red;
+        }
+
+        .tab-subir-audios #uploadForm {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tab-subir-audios #uploadForm input[type="text"],
+        .tab-subir-audios #uploadForm select {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .tab-subir-audios #uploadForm button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .tab-subir-audios #uploadForm button:hover {
+            background-color: #45a049;
+        }
+
+        .tab-subir-audios #controls {
+            margin-top: 20px;
+        }
+
+        .tab-subir-audios #controls button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .tab-subir-audios #controls button:hover {
+            background-color: #45a049;
+        }
+
+        .tab-subir-audios #audioPlayer {
+            margin-top: 20px;
+        }
+
+        .tab-subir-audios #confirmButton {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+        }
+
+        .tab-subir-audios #recordingMessage {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: red;
+            display: none;
+        }
+
+        /* Estilos generales del cuerpo */
+        .tab-escuchar-audios body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal */
+        /* Centrar contenido dentro del contenedor */
+        .tab-escuchar-audios .container {
+            display: flex;
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente, si el contenedor tiene altura suficiente */
+            flex-direction: column; /* Apilar los elementos verticalmente */
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+            text-align: center; /* Asegura que el texto dentro de `.container` esté centrado */
+        }
+
+        /* Estilo para el h2 */
+        .tab-escuchar-audios .container h2 {
+            color: #6441a5;
+            border: 2px solid #6441a5;
+            border-radius: 10px;
+            padding: 10px; /* Añade espacio interno */
+            margin: 10px; /* Espacio entre los elementos */
+            text-align: center; /* Asegura que el texto dentro del h2 esté centrado */
+            display: inline-block; /* Mantiene el ancho ajustado al contenido */
+        }
+
+        /* Estilo para el enlace dentro del h2 */
+        .tab-escuchar-audios .container h2 a {
+            color: inherit; /* Mantiene el color del enlace igual que el color del texto padre */
+            text-decoration: none; /* Opcional: elimina el subrayado de los enlaces */
+        }
+
+        /* Estilo para el h1 */
+        .tab-escuchar-audios .container h1 {
+            color: white;
+            margin-top: 20px; /* Espacio entre el h2 y el h1 */
+            font-size: 48px; /* Ajusta el tamaño de fuente */
+        }
+
+        /* Título de la sección */
+        .tab-escuchar-audios .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        /* Contenedor de las tarjetas de usuario */
+        .tab-escuchar-audios .user-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Tarjetas de usuario */
+        .tab-escuchar-audios .user-card {
+            width: 280px;
+            background-color: #1c1c1c;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-in-out;
+            border: 3px solid transparent;
+        }
+
+        .tab-escuchar-audios .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Imagen de perfil */
+        .tab-escuchar-audios .user-card img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 2px solid #fff;
+        }
+
+        /* Nombre de usuario */
+        .tab-escuchar-audios .user-card h3 {
+            font-size: 24px;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        /* Tipo de usuario */
+        .tab-escuchar-audios .user-card p.user-type {
+            font-size: 16px;
+            color: #c7c7c7;
+            margin-bottom: 15px;
+        }
+
+        /* Controles de audio */
+        .tab-escuchar-audios .user-card audio {
+            width: 100%;
+            border-radius: 5px;
+            background: none;
+            box-shadow: none;
+            border: none;
+        }
+
+        /* Colores de borde de las tarjetas según el tipo de usuario */
+        .tab-escuchar-audios .user-card.viewer {
+            border-color: #3498db;
+        }
+
+        .tab-escuchar-audios .user-card.sub {
+            border-color: #e74c3c;
+        }
+
+        .tab-escuchar-audios .user-card.mod {
+            border-color: #2ecc71;
+        }
+
+        .tab-escuchar-audios .user-card.vip {
+            border-color: #f39c12;
+        }
+
+        /* Controles de grabación de audio */
+        .tab-escuchar-audios #controls {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .tab-escuchar-audios button {
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .tab-escuchar-audios button:hover {
+            background: #8e44ad;
+            transform: scale(1.05);
+        }
+
+        .tab-escuchar-audios button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .tab-escuchar-audios audio {
+            margin-top: 20px;
+            width: 100%;
+            border: none;
+            background: none;
+            box-shadow: none;
+        }
+
+        .tab-escuchar-audios #recordingMessage {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #e74c3c;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 3;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor para las pestañas -->
+    <div class="nav-container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#subirArchivos">Subir Archivos</a></li>
+            <li><a data-toggle="tab" href="#subirAudios">Subir Audios</a></li>
+            <li><a data-toggle="tab" href="#escucharAudios">Escuchar Audios</a></li>
+            <li><a data-toggle="tab" href="#verArchivos">Ver Archivos</a></li>
+        </ul>
+    </div>
+
+    <!-- Contenedor para el contenido de las pestañas -->
+    <div class="container">
+        <h1>Página Web con Pestañas</h1>
+        <div class="tab-content">
+            <div id="subirArchivos" class="tab-pane fade in active tab-subir-archivos">
+                <h1 class="section-title">REACCION SET-UP</h1>
+                <div class="instructions">
+                    <h4>Si queres mandar un archivo ANONIMO, inserta de usuario "ANONIMO", y rol "VIEWER".</h4>
+                    <h5>Tene en cuenta que si es ANONIMO y mandas mas de 1 archivo, tenes que poner alguna palabra clave.</h5>
+                    <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE ARCHIVO" que haga referencia a tu archivo.</h5>
+                </div>
+
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userType">Rol:</label>
+                        <select id="userType" required>
+                            <option value="viewer">Viewer</option>
+                            <option value="vip">VIP</option>
+                            <option value="mod">Mod</option>
+                            <option value="sub">Sub</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileInput">Selecciona una foto o video:</label>
+                        <input type="file" id="fileInput" accept="image/*,video/*" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" onclick="uploadFile()">Enviar</button>
+                    </div>
+                </form>
+              </div>
+              <div id="subirAudios" class="tab-pane fade tab-subir-audios">
+                <div>
+                    <h2>GRABAR AUDIO</h2>
+                </div>
+                
+                <div>
+                    <h3>ANECDOTA CON PROFESORES</h3>
+                </div>
+
+                <!-- Formulario para la grabación de audio -->
+                <form id="uploadForm">
+                    <div>
+                        <h4>Si queres mandar un audio ANONIMO, inserta de usuario "ANONIMO", y rol "VIEWER".</h4>
+                    </div>
+                
+                    <div>
+                        <h5>Tene en cuenta que si es ANONIMO y mandas mas de 1 audio, tenes que poner alguna palabra clave.</h5>
+                    </div>
+                
+                    <div>
+                        <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE AUDIO" que haga referencia a tu audio.</h5>
+                    </div>
+                    <input type="text" id="username" placeholder="Username" required>
+                    <select id="userType" required>
+                        <option value="viewer">Viewer</option>
+                        <option value="vip">VIP</option>
+                        <option value="mod">Mod</option>
+                        <option value="sub">Sub</option>
+                    </select>
+                    <button type="button" onclick="startRecording()">Comenzar a Grabar</button>
+                </form>
+
+                <div id="controls" style="display: none;">
+                    <div id="recordingMessage">Grabando...</div>
+                    <button id="stopButton" onclick="stopRecording()">Detener</button>
+                    <audio id="audioPlayer" controls style="display:none;"></audio>
+                    <button id="confirmButton" style="display: none;" onclick="confirmAndUploadAudio()">Confirmar Audio y Enviar</button>
+                </div>
+              </div>
+              <div id="escucharAudios" class="tab-pane fade tab-escuchar-audios">
+                <body class="body-prueba">                
+                    <div class="container" id="mainContent" style="display: none;">
+                        <h2 class="section-title">
+                            <a href="https://twitch.tv/xmarigonzalezx">twitch.tv/xMariGonzalezx</a>
+                        </h2>
+                        <h1 class="section-title">ANECDOTAS CON PROFESORES</h1>
+                        <div class="user-container">
+                
+                            <div class="user-card vip">
+                                <h3>GORDO</h3>
+                                <p class="user-type">Vip</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/GORDO_vip_1717833219155.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                            
+                            <div class="user-card viewer">
+                                <h3>daantesiito</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio1.ogg" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card viewer">
+                                <h3>JulianPz7</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Julianpz7_viewer_1717730897461.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                            
+                            <div class="user-card viewer">
+                                <h3>ANONIMO</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO TENEDOR 1_viewer_1717729795159.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card viewer">
+                                <h3>ANONIMO</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO hola_viewer_1717725497802.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card vip">
+                                <h3>Mari</h3>
+                                <p class="user-type">Vip</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio2.ogg" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card vip">
+                                <h3>angel</h3>
+                                <p class="user-type">Vip</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/dantesito2_vip_1717724306199.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                            
+                            <div class="user-card mod">
+                                <h3>brandonlucciano</h3>
+                                <p class="user-type">Mod</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio3.ogg" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card mod">
+                                <h3>Miachir</h3>
+                                <p class="user-type">Mod</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/miachir_mod_1717724630945.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card sub">
+                                <h3>hola123</h3>
+                                <p class="user-type">Sub</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/usuariorandom_sub_1717724816630.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card sub">
+                                <h3>gonza</h3>
+                                <p class="user-type">Sub</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/brandon_mod_1717726231645.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card viewer">
+                                <h3>daantesiito</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio1.ogg" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card viewer">
+                                <h3>JulianPz7</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Julianpz7_viewer_1717730897461.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                            
+                            <div class="user-card viewer">
+                                <h3>ANONIMO</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO TENEDOR 1_viewer_1717729795159.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card viewer">
+                                <h3>ANONIMO</h3>
+                                <p class="user-type">Viewer</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO hola_viewer_1717725497802.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card vip">
+                                <h3>Mari</h3>
+                                <p class="user-type">Vip</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio2.ogg" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card vip">
+                                <h3>angel</h3>
+                                <p class="user-type">Vip</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/dantesito2_vip_1717724306199.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                            
+                            <div class="user-card mod">
+                                <h3>brandonlucciano</h3>
+                                <p class="user-type">Mod</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio3.ogg" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card mod">
+                                <h3>Miachir</h3>
+                                <p class="user-type">Mod</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/miachir_mod_1717724630945.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card sub">
+                                <h3>hola123</h3>
+                                <p class="user-type">Sub</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/usuariorandom_sub_1717724816630.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                
+                            <div class="user-card sub">
+                                <h3>gonza</h3>
+                                <p class="user-type">Sub</p>
+                                <audio controls>
+                                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/brandon_mod_1717726231645.wav" type="audio/mpeg">
+                                    Tu navegador no admite el elemento de audio.
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+              </div>
+              <div id="verArchivos" class="tab-pane fade tab-ver-archivos">
+                <!-- Aquí va tu código HTML para listar imágenes -->
+              </div>              
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-storage-compat.js"></script>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBlsZmRgBEGkzgT3_c00CbEBqzYnVf4oYk",
+            authDomain: "audiosweb-74dc8.firebaseapp.com",
+            projectId: "audiosweb-74dc8",
+            storageBucket: "audiosweb-74dc8.appspot.com",
+            messagingSenderId: "865220172127",
+            appId: "1:865220172127:web:54f3bf705dbae82b22feea",
+            measurementId: "G-CTFJN6PC37"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Función para subir archivos
+        async function uploadFile() {
+            const username = document.getElementById('username').value;
+            const userType = document.getElementById('userType').value;
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (username && userType && file) {
+                const storageRef = firebase.storage().ref();
+                const timestamp = Date.now();
+                const fileRef = storageRef.child(`fotosYvideos/${username}_${userType}_${timestamp}_${file.name}`);
+
+                try {
+                    await fileRef.put(file);
+                    alert('Archivo subido exitosamente.');
+                    location.reload();
+                } catch (error) {
+                    alert('Error al subir el archivo: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+    </script>
+
+    <!-- Firebase -->
+    <script>
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob;
+
+        function startRecording() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(function(stream) {
+                        mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.ondataavailable = event => {
+                            audioChunks.push(event.data);
+                        };
+                        mediaRecorder.onstop = () => {
+                            audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            document.getElementById('audioPlayer').src = audioUrl;
+                            document.getElementById('audioPlayer').style.display = 'block';
+                            document.getElementById('confirmButton').style.display = 'block';
+                        };
+                        mediaRecorder.start();
+                        document.getElementById('uploadForm').style.display = 'none';
+                        document.getElementById('controls').style.display = 'block';
+                        document.getElementById('stopButton').disabled = false;
+                        document.getElementById('recordingMessage').style.display = 'block';
+                    }).catch(function(err) {
+                        alert('Error al acceder al micrófono: ' + err.message);
+                    });
+            } else {
+                alert('getUserMedia no es soportado en este navegador.');
+            }
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            document.getElementById('stopButton').disabled = true;
+            document.getElementById('recordingMessage').style.display = 'none';
+        }
+
+        async function confirmAndUploadAudio() {
+            const username = document.getElementById('username').value;
+            const userType = document.getElementById('userType').value;
+
+            if (username && userType) {
+                const storageRef = firebase.storage().ref();
+                const timestamp = Date.now();
+                const audioRef = storageRef.child(`audios/${username}_${userType}_${timestamp}.wav`);
+
+                try {
+                    await audioRef.put(audioBlob);
+                    alert('Audio subido exitosamente.');
+                    location.reload();  // Recargar la página después de la subida exitosa
+                } catch (error) {
+                    alert('Error al subir el audio: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+    </script>
+
+    <!-- JavaScript para manejar las pestañas -->
+    <script>
+        document.querySelectorAll('.nav-tabs a').forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelectorAll('.nav-tabs .active').forEach(activeTab => {
+                    activeTab.classList.remove('active');
+                });
+
+                document.querySelectorAll('.tab-content .active').forEach(activeContent => {
+                    activeContent.classList.remove('active');
+                });
+
+                tab.parentElement.classList.add('active');
+                const target = tab.getAttribute('href');
+                document.querySelector(target).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

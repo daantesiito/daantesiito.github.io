@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviar Fotos y Videos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+            text-align: center;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        .container h2 {
+            color: #6441a5;
+            border: 2px solid #6441a5;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .container h2 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container h1 {
+            color: white;
+            margin-top: 20px;
+            font-size: 48px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .user-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select, .form-group button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 5px;
+        }
+
+        .form-group button {
+            background: #9b59b6;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background: #8e44ad;
+            transform: scale(1.05);
+        }
+
+        .form-group button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .instructions {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: red;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContent">
+        <h1 class="section-title">REACCION SET-UP</h1>
+
+        <div class="instructions">
+            <h4>Si queres mandar un archivo ANONIMO, inserta de usuario "ANONIMO", y rol "VIEWER".</h4>
+            <h5>Tene en cuenta que si es ANONIMO y mandas mas de 1 archivo, tenes que poner alguna palabra clave.</h5>
+            <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE ARCHIVO" que haga referencia a tu archivo.</h5>
+        </div>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="userType">Rol:</label>
+                <select id="userType" required>
+                    <option value="viewer">Viewer</option>
+                    <option value="vip">VIP</option>
+                    <option value="mod">Mod</option>
+                    <option value="sub">Sub</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fileInput">Selecciona una foto o video:</label>
+                <input type="file" id="fileInput" accept="image/*,video/*" required>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="uploadFile()">Enviar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-storage-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBlsZmRgBEGkzgT3_c00CbEBqzYnVf4oYk",
+            authDomain: "audiosweb-74dc8.firebaseapp.com",
+            projectId: "audiosweb-74dc8",
+            storageBucket: "audiosweb-74dc8.appspot.com",
+            messagingSenderId: "865220172127",
+            appId: "1:865220172127:web:54f3bf705dbae82b22feea",
+            measurementId: "G-CTFJN6PC37"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        async function uploadFile() {
+            const username = document.getElementById('username').value;
+            const userType = document.getElementById('userType').value;
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (username && userType && file) {
+                const storageRef = firebase.storage().ref();
+                const timestamp = Date.now();
+                const fileRef = storageRef.child(`fotosYvideos/${username}_${userType}_${timestamp}_${file.name}`);
+
+                try {
+                    await fileRef.put(file);
+                    alert('Archivo subido exitosamente.');
+                    location.reload();
+                } catch (error) {
+                    alert('Error al subir el archivo: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+    </script>
+</body>
+</html>
