@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Grabación de Audios</title>
+    <title>ANECDOTAS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Firebase -->
@@ -31,16 +31,21 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            padding: 10px; /* Añadido para dar espacio entre el borde del viewport y el contenido */
-            box-sizing: border-box; /* Añadido para incluir el padding en el ancho y alto total */
         }
 
         h2, h3 {
             color: white;
-            font-size: 4em; /* Ajustado el tamaño para adaptarse mejor */
+            font-size: 7em; /* Tamaño de fuente predeterminado para computadoras */
             font-family: 'Level Up Level Up', sans-serif;
-            text-shadow: 2px 2px 5px #000, -2px 2px 5px #000, 2px -2px 5px #000, -2px -2px 5px #000; 
+            text-shadow: 2px 2px 5px #000, -2px 2px 5px #000, 2px -2px 5px #000, -2px -2px 5px #000;
             margin: 0.05em 0; /* Ajuste de margen */
+        }
+
+        /* Media query para dispositivos móviles con ancho máximo de 600px (ajustar según necesidades) */
+        @media (max-width: 600px) {
+            h2, h3 {
+                font-size: 2em; /* Tamaño de fuente ajustado para dispositivos móviles */
+            }
         }
 
         h4, h5 {
@@ -62,8 +67,6 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             outline: none;
-            width: 80%; /* Añadido para ocupar el 80% del ancho disponible */
-            max-width: 300px; /* Limita el ancho máximo para mantener la legibilidad */
         }
 
         #uploadForm button {
