@@ -16,12 +16,10 @@
     <!-- fullpage -->
     <link rel="stylesheet" href="css/jquery.fullPage.css">
     <!-- custom -->
-    <link rel="stylesheet" href="css/templatemo-style.css">
-    <!-- Raleway Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
-    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/colors/purple.css" id="color-change">
     <style>
-       /* Estilos generales del cuerpo */
+        /* Estilos generales del cuerpo */
         body {
             display: flex;
             justify-content: center;
@@ -108,6 +106,23 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
 
+        /* Clases de colores para las tarjetas de usuario */
+        .user-card.color1 {
+            border-color: #e74c3c; /* Rojo */
+        }
+
+        .user-card.color2 {
+            border-color: #3498db; /* Azul */
+        }
+
+        .user-card.color3 {
+            border-color: #2ecc71; /* Verde */
+        }
+
+        .user-card.color4 {
+            border-color: #f1c40f; /* Amarillo */
+        }
+
         /* Imagen de perfil */
         .user-card img {
             width: 75px;
@@ -138,23 +153,6 @@
             background: none;
             box-shadow: none;
             border: none;
-        }
-
-        /* Colores de borde de las tarjetas según el tipo de usuario */
-        .user-card.viewer {
-            border-color: #3498db;
-        }
-
-        .user-card.sub {
-            border-color: #e74c3c;
-        }
-
-        .user-card.mod {
-            border-color: #2ecc71;
-        }
-
-        .user-card.vip {
-            border-color: #f39c12;
         }
 
         /* Animaciones */
@@ -284,6 +282,44 @@
         .lock-screen button:hover {
             background-color: #45a049;
         }
+
+        .image-popup {
+            display: none; /* Inicialmente oculto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Capa superior */
+        }
+
+        .image-popup img {
+            max-width: 90%; /* Ajusta el ancho máximo de la imagen al 90% del contenedor */
+            max-height: 90%; /* Ajusta el alto máximo de la imagen al 90% del contenedor */
+            border: 2px solid #fff; /* Borde blanco de 2px */
+            border-radius: 10px; /* Bordes redondeados */
+        }
+
+        .image-popup #imageContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap; /* Permite que las imágenes se envuelvan si hay muchas */
+        }
+
+        .image-popup #imageContainer img {
+            max-width: 90%; /* Ajusta el ancho máximo de la imagen */
+            max-height: 90%; /* Ajusta el alto máximo de la imagen */
+            border: 2px solid #fff; /* Borde blanco de 2px */
+            border-radius: 10px; /* Bordes redondeados */
+            margin: 10px; /* Espacio entre las imágenes */
+        }
+
+
+
     </style>
 </head>
 <body class="body-prueba">
@@ -302,195 +338,65 @@
         </h2>
         <h1 class="section-title">ANECDOTAS CON PROFESORES</h1>
         <div class="user-container">
-
-            <div class="user-card vip">
+            <div class="user-card color1">
                 <h3>GORDO</h3>
-                <p class="user-type">Vip</p>
                 <audio controls>
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/GORDO_vip_1717833219155.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/My%20Projects/10milJuegoSS.png?raw=true', 'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/5.jpeg?raw=true'])">FOTOS</button>
             </div>
             
-            <div class="user-card viewer">
+            <div class="user-card color2">
                 <h3>daantesiito</h3>
-                <p class="user-type">Viewer</p>
                 <audio controls>
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio1.ogg" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/3.jpg?raw=true'])">FOTOS</button>
             </div>
 
-            <div class="user-card viewer">
+            <div class="user-card color3">
                 <h3>JulianPz7</h3>
-                <p class="user-type">Viewer</p>
                 <audio controls>
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Julianpz7_viewer_1717730897461.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
             </div>
             
-            <div class="user-card viewer">
+            <div class="user-card color4">
                 <h3>ANONIMO</h3>
-                <p class="user-type">Viewer</p>
                 <audio controls>
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO TENEDOR 1_viewer_1717729795159.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/2.jpg?raw=true', 'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/5.jpeg?raw=true'])">FOTOS</button>
             </div>
 
-            <div class="user-card viewer">
+            <div class="user-card color1">
                 <h3>ANONIMO</h3>
-                <p class="user-type">Viewer</p>
                 <audio controls>
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO hola_viewer_1717725497802.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
             </div>
-
-            <div class="user-card vip">
+            
+            <div class="user-card color2">
                 <h3>Mari</h3>
-                <p class="user-type">Vip</p>
                 <audio controls>
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio2.ogg" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/5.jpeg?raw=true', 'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/1.jpg?raw=true'])">FOTOS</button>
             </div>
+        </div>
+    </div>
 
-            <div class="user-card vip">
-                <h3>angel</h3>
-                <p class="user-type">Vip</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/dantesito2_vip_1717724306199.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-            
-            <div class="user-card mod">
-                <h3>brandonlucciano</h3>
-                <p class="user-type">Mod</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio3.ogg" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card mod">
-                <h3>Miachir</h3>
-                <p class="user-type">Mod</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/miachir_mod_1717724630945.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card sub">
-                <h3>hola123</h3>
-                <p class="user-type">Sub</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/usuariorandom_sub_1717724816630.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card sub">
-                <h3>gonza</h3>
-                <p class="user-type">Sub</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/brandon_mod_1717726231645.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card viewer">
-                <h3>daantesiito</h3>
-                <p class="user-type">Viewer</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio1.ogg" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card viewer">
-                <h3>JulianPz7</h3>
-                <p class="user-type">Viewer</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Julianpz7_viewer_1717730897461.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-            
-            <div class="user-card viewer">
-                <h3>ANONIMO</h3>
-                <p class="user-type">Viewer</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO TENEDOR 1_viewer_1717729795159.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card viewer">
-                <h3>ANONIMO</h3>
-                <p class="user-type">Viewer</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO hola_viewer_1717725497802.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card vip">
-                <h3>Mari</h3>
-                <p class="user-type">Vip</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio2.ogg" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card vip">
-                <h3>angel</h3>
-                <p class="user-type">Vip</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/dantesito2_vip_1717724306199.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-            
-            <div class="user-card mod">
-                <h3>brandonlucciano</h3>
-                <p class="user-type">Mod</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/audio3.ogg" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card mod">
-                <h3>Miachir</h3>
-                <p class="user-type">Mod</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/miachir_mod_1717724630945.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card sub">
-                <h3>hola123</h3>
-                <p class="user-type">Sub</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/usuariorandom_sub_1717724816630.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
-
-            <div class="user-card sub">
-                <h3>gonza</h3>
-                <p class="user-type">Sub</p>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/brandon_mod_1717726231645.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
+    <!-- Popup de imágenes -->
+    <div class="image-popup" id="imagePopup">
+        <div>
+            <button onclick="closeImages()">Cerrar</button>
+            <div id="imageContainer"></div>
         </div>
     </div>
 
@@ -519,6 +425,39 @@
                 alert("Contraseña incorrecta. Inténtalo de nuevo.");
             }
         }
+
+        function showImages(imageUrls) {
+            var imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = '';
+
+            imageUrls.forEach(function(url) {
+                var img = new Image();
+                img.onload = function() {
+                    var maxWidth = window.innerWidth * 0.8; // 80% del ancho de la ventana
+                    var maxHeight = window.innerHeight * 0.8; // 80% de la altura de la ventana
+                    var ratio = Math.min(maxWidth / this.width, maxHeight / this.height);
+
+                    // Crear elemento de imagen
+                    var imageElement = document.createElement('img');
+                    imageElement.src = url;
+                    imageElement.style.maxWidth = (this.width * ratio) + 'px';
+                    imageElement.style.maxHeight = (this.height * ratio) + 'px';
+                    imageElement.style.border = '2px solid #fff';
+                    imageElement.style.borderRadius = '10px';
+
+                    // Agregar imagen al contenedor
+                    imageContainer.appendChild(imageElement);
+                };
+                img.src = url;
+            });
+
+            document.getElementById('imagePopup').style.display = 'flex';
+        }
+
+        function closeImages() {
+            document.getElementById('imagePopup').style.display = 'none';
+        }
+
     </script>
 </body>
 </html>

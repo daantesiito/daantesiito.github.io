@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ANECDOTAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.0/firebase-storage-compat.js"></script>
+
+    <!-- Bootstrap CSS (opcional) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- CSS Personalizado -->
+    <style>
+        @font-face {
+            font-family: 'Level Up Level Up';
+            src: url('./fonts/Level Up Level Up.otf') format('truetype');
+        }
+
+        body {
+            background: url('https://github.com/daantesiito/daantesiito.github.io/blob/main/images/MinecraftFondo.gif?raw=true') no-repeat center center fixed;
+            background-size: cover;
+            color: #999;
+            font-family: 'Level Up Level Up', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2, h3 {
+            color: white;
+            font-size: 7em; /* Tamaño de fuente predeterminado para computadoras */
+            font-family: 'Level Up Level Up', sans-serif;
+            text-shadow: 2px 2px 5px #000, -2px 2px 5px #000, 2px -2px 5px #000, -2px -2px 5px #000;
+            margin: 0.05em 0; /* Ajuste de margen */
+        }
+
+        /* Media query para dispositivos móviles con ancho máximo de 600px (ajustar según necesidades) */
+        @media (max-width: 600px) {
+            h2, h3 {
+                font-size: 1.99em; /* Tamaño de fuente ajustado para dispositivos móviles */
+            }
+        }
+
+        h4, h5 {
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+            margin: 0.5em 0; /* Ajuste de margen */
+        }
+
+        #uploadForm {
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        #uploadForm input[type="text"] {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        #uploadForm button,
+        #imageInput {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            margin: 5px;
+        }
+
+        #uploadForm button:hover,
+        #imageInput:hover {
+            background-color: #45a049;
+        }
+
+
+        #imageUploadForm button{
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            margin: 5px;
+        }
+
+        #controls {
+            margin-top: 20px;
+            color: black;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+        }
+
+        #controls button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #imageInput {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #controls button:hover {
+            background-color: #45a049;
+        }
+
+        #audioPlayer {
+            width: 100%; /* Ocupa todo el ancho disponible */
+            max-width: 300px; /* Ancho máximo para evitar que se extienda demasiado */
+            margin: 20px auto; /* Centrado horizontal */
+            text-align: center; 
+        }
+
+        #confirmButton {
+            color: black;
+            font-family: 'Raleway', sans-serif;
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+        }
+
+        #recordingMessage {
+            font-size: 1.2em;
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+            display: none;
+        }
+
+        #warningMessage {
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+            text-align: center;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Textos Agregados -->
+    <div>
+        <h2>ANECDOTAS</h2>
+    </div>
+    
+    <div>
+        <h3>MI PRIMER BESO</h3>
+    </div>
+
+    <!-- Formulario para la grabación de audio -->
+    <form id="uploadForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <button type="button" onclick="startRecording()">Comenzar a Grabar</button>
+        <button type="button" id="chooseImageButton" onclick="showImageUpload()">Elegir Imagen</button>
+    </form>
+
+    <div id="controls" style="display: none;">
+        <div id="recordingMessage">Grabando...</div>
+        <button id="stopButton" onclick="stopRecording()">Detener</button>
+        <audio id="audioPlayer" controls style="display:none;"></audio>
+        <div class="center-content">
+            <div id="warningMessage">Si el audio no tiene sonido no te preocupes que se grabó bien. Por permisos de navegador no te deja reproducirlo en algunos celulares.</div>
+            <button id="confirmButton" style="display: none;" onclick="confirmAndUploadAudio()">Confirmar Audio y Enviar</button>
+        </div>
+    </div>
+    <div id="anonymInstructions">
+        <div>
+            <h4>Si queres mandar un audio ANONIMO, inserta de usuario "ANONIMO".</h4>
+        </div>
+
+        <div>
+            <h5>Tene en cuenta que si es ANONIMO y mandas mas de 1 audio, tenes que poner alguna palabra clave.</h5>
+        </div>
+
+        <div>
+            <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE AUDIO" que haga referencia a tu audio.</h5>
+        </div>
+    </div>
+
+    <!-- Formulario para la carga de imágenes -->
+    <div id="imageUploadForm" style="display: none;">
+        <input type="file" id="imageInput" accept="image/*">
+        <button type="button" onclick="confirmAndUploadImage()">Confirmar y Enviar Imagen</button>
+    </div>
+
+    <!-- Firebase -->
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBlsZmRgBEGkzgT3_c00CbEBqzYnVf4oYk",
+            authDomain: "audiosweb-74dc8.firebaseapp.com",
+            projectId: "audiosweb-74dc8",
+            storageBucket: "audiosweb-74dc8.appspot.com",
+            messagingSenderId: "865220172127",
+            appId: "1:865220172127:web:54f3bf705dbae82b22feea",
+            measurementId: "G-CTFJN6PC37"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob;
+
+        function startRecording() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(function(stream) {
+                        mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.ondataavailable = event => {
+                            audioChunks.push(event.data);
+                        };
+                        mediaRecorder.onstop = () => {
+                            audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audioPlayer = document.getElementById('audioPlayer');
+                            audioPlayer.src = audioUrl;
+                            audioPlayer.style.display = 'block';
+                            document.getElementById('confirmButton').style.display = 'block';
+                            document.getElementById('warningMessage').style.display = 'block'; // Mostrar el mensaje de advertencia después de grabar
+                            // Ocultar el texto de instrucciones y el botón de detener
+                            document.getElementById('anonymInstructions').style.display = 'none';
+                            document.getElementById('stopButton').style.display = 'none';
+                        };
+                        audioChunks = []; // Limpiar el array antes de empezar una nueva grabación
+                        mediaRecorder.start();
+                        document.getElementById('uploadForm').style.display = 'none';
+                        document.getElementById('controls').style.display = 'block';
+                        document.getElementById('stopButton').disabled = false;
+                        document.getElementById('recordingMessage').style.display = 'block';
+                        document.getElementById('anonymInstructions').style.display = 'none';
+                    }).catch(function(err) {
+                        alert('Error al acceder al micrófono: ' + err.message);
+                    });
+            } else {
+                alert('getUserMedia no es soportado en este navegador.');
+            }
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            document.getElementById('stopButton').disabled = true;
+            document.getElementById('recordingMessage').style.display = 'none';
+        }
+
+        function showImageUpload() {
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('anonymInstructions').style.display = 'none';
+            document.getElementById('imageUploadForm').style.display = 'block';
+        }
+
+        async function confirmAndUploadAudio() {
+            const username = document.getElementById('username').value;
+
+            if (username) {
+                const storageRef = firebase.storage().ref();
+                const timestamp = Date.now();
+                const audioRef = storageRef.child(`audiosMariAnecdotas/${username}_${timestamp}.wav`);
+
+                try {
+                    await audioRef.put(audioBlob);
+                    alert('Audio subido exitosamente.');
+                    location.reload();  // Recargar la página después de la subida exitosa
+                } catch (error) {
+                    alert('Error al subir el audio: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+
+        async function confirmAndUploadImage() {
+            const file = document.getElementById('imageInput').files[0];
+            const username = document.getElementById('username').value;
+
+            if (file && username) {
+                const storageRef = firebase.storage().ref();
+                const timestamp = Date.now();
+                const imageRef = storageRef.child(`imagesMariAnecdotas/${username}_${timestamp}_${file.name}`);
+
+                try {
+                    await imageRef.put(file);
+                    alert('Imagen subida exitosamente.');
+                    location.reload();  // Recargar la página después de la subida exitosa
+                } catch (error) {
+                    alert('Error al subir la imagen: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+    </script>
+</body>
+</html>
