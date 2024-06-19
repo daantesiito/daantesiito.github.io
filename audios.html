@@ -69,18 +69,35 @@
             outline: none;
         }
 
-        #uploadForm button {
+        #uploadForm button,
+        #imageInput {
             padding: 10px 20px;
             background-color: #4CAF50;
+            font-family: 'Raleway', sans-serif;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             outline: none;
+            margin: 5px;
         }
 
-        #uploadForm button:hover {
+        #uploadForm button:hover,
+        #imageInput:hover {
             background-color: #45a049;
+        }
+
+
+        #imageUploadForm button{
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            margin: 5px;
         }
 
         #controls {
@@ -91,6 +108,17 @@
         }
 
         #controls button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #imageInput {
             padding: 10px 20px;
             margin: 5px;
             background-color: #4CAF50;
@@ -159,6 +187,7 @@
     <form id="uploadForm">
         <input type="text" id="username" placeholder="Username" required>
         <button type="button" onclick="startRecording()">Comenzar a Grabar</button>
+        <button type="button" id="chooseImageButton" onclick="showImageUpload()">Elegir Imagen</button>
     </form>
 
     <div id="controls" style="display: none;">
@@ -182,6 +211,12 @@
         <div>
             <h5>Pone "ANONIMO" + "PALABRA CLAVE" + "NUMERO DE AUDIO" que haga referencia a tu audio.</h5>
         </div>
+    </div>
+
+    <!-- Formulario para la carga de imágenes -->
+    <div id="imageUploadForm" style="display: none;">
+        <input type="file" id="imageInput" accept="image/*">
+        <button type="button" onclick="confirmAndUploadImage()">Confirmar y Enviar Imagen</button>
     </div>
 
     <!-- Firebase -->
@@ -245,13 +280,19 @@
             document.getElementById('recordingMessage').style.display = 'none';
         }
 
+        function showImageUpload() {
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('anonymInstructions').style.display = 'none';
+            document.getElementById('imageUploadForm').style.display = 'block';
+        }
+
         async function confirmAndUploadAudio() {
             const username = document.getElementById('username').value;
 
             if (username) {
                 const storageRef = firebase.storage().ref();
                 const timestamp = Date.now();
-                const audioRef = storageRef.child(`audios/${username}_${timestamp}.wav`);
+                const audioRef = storageRef.child(`audiosMariAnecdotas/${username}_${timestamp}.wav`);
 
                 try {
                     await audioRef.put(audioBlob);
@@ -259,6 +300,27 @@
                     location.reload();  // Recargar la página después de la subida exitosa
                 } catch (error) {
                     alert('Error al subir el audio: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+
+        async function confirmAndUploadImage() {
+            const file = document.getElementById('imageInput').files[0];
+            const username = document.getElementById('username').value;
+
+            if (file && username) {
+                const storageRef = firebase.storage().ref();
+                const timestamp = Date.now();
+                const imageRef = storageRef.child(`imagesMariAnecdotas/${username}_${timestamp}_${file.name}`);
+
+                try {
+                    await imageRef.put(file);
+                    alert('Imagen subida exitosamente.');
+                    location.reload();  // Recargar la página después de la subida exitosa
+                } catch (error) {
+                    alert('Error al subir la imagen: ' + error.message);
                 }
             } else {
                 alert('Por favor complete todos los campos.');
