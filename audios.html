@@ -31,11 +31,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 10px; /* Añadido para dar espacio entre el borde del viewport y el contenido */
+            box-sizing: border-box; /* Añadido para incluir el padding en el ancho y alto total */
         }
 
         h2, h3 {
             color: white;
-            font-size: 4em; /* Ajustado para adaptarse mejor */
+            font-size: 4em; /* Ajustado el tamaño para adaptarse mejor */
             font-family: 'Level Up Level Up', sans-serif;
             text-shadow: 2px 2px 5px #000, -2px 2px 5px #000, 2px -2px 5px #000, -2px -2px 5px #000; 
             margin: 0.05em 0; /* Ajuste de margen */
@@ -60,6 +62,8 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             outline: none;
+            width: 80%; /* Añadido para ocupar el 80% del ancho disponible */
+            max-width: 300px; /* Limita el ancho máximo para mantener la legibilidad */
         }
 
         #uploadForm button {
