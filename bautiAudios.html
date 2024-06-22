@@ -5,43 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grabar y Revertir Audio</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden; /* Para ocultar los emoticonos cuando salen del viewport */
+            position: relative; /* Necesario para colocar los controles correctamente */
         }
 
         #controls {
+            position: relative;
+            z-index: 2; /* Asegurarse de que los controles estén por encima de los emoticonos */
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 1);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: solid #772ce8 2px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #9146FF;
         }
 
         button {
-            background: #9b59b6;
+            background: #9146FF;
             border: none;
-            color: #fff;
-            padding: 10px 20px;
+            color: #ffffff;
+            padding: 12px 24px;
             margin: 10px;
             font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.1s ease;
         }
 
         button:hover {
-            background: #8e44ad;
+            background: #772ce8;
+            transform: scale(1.05);
         }
 
         button:disabled {
-            background: #ccc;
+            background: #555555;
             cursor: not-allowed;
         }
 
@@ -55,13 +73,34 @@
             margin-top: 10px;
             color: #e74c3c;
         }
+
+        .emote {
+            position: absolute;
+            top: -70px; /* Comenzar fuera de la vista, por encima de la pantalla */
+            width: 102px;
+            height: 56px;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh); /* Empezar fuera de la vista, encima de la pantalla */
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh); /* Terminar fuera de la vista, debajo de la pantalla */
+                opacity: 0.1;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="controls">
+        <h2>Audio al reves</h2>
         <button id="recordButton">Grabar</button>
         <button id="stopButton" disabled>Detener</button>
-        <button id="playButton" disabled>Reproducir en Reversa</button>
         <audio id="audioPlayer" controls style="display:none;"></audio>
         <p id="recordingMessage" style="display:none;">Grabando...</p>
     </div>
@@ -73,7 +112,6 @@
 
         const recordButton = document.getElementById('recordButton');
         const stopButton = document.getElementById('stopButton');
-        const playButton = document.getElementById('playButton');
         const audioPlayer = document.getElementById('audioPlayer');
         const recordingMessage = document.getElementById('recordingMessage');
 
@@ -82,7 +120,7 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
 
-                audioChunks = []; // Reiniciar los chunks de audio
+                audioChunks = [];
 
                 mediaRecorder.ondataavailable = event => {
                     audioChunks.push(event.data);
@@ -93,7 +131,6 @@
                     const arrayBuffer = await audioBlob.arrayBuffer();
                     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-                    // Invertir el audio
                     const reversedBuffer = audioContext.createBuffer(
                         audioBuffer.numberOfChannels,
                         audioBuffer.length,
@@ -112,7 +149,6 @@
                     const reversedUrl = URL.createObjectURL(reversedBlob);
                     audioPlayer.src = reversedUrl;
                     audioPlayer.style.display = 'block';
-                    playButton.disabled = false;
                     recordingMessage.style.display = 'none';
                 };
 
@@ -132,10 +168,6 @@
             recordingMessage.style.display = 'none';
         });
 
-        playButton.addEventListener('click', () => {
-            audioPlayer.play();
-        });
-
         function bufferToWave(buffer, len) {
             const numOfChan = buffer.numberOfChannels;
             const length = len * numOfChan * 2 + 44;
@@ -144,34 +176,20 @@
             const channels = [];
             let pos = 0;
 
-            // RIFF identifier
             writeString(view, pos, 'RIFF'); pos += 4;
-            // RIFF chunk length
             view.setUint32(pos, length - 8, true); pos += 4;
-            // RIFF type
             writeString(view, pos, 'WAVE'); pos += 4;
-            // format chunk identifier
             writeString(view, pos, 'fmt '); pos += 4;
-            // format chunk length
             view.setUint32(pos, 16, true); pos += 4;
-            // sample format (raw)
             view.setUint16(pos, 1, true); pos += 2;
-            // channel count
             view.setUint16(pos, numOfChan, true); pos += 2;
-            // sample rate
             view.setUint32(pos, buffer.sampleRate, true); pos += 4;
-            // byte rate (sample rate * block align)
             view.setUint32(pos, buffer.sampleRate * numOfChan * 2, true); pos += 4;
-            // block align (channel count * bytes per sample)
             view.setUint16(pos, numOfChan * 2, true); pos += 2;
-            // bits per sample
             view.setUint16(pos, 16, true); pos += 2;
-            // data chunk identifier
             writeString(view, pos, 'data'); pos += 4;
-            // data chunk length
             view.setUint32(pos, length - pos - 4, true); pos += 4;
 
-            // write interleaved data
             for (let i = 0; i < buffer.length; i++) {
                 for (let channel = 0; channel < numOfChan; channel++) {
                     channels[channel] = buffer.getChannelData(channel);
@@ -189,6 +207,76 @@
                 view.setUint8(offset + i, string.charCodeAt(i));
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const numEmotes = 200;
+            const emoteSources = [
+                './images/7tv/CAUGHT.png', 
+                './images/7tv/51.gif', 
+                './images/7tv/omegalul.gif', 
+                './images/7tv/RUNN.gif',
+                './images/7tv/34.gif',
+                './images/7tv/44.gif',
+                './images/7tv/51.gif',
+                './images/7tv/BASEDCIGAR.gif',
+                './images/7tv/bautiCumers.gif',
+                './images/7tv/blabbering.gif',
+                './images/7tv/boner.gif',
+                './images/7tv/catJam.gif',
+                './images/7tv/classic.gif',
+                './images/7tv/eh.gif',
+                './images/7tv/ESKIZO.gif',
+                './images/7tv/happi.gif',
+                './images/7tv/JIJO.gif',
+                './images/7tv/KickTime.gif',
+                './images/7tv/muga.gif',
+                './images/7tv/nowaying.gif',
+                './images/7tv/QUEDICE.gif',
+                './images/7tv/sigma.gif',
+                './images/7tv/sigmaArrive.gif',
+                './images/7tv/WHISTLING.gif',
+                './images/7tv/yump.gif',
+                './images/7tv/zidane.gif',
+                './images/7tv/agusbob.png',
+                './images/7tv/ahmm.png',
+                './images/7tv/aldu.png',
+                './images/7tv/bana.png',
+                './images/7tv/bauti.png',
+                './images/7tv/coscu.png',
+                './images/7tv/davo.png',
+                './images/7tv/flor.png',
+                './images/7tv/franquito.png',
+                './images/7tv/Gayge.png',
+                './images/7tv/hornet.png',
+                './images/7tv/HUH.png',
+                './images/7tv/isma.png',
+                './images/7tv/JE.png',
+                './images/7tv/lolo.png',
+                './images/7tv/MAJ.png',
+                './images/7tv/mirko.png',
+                './images/7tv/momo.png',
+                './images/7tv/morte.png',
+                './images/7tv/ok.png',
+                './images/7tv/rc.png',
+                './images/7tv/SAJ.png',
+                './images/7tv/spreen.png',
+                './images/7tv/sus.png',
+                './images/7tv/wideDude.png',
+                './images/7tv/yutanita.png',
+                './images/7tv/yutabt.png' // Aquí puedes agregar más GIFs separados por comas si lo deseas
+            ];
+
+            for (let i = 0; i < numEmotes; i++) {
+                const emote = document.createElement('img');
+                emote.src = emoteSources[Math.floor(Math.random() * emoteSources.length)];
+                emote.className = 'emote';
+                emote.style.left = Math.random() * 100 + 'vw';
+                emote.style.animationDuration = Math.random() * 5 + 5 + 's';
+                emote.style.animationDelay = Math.random() * 6 + 's';
+                document.body.appendChild(emote);
+            }
+        });
+
     </script>
 </body>
 </html>
