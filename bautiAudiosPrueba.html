@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grabar y Revertir Audio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #controls {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            background: rgba(0, 0, 0, 1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: solid #772ce8 2px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #9146FF;
+        }
+
+        button {
+            background: #9146FF;
+            border: none;
+            color: #ffffff;
+            padding: 12px 24px;
+            margin: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background: #772ce8;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background: #555555;
+            cursor: not-allowed;
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #recordingMessage {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #e74c3c;
+        }
+
+        .emote {
+            position: absolute;
+            top: -70px;
+            width: 102px;
+            height: 56px;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 0.1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <h2>Audio al reves</h2>
+        <button id="recordButton">Grabar</button>
+        <button id="stopButton" disabled>Detener</button>
+        <audio id="audioPlayer" controls style="display:none;"></audio>
+        <p id="recordingMessage" style="display:none;">Grabando...</p>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioContext;
+
+        const recordButton = document.getElementById('recordButton');
+        const stopButton = document.getElementById('stopButton');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const recordingMessage = document.getElementById('recordingMessage');
+
+        recordButton.addEventListener('click', async () => {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                if (audioContext) {
+                    audioContext.close();
+                }
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+                    const reversedBuffer = audioContext.createBuffer(
+                        audioBuffer.numberOfChannels,
+                        audioBuffer.length,
+                        audioBuffer.sampleRate
+                    );
+
+                    for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                        const channelData = audioBuffer.getChannelData(i);
+                        const reversedData = reversedBuffer.getChannelData(i);
+                        for (let j = 0; j < channelData.length; j++) {
+                            reversedData[j] = channelData[channelData.length - 1 - j];
+                        }
+                    }
+
+                    const reversedBlob = bufferToWave(reversedBuffer, reversedBuffer.length);
+                    const reversedUrl = URL.createObjectURL(reversedBlob);
+                    audioPlayer.src = reversedUrl;
+                    audioPlayer.style.display = 'block';
+                    recordingMessage.style.display = 'none';
+
+                    // Revocar el URL anterior si existe
+                    if (audioPlayer.src) {
+                        URL.revokeObjectURL(audioPlayer.src);
+                    }
+                };
+
+                mediaRecorder.start();
+                recordButton.disabled = true;
+                stopButton.disabled = false;
+                recordingMessage.style.display = 'block';
+            } else {
+                alert('getUserMedia no es soportado en este navegador.');
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            recordButton.disabled = false;
+            stopButton.disabled = true;
+            recordingMessage.style.display = 'none';
+        });
+
+        function bufferToWave(buffer, len) {
+            const numOfChan = buffer.numberOfChannels;
+            const length = len * numOfChan * 2 + 44;
+            const bufferArray = new ArrayBuffer(length);
+            const view = new DataView(bufferArray);
+            const channels = [];
+            let pos = 0;
+
+            writeString(view, pos, 'RIFF'); pos += 4;
+            view.setUint32(pos, length - 8, true); pos += 4;
+            writeString(view, pos, 'WAVE'); pos += 4;
+            writeString(view, pos, 'fmt '); pos += 4;
+            view.setUint32(pos, 16, true); pos += 4;
+            view.setUint16(pos, 1, true); pos += 2;
+            view.setUint16(pos, numOfChan, true); pos += 2;
+            view.setUint32(pos, buffer.sampleRate, true); pos += 4;
+            view.setUint32(pos, buffer.sampleRate * numOfChan * 2, true); pos += 4;
+            view.setUint16(pos, numOfChan * 2, true); pos += 2;
+            view.setUint16(pos, 16, true); pos += 2;
+            writeString(view, pos, 'data'); pos += 4;
+            view.setUint32(pos, length - pos - 4, true); pos += 4;
+
+            for (let i = 0; i < buffer.length; i++) {
+                for (let channel = 0; channel < numOfChan; channel++) {
+                    channels[channel] = buffer.getChannelData(channel);
+                    const sample = Math.max(-1, Math.min(1, channels[channel][i]));
+                    view.setInt16(pos, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                    pos += 2;
+                }
+            }
+
+            return new Blob([bufferArray], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const numEmotes = 200;
+            const emoteSources = [
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/CAUGHT.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/51.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/omegalul.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/RUNN.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/34.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/44.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/BASEDCIGAR.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/bautiCumers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/blabbering.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/boner.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/catJam.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/classic.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/eh.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/ESKIZO.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/happi.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/JIJO.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/KickTime.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/muga.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/nowaying.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/QUEDICE.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/sigma.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/sigmaArrive.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/WHISTLING.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yump.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/zidane.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/agusbob.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/ahmm.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/aldu.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/bana.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/bauti.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/coscu.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/davo.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/flor.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/franquito.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/Gayge.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/hornet.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/HUH.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/isma.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/JE.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/lolo.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/MAJ.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/mirko.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/momo.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/morte.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/ok.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/rc.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/SAJ.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/spreen.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/sus.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/wideDude.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yutanita.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yutabt.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/32.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/CocaCola.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/DojaVibe.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/hardstuck.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yipe.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/raveGirl.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/polenta.png?raw=true' // Aquí puedes agregar más GIFs separados por comas si lo deseas
+            ];
+
+            for (let i = 0; i < numEmotes; i++) {
+                const emote = document.createElement('img');
+                emote.src = emoteSources[Math.floor(Math.random() * emoteSources.length)];
+                emote.className = 'emote';
+                emote.style.left = `${Math.random() * 100}vw`;
+                emote.style.animationDuration = Math.random() * 5 + 5 + 's';
+                emote.style.animationDelay = Math.random() * 6 + 's';
+                document.body.appendChild(emote);
+            }
+        });
+    </script>
+</body>
+</html>
