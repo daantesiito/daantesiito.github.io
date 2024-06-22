@@ -16,13 +16,13 @@
             font-family: 'Roboto', sans-serif;
             background: #000000;
             color: #ffffff;
-            overflow: hidden;
-            position: relative;
+            overflow: hidden; /* Para ocultar los emoticonos cuando salen del viewport */
+            position: relative; /* Necesario para colocar los controles correctamente */
         }
 
         #controls {
             position: relative;
-            z-index: 2;
+            z-index: 2; /* Asegurarse de que los controles estén por encima de los emoticonos */
             text-align: center;
             background: rgba(0, 0, 0, 1);
             padding: 20px;
@@ -76,7 +76,7 @@
 
         .emote {
             position: absolute;
-            top: -70px;
+            top: -70px; /* Comenzar fuera de la vista, por encima de la pantalla */
             width: 102px;
             height: 56px;
             pointer-events: none;
@@ -85,12 +85,12 @@
 
         @keyframes fall {
             0% {
-                transform: translateY(-100vh);
+                transform: translateY(-100vh); /* Empezar fuera de la vista, encima de la pantalla */
                 opacity: 1;
             }
 
             100% {
-                transform: translateY(100vh);
+                transform: translateY(100vh); /* Terminar fuera de la vista, debajo de la pantalla */
                 opacity: 0.1;
             }
         }
@@ -108,7 +108,7 @@
     <script>
         let mediaRecorder;
         let audioChunks = [];
-        let audioContext;
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
         const recordButton = document.getElementById('recordButton');
         const stopButton = document.getElementById('stopButton');
@@ -117,10 +117,6 @@
 
         recordButton.addEventListener('click', async () => {
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                if (audioContext) {
-                    audioContext.close();
-                }
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
 
@@ -154,11 +150,6 @@
                     audioPlayer.src = reversedUrl;
                     audioPlayer.style.display = 'block';
                     recordingMessage.style.display = 'none';
-
-                    // Revocar el URL anterior si existe
-                    if (audioPlayer.src) {
-                        URL.revokeObjectURL(audioPlayer.src);
-                    }
                 };
 
                 mediaRecorder.start();
@@ -284,7 +275,7 @@
             for (let i = 0; i < numEmotes; i++) {
                 const emote = document.createElement('img');
                 emote.src = emoteSources[Math.floor(Math.random() * emoteSources.length)];
-                emote.className = 'emote';
+                emote.classList.add('emote');
                 emote.style.left = `${Math.random() * 100}vw`;
                 emote.style.animationDuration = Math.random() * 5 + 5 + 's';
                 emote.style.animationDelay = Math.random() * 6 + 's';
