@@ -1,70 +1,89 @@
 /* Estilos básicos */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e3e3e3; /* Fondo que coincide con el semicírculo gris */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .container {
-    text-align: center;
-  }
-  
-  header h1 {
-    margin: 20px 0;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .btn {
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* Contenedor del semicírculo */
-  #semicircleContainer {
-    position: relative;
-    width: 400px;
-    height: 200px;
-    margin: 0 auto;
-  }
-  
-  #semicircleBackground,
-  #semicircleForeground {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  
-  #semicircleBackground {
-    z-index: 0; /* Semicírculo de fondo */
-  }
-  
-  #semicircleForeground {
-    z-index: 1; /* Semicírculo de colores */
-  }
-  
-  .controls {
-    margin-top: 10px;
-  }
-  
-  #examplesArea {
-    margin-top: 20px;
-  }
-  
-  #examples {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #e3e3e3; /* Fondo que coincide con el semicírculo gris */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+header h1 {
+  margin: 20px 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Contenedor del semicírculo */
+#semicircleContainer {
+  position: relative;
+  width: 400px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+#semicircleBackground,
+#semicircleForeground {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#semicircleBackground {
+  z-index: 0; /* Semicírculo de fondo */
+}
+
+#semicircleForeground {
+  z-index: 1; /* Semicírculo de colores */
+}
+
+.controls {
+  margin-top: 10px;
+}
+
+#examplesArea {
+  margin-top: 20px;
+}
+
+#examples {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#click-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px; /* Mismo ancho que el semicírculo */
+  height: 200px; /* Mismo alto que el semicírculo */
+  cursor: pointer;
+  z-index: 2; /* Por encima del semicírculo */
+  background-color: rgba(0, 0, 0, 0); /* Totalmente transparente */
+}
+
+#selected-point {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 3; /* Por encima del área de clic */
+}

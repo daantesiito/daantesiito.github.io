@@ -1,36 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego Bau</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://d3js.org/d3.v6.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Bau</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Juego Bau</h1>
-      <button id="startGame" class="btn">Iniciar Juego</button>
-    </header>
-    <main>
-      <div id="gameArea" class="hidden">
-        <div id="semicircleContainer">
-          <svg id="semicircleBackground"></svg>
-          <svg id="semicircleForeground"></svg>
-        </div>
-        <div class="controls">
-          <button id="shuffleValues" class="btn">REVOLVER PORCENTAJES</button>
-          <button id="hideValues" class="btn">TAPAR POSICIONES</button>
-          <button id="confirmPosition" class="btn">CONFIRMAR</button>
-        </div>
-      </div>
-      <div id="examplesArea" class="hidden">
-        <p>Ejemplos:</p>
-        <textarea id="examples" rows="4"></textarea>
-      </div>
-    </main>
-  </div>
-  <script src="script.js"></script>
+    <div class="container">
+        <header>
+            <h1>Juego Bau</h1>
+        </header>
+        <main>
+            <div id="gameArea">
+                <div id="semicircleContainer">
+                    <svg id="semicircleBackground"></svg>
+                    <svg id="semicircleForeground"></svg>
+                    <div id="click-area"></div>
+                    <div id="selected-point" style="display: none;"></div>
+                </div>
+                <div class="controls">
+                    <button id="shuffleValues" class="btn">REVOLVER PORCENTAJES</button>
+                    <button id="hideValues" class="btn">TAPAR POSICIONES</button>
+                    <button id="confirmPosition" class="btn">CONFIRMAR</button>
+                </div>
+                <div id="scoreBoard">
+                    <h2>Tabla de Puntajes</h2>
+                    <table>
+                        <tr>
+                            <th>Jugador</th>
+                            <th>Puntos</th>
+                        </tr>
+                        <tr>
+                            <td>Bauti</td>
+                            <td id="bautiScore">0</td>
+                        </tr>
+                        <tr>
+                            <td>Lolo</td>
+                            <td id="loloScore">0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="coordinates"></div>
+        </main>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
