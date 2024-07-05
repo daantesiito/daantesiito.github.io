@@ -52,9 +52,14 @@ window.onload = () => {
   // Modal de instrucciones
   const modal = document.getElementById("instructionsModal");
   const btn = document.getElementById("instructionsBtn");
+  const btnGame = document.getElementById("instructionsBtnGame");
   const span = document.getElementsByClassName("close")[0];
 
   btn.onclick = () => {
+      modal.style.display = "block";
+  }
+
+  btnGame.onclick = () => {
       modal.style.display = "block";
   }
 
@@ -68,6 +73,7 @@ window.onload = () => {
       }
   }
 };
+
 
 
 function startGame() {

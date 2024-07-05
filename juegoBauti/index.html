@@ -31,7 +31,7 @@
                         <li>Al tener una posicion elegida dentro del semicirculo, apreta "Confirmar", esto hara que se revelen los puntajes y si tu respuesta se posiciono sobre uno de los colores, se sumaran los puntos.</li>
                     </ul>
                 </div>
-            </div>        
+            </div>
             <div id="gameArea" style="display: none;">
                 <div id="semicircleContainer">
                     <svg id="semicircleBackground"></svg>
@@ -40,19 +40,19 @@
                         <svg id="line-svg" width="400" height="200">
                             <line id="selected-line" x1="200" y1="200" x2="200" y2="0" stroke="blue" stroke-width="2" style="display:none;"></line>
                         </svg>
-                    </div>                      
+                    </div>
                 </div>
                 <div id="topicDisplay">
                     <span id="leftTopic"></span>
                     <span id="rightTopic"></span>
-                </div>  
+                </div>
                 <div class="controls">
                     <button id="randomTopic" class="btn">TEMA RANDOM</button>
                     <button id="shuffleValues" class="btn">REVOLVER PORCENTAJES</button>
                     <button id="hideValues" class="btn">TAPAR POSICIONES</button>
                     <button id="confirmPosition" class="btn">CONFIRMAR</button>
-                </div>         
-                <div id="scoreBoard" class="scoreBoard">
+                </div>
+                <div id="scoreBoard">
                     <h2>Tabla de Puntajes</h2>
                     <table>
                         <tr>
@@ -68,6 +68,7 @@
                             <td id="participant2Score">0</td>
                         </tr>
                     </table>
+                    <button id="instructionsBtnGame" class="btn">INSTRUCCIONES</button>
                 </div>
             </div>
             <div id="coordinates"></div>
