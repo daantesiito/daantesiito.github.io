@@ -3,29 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego Bau</title>
+    <title>Juego</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Juego Bau</h1>
-        </header>
         <main>
-            <div id="gameArea">
+            <div id="lockScreen">
+                <div class="content">
+                    <h1>Juego</h1>
+                    <input type="text" id="player1" placeholder="Jugador 1">
+                    <input type="text" id="player2" placeholder="Jugador 2">
+                    <button onclick="startGame()">Comenzar Juego</button>
+                    <button id="instructionsBtn">INSTRUCCIONES</button>
+                </div>
+            </div> 
+            <div id="instructionsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Instrucciones del Juego</h2>
+                    <p>Bienvenido al Juego. Aquí están las instrucciones para jugar:</p>
+                    <ul>
+                        <li>Primero apreta "Tema Random", esto hara que salga un tema en el medio el cual sera la tematica de la ronda.</li>
+                        <li>Luego tenes que apretar "Revolver Porcentajes" para que los valores se muevan de lugar.</li>
+                        <li>Despues de esto apretas "Tapar Posiciones" y esto te habilita a apretar sobre el semicirculo para elegir una posicion.</li>
+                        <li>Al tener una posicion elegida dentro del semicirculo, apreta "Confirmar", esto hara que se revelen los puntajes y si tu respuesta se posiciono sobre uno de los colores, se sumaran los puntos.</li>
+                    </ul>
+                </div>
+            </div>        
+            <div id="gameArea" style="display: none;">
                 <div id="semicircleContainer">
                     <svg id="semicircleBackground"></svg>
                     <svg id="semicircleForeground"></svg>
-                    <div id="click-area"></div>
-                    <div id="selected-point" style="display: none;"></div>
+                    <div id="click-area">
+                        <svg id="line-svg" width="400" height="200">
+                            <line id="selected-line" x1="200" y1="200" x2="200" y2="0" stroke="blue" stroke-width="2" style="display:none;"></line>
+                        </svg>
+                    </div>                      
                 </div>
+                <div id="topicDisplay">
+                    <span id="leftTopic"></span>
+                    <span id="rightTopic"></span>
+                </div>  
                 <div class="controls">
+                    <button id="randomTopic" class="btn">TEMA RANDOM</button>
                     <button id="shuffleValues" class="btn">REVOLVER PORCENTAJES</button>
                     <button id="hideValues" class="btn">TAPAR POSICIONES</button>
                     <button id="confirmPosition" class="btn">CONFIRMAR</button>
-                </div>
-                <div id="scoreBoard">
+                </div>         
+                <div id="scoreBoard" class="scoreBoard">
                     <h2>Tabla de Puntajes</h2>
                     <table>
                         <tr>
@@ -33,17 +60,18 @@
                             <th>Puntos</th>
                         </tr>
                         <tr>
-                            <td>Bauti</td>
-                            <td id="bautiScore">0</td>
+                            <td id="participant1Name"></td>
+                            <td id="participant1Score">0</td>
                         </tr>
                         <tr>
-                            <td>Lolo</td>
-                            <td id="loloScore">0</td>
+                            <td id="participant2Name"></td>
+                            <td id="participant2Score">0</td>
                         </tr>
                     </table>
                 </div>
             </div>
             <div id="coordinates"></div>
+            <div id="pointsMessage" style="display:none;">Obtuviste <span id="pointsAmount"></span> puntos!</div>
         </main>
     </div>
     <script src="script.js"></script>

@@ -1,89 +1,329 @@
-/* Estilos básicos */
+/* Estilos generales */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #e3e3e3; /* Fondo que coincide con el semicírculo gris */
-  margin: 0;
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  color: #ffffff;
+  overflow: hidden;
+  position: relative;
 }
 
+/* Contenedor principal */
 .container {
   text-align: center;
+  max-width: 80%;
+  margin: auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
 }
 
+/* Encabezados */
 header h1 {
   margin: 20px 0;
+  font-size: 2.5em;
+  opacity: 0.9;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.hidden {
-  display: none;
-}
-
-.btn {
-  padding: 10px 20px;
-  margin: 5px;
-  background-color: #007bff;
-  color: white;
+/* Botones */
+button {
+  background: #44475a;
+  color: #f8f8f2;
   border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1.2em;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-/* Contenedor del semicírculo */
+button:hover {
+  background: #6272a4;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Área de juego */
+#gameArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
 #semicircleContainer {
   position: relative;
   width: 400px;
   height: 200px;
-  margin: 0 auto;
+  margin: 20px auto;
+  overflow: hidden;
 }
+
 
 #semicircleBackground,
 #semicircleForeground {
   position: absolute;
   top: 0;
   left: 0;
+  /* Añadir sombras sutiles */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 #semicircleBackground {
-  z-index: 0; /* Semicírculo de fondo */
+  z-index: 0;
 }
 
 #semicircleForeground {
-  z-index: 1; /* Semicírculo de colores */
-}
-
-.controls {
-  margin-top: 10px;
-}
-
-#examplesArea {
-  margin-top: 20px;
-}
-
-#examples {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
+  z-index: 1;
+  /* Añadir animación */
 }
 
 #click-area {
   position: absolute;
   top: 0;
   left: 0;
-  width: 400px; /* Mismo ancho que el semicírculo */
-  height: 200px; /* Mismo alto que el semicírculo */
+  width: 400px;
+  height: 200px;
   cursor: pointer;
-  z-index: 2; /* Por encima del semicírculo */
-  background-color: rgba(0, 0, 0, 0); /* Totalmente transparente */
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0);
 }
 
-#selected-point {
+/* Línea seleccionada */
+#selected-line {
+  stroke: blue;
+  stroke-width: 2;
+  display: none;
+}
+
+/* Pantalla de bloqueo */
+#lockScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-  z-index: 3; /* Por encima del área de clic */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+#lockScreen .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 600px; /* Ajuste del ancho del contenedor */
+  padding-left: 250px;
+  padding-right: 250px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#lockScreen h1 {
+  margin: 20px 0;
+  font-size: 3em;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#lockScreen input[type="text"] {
+  width: 100%;
+  padding: 10px 0;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin: 20px 0;
+  font-size: 1.2em;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+#lockScreen button {
+  background: #44475a;
+  color: #f8f8f2;
+  border: none;
+  padding: 10px 20px;
+  margin: 20px 0;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+#lockScreen button:hover {
+  background: #6272a4;
+  transform: scale(1.05);
+}
+
+#lockScreen button:active {
+  transform: scale(0.95);
+}
+
+
+/* Emoticonos animados */
+.emote {
+  position: absolute;
+  top: -70px; /* Comenzar fuera de la vista, por encima de la pantalla */
+  width: 102px;
+  height: 56px;
+  pointer-events: none;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% {
+      transform: translateY(-100vh); /* Empezar fuera de la vista, encima de la pantalla */
+      opacity: 1;
+  }
+
+  100% {
+      transform: translateY(100vh); /* Terminar fuera de la vista, debajo de la pantalla */
+      opacity: 0.1;
+  }
+}
+
+/* Temas */
+#randomTopic {
+  font-size: 1.5em;
+  margin: 20px 0;
+  background: #ff5555;
+  border-radius: 10px;
+}
+
+#leftTopic, #rightTopic {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1.2em;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+/* Participantes */
+.participant {
+  display: inline-block;
+  margin: 20px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+
+.participant span {
+  font-weight: bold;
+}
+
+/* Estilo del botón de instrucciones */
+#instructionsBtn {
+  margin-top: 10px;
+  background-color: #44475a;
+  color: #f8f8f2;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  display: block; /* Asegura que el botón ocupe una línea completa */
+}
+
+#instructionsBtn:hover {
+  background-color: #6272a4;
+  transform: scale(1.05);
+}
+
+#instructionsBtn:active {
+  transform: scale(0.95);
+}
+
+#lockScreen button,
+#instructionsBtn {
+  margin-top: 20px; /* Asegura que haya un espacio entre los botones */
+}
+
+/* Estilo del modal */
+.modal {
+  display: none; /* Ocultar por defecto */
+  position: fixed;
+  z-index: 200; /* Asegurar que esté sobre otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #44475a;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  color: #f8f8f2;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #f8f8f2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilos para la tabla de puntajes */
+#scoreBoardContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#scoreBoard {
+  margin: auto;
+  border-collapse: collapse;
+  width: 600px;
+  color: #f8f8f2;
+}
+
+#scoreBoard th, #scoreBoard td {
+  border: 1px solid #f8f8f2;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+#scoreBoard th {
+  background-color: #6272a4;
+}
+
+#scoreBoard td {
+  background-color: #44475a;
+}
+
+#scoreBoard table {
+  width: 100%;
+  table-layout: fixed;
 }
