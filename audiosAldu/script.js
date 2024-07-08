@@ -66,7 +66,7 @@ async function confirmAndUploadAudio() {
     if (username) {
         const storageRef = firebase.storage().ref();
         const timestamp = Date.now();
-        const audioRef = storageRef.child(`audiosAldu/${username}_${timestamp}.wav`);
+        const audioRef = storageRef.child(`audiosAldu/${username}_${timestamp}.mp4`);
 
         try {
             await audioRef.put(audioBlob);
