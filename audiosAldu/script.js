@@ -102,7 +102,7 @@ async function confirmAndUploadImage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    let numEmotes = 130;
+    let numEmotes = 100;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
         numEmotes = 30;
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadcat.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Sadge.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/SadgeRain.gif?raw=true',
-        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadJam.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadJAM.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadVegeta.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadWankge.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/SpongeOfLOVE.gif?raw=true'
