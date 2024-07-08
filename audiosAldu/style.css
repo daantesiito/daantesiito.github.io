@@ -1,0 +1,192 @@
+body {
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+h2, h3 {
+    font-size: 4em;
+    margin: 0.2em 0;
+    animation: fadeInDown 1s ease-in-out;
+}
+
+@media (max-width: 600px) {
+    h2, h3 {
+        font-size: 2em;
+    }
+}
+
+h4, h5 {
+    font-size: 1.5em;
+    margin: 0.5em 0;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#uploadForm {
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+#uploadForm input[type="text"] {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid #fff;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}
+
+#uploadForm button,
+#imageInput {
+    padding: 10px 20px;
+    background-color: #ff416c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    margin: 10px;
+    transition: background-color 0.3s;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}
+
+#uploadForm button:hover,
+#imageInput:hover {
+    background-color: #ff4b2b;
+}
+
+#imageUploadForm button{
+    padding: 10px 20px;
+    background-color: #ff416c;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+#controls {
+    margin-top: 20px;
+    font-family: 'Roboto', sans-serif;
+    animation: fadeIn 2s ease-in-out;
+}
+
+#controls button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #ff416c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}
+
+#controls button:hover {
+    background-color: #ff4b2b;
+}
+
+#audioPlayer {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+}
+
+#confirmButton {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #ff416c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}
+
+#confirmButton:hover {
+    background-color: #ff4b2b;
+}
+
+#recordingMessage {
+    font-size: 1.2em;
+    display: none;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#warningMessage {
+    margin: 10px 0;
+    display: none;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
