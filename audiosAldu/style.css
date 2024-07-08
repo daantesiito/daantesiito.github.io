@@ -21,26 +21,28 @@ h2, h3, h4, h5 {
     animation: fadeInDown 1s ease-in-out;
 }
 
-h2 {
-    font-size: 4em;
-    opacity: 100%;
-}
-
-@media (max-width: 600px) {
-    h2, h3 {
-        font-size: 1.5em;
-    }
-}
-
 h4, h5 {
     font-size: 1.5em;
     margin: 0.5em 0;
     animation: fadeInUp 1s ease-in-out;
 }
 
+h2 {
+    font-size: 5vw; /* Ajuste relativo al ancho del viewport */
+    opacity: 100%;
+}
+
 @media (max-width: 600px) {
+    h2 {
+        font-size: 6vw; /* Un tamaño ligeramente mayor en pantallas pequeñas */
+    }
+
+    h3 {
+        font-size: 4vw;
+    }
+
     h4, h5 {
-        font-size: 1em;
+        font-size: 3vw;
     }
 }
 
