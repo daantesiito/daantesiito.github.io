@@ -1,6 +1,6 @@
 body {
-    background: linear-gradient(135deg, #71b7e6, #9b59b6);
-    color: #000000;
+    background: black;
+    color: white;
     font-family: 'Poppins', sans-serif;
     text-align: center;
     display: flex;
@@ -12,10 +12,18 @@ body {
     overflow: hidden;
 }
 
-h2, h3 {
-    font-size: 4em;
+h2, h3, h4, h5 {
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 100; /* Asegurarse de que esté sobre las imágenes de fondo */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     margin: 0.2em 0;
     animation: fadeInDown 1s ease-in-out;
+}
+
+h2 {
+    font-size: 4em;
+    opacity: 100%;
 }
 
 @media (max-width: 600px) {
@@ -55,6 +63,7 @@ h4, h5 {
 #uploadForm {
     margin-bottom: 20px;
     animation: fadeIn 2s ease-in-out;
+    z-index: 100; /* Asegurarse de que esté sobre las imágenes de fondo */
 }
 
 #uploadForm input[type="text"] {
@@ -67,6 +76,7 @@ h4, h5 {
     outline: none;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
+    z-index: 100; /* Asegurarse de que los inputs estén sobre las imágenes de fondo */
 }
 
 #uploadForm button,
@@ -82,6 +92,7 @@ h4, h5 {
     transition: background-color 0.3s;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
+    z-index: 100; /* Asegurarse de que los botones estén sobre las imágenes de fondo */
 }
 
 #uploadForm button:hover,
@@ -89,7 +100,7 @@ h4, h5 {
     background-color: #ff4b2b;
 }
 
-#imageUploadForm button{
+#imageUploadForm button {
     padding: 10px 20px;
     background-color: #ff416c;
     font-family: 'Roboto', sans-serif;
@@ -100,12 +111,14 @@ h4, h5 {
     outline: none;
     margin: 5px;
     transition: background-color 0.3s;
+    z-index: 100; /* Asegurarse de que los botones estén sobre las imágenes de fondo */
 }
 
 #controls {
     margin-top: 20px;
     font-family: 'Roboto', sans-serif;
     animation: fadeIn 2s ease-in-out;
+    z-index: 100; /* Asegurarse de que los controles estén sobre las imágenes de fondo */
 }
 
 #controls button {
@@ -120,6 +133,7 @@ h4, h5 {
     transition: background-color 0.3s;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
+    z-index: 100; /* Asegurarse de que los botones estén sobre las imágenes de fondo */
 }
 
 #controls button:hover {
@@ -145,6 +159,7 @@ h4, h5 {
     transition: background-color 0.3s;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
+    z-index: 100; /* Asegurarse de que el botón esté sobre las imágenes de fondo */
 }
 
 #confirmButton:hover {
@@ -189,4 +204,31 @@ h4, h5 {
     to {
         opacity: 1;
     }
+}
+
+/* Emoticonos animados */
+.emote {
+    position: absolute;
+    top: -70px; /* Comenzar fuera de la vista, por encima de la pantalla */
+    width: 102px;
+    height: 56px;
+    pointer-events: none;
+    z-index: 1; /* Asegurarse de que las imágenes estén detrás del texto */
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100vh); /* Empezar fuera de la vista, encima de la pantalla */
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh); /* Terminar fuera de la vista, debajo de la pantalla */
+        opacity: 0.1;
+    }
+}
+
+/* Asegurarse de que los textos y botones estén sobre las imágenes animadas */
+#infoMain, #uploadForm, #controls, #anonymInstructions, #imageUploadForm {
+    z-index: 100; /* Asegurar que todos estos elementos estén sobre las imágenes de fondo */
 }

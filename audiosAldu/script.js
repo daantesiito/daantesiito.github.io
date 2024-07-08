@@ -100,3 +100,82 @@ async function confirmAndUploadImage() {
         alert('Por favor complete todos los campos.');
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    let numEmotes = 200;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        numEmotes = 50;
+    }
+    const emoteSources = [
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/CAUGHT.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/51.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/omegalul.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/RUNN.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/34.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/44.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/BASEDCIGAR.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/bautiCumers.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/blabbering.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/boner.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/catJam.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/classic.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/eh.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/ESKIZO.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/happi.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/JIJO.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/KickTime.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/muga.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/nowaying.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/QUEDICE.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/sigma.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/sigmaArrive.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/WHISTLING.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yump.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/zidane.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/agusbob.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/ahmm.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/aldu.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/bana.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/bauti.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/coscu.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/davo.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/flor.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/franquito.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/Gayge.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/hornet.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/HUH.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/isma.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/JE.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/lolo.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/MAJ.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/mirko.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/momo.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/morte.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/ok.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/rc.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/SAJ.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/spreen.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/sus.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/wideDude.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yutanita.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yutabt.png?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/32.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/CocaCola.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/DojaVibe.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/hardstuck.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/yipe.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/raveGirl.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/polenta.png?raw=true' // Aquí puedes agregar más GIFs separados por comas si lo deseas
+    ];
+
+    for (let i = 0; i < numEmotes; i++) {
+        const emote = document.createElement('img');
+        emote.src = emoteSources[Math.floor(Math.random() * emoteSources.length)];
+        emote.className = 'emote';
+        emote.style.left = Math.random() * 100 + 'vw';
+        emote.style.animationDuration = Math.random() * 5 + 5 + 's';
+        emote.style.animationDelay = Math.random() * 6 + 's';
+        document.body.appendChild(emote);
+    }
+});
