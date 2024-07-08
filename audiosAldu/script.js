@@ -102,10 +102,10 @@ async function confirmAndUploadImage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    let numEmotes = 200;
+    let numEmotes = 130;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
-        numEmotes = 50;
+        numEmotes = 30;
     }
     const emoteSources = [
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Smajj.png?raw=true',
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/luv.png?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/bluwubbers.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckLove.gif?raw=true',
-        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckSdge.gif?raw=true',
+        'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckSadge.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Heartgers.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Lovegers.gif?raw=true',
         'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/LUBBERS.gif?raw=true',
