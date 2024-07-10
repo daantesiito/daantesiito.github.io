@@ -316,6 +316,31 @@
             border-radius: 10px; /* Bordes redondeados */
             margin: 10px; /* Espacio entre las imágenes */
         }
+
+        .text-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .text-popup div {
+            background-color: #6d6d6d;
+            width: 750px;
+            max-width: 90%; /* Asegura que el contenedor no sea demasiado ancho en pantallas pequeñas */
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            overflow-y: auto; /* Permite desplazamiento vertical */
+            word-wrap: break-word; /* Fuerza a que las palabras largas se dividan */
+        }
+
     </style>
 </head>
 <body class="body-prueba">
@@ -364,6 +389,7 @@
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Gerardo Matraca 3_1720454971115.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
+                <button onclick="showText('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/Aldu/escucharAudios/textFiles/texto1.txt')">TEXTO</button>
             </div>
             
             <!--
@@ -384,6 +410,14 @@
         <div>
             <button onclick="closeImages()">Cerrar</button>
             <div id="imageContainer"></div>
+        </div>
+    </div>
+
+    <!-- Popup de texto -->
+    <div class="text-popup" id="textPopup">
+        <div>
+            <button onclick="closeText()">Cerrar</button>
+            <div id="textContainer"></div>
         </div>
     </div>
 
@@ -443,6 +477,24 @@
 
         function closeImages() {
             document.getElementById('imagePopup').style.display = 'none';
+        }
+
+        // Función para mostrar el contenido del archivo de texto
+        function showText(textFileUrl) {
+            fetch(textFileUrl)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('textContainer').innerText = data;
+                    document.getElementById('textPopup').style.display = 'flex';
+                })
+                .catch(error => {
+                    console.error('Error al cargar el archivo de texto:', error);
+                });
+        }
+
+        // Función para cerrar el popup de texto
+        function closeText() {
+            document.getElementById('textPopup').style.display = 'none';
         }
 
     </script>

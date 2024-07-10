@@ -171,6 +171,37 @@
             align-items: center;
             justify-content: center;
         }
+
+        #imageUploadForm,
+        #textInputForm {
+            margin-top: 20px;
+        }
+
+        #textInputForm textarea {
+            width: 80%;
+            max-width: 500px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #fff;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            outline: none;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1em;
+        }
+
+        #textInputForm button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
     </style>
 </head>
 <body>
@@ -192,6 +223,7 @@
         <input type="text" id="username" placeholder="Username" required>
         <button type="button" onclick="startRecording()">Comenzar a Grabar</button>
         <button type="button" id="chooseImageButton" onclick="showImageUpload()">Elegir Imagen</button>
+        <button type="button" id="writeStoryButton" onclick="showTextInput()">Escribir Historia</button>
     </form>
 
     <div id="controls" style="display: none;">
@@ -222,6 +254,11 @@
     <div id="imageUploadForm" style="display: none;">
         <input type="file" id="imageInput" accept="image/*">
         <button type="button" onclick="confirmAndUploadImage()">Confirmar y Enviar Imagen</button>
+    </div>
+
+    <div id="textInputForm" style="display: none;">
+        <textarea id="textInput" rows="10" cols="30" placeholder="Escribe tu historia aquí..."></textarea>
+        <button type="button" onclick="this.disabled = true; uploadText()">Enviar</button>
     </div>
 
     <!-- Firebase -->
@@ -297,7 +334,7 @@
             if (username) {
                 const storageRef = firebase.storage().ref();
                 const timestamp = Date.now();
-                const audioRef = storageRef.child(`audiosMariAnecdotas/${username}_${timestamp}.wav`);
+                const audioRef = storageRef.child(`Mari/audios/${username}.wav`);
 
                 try {
                     await audioRef.put(audioBlob);
@@ -318,7 +355,7 @@
             if (file && username) {
                 const storageRef = firebase.storage().ref();
                 const timestamp = Date.now();
-                const imageRef = storageRef.child(`imagesMariAnecdotas/${username}_${timestamp}_${file.name}`);
+                const imageRef = storageRef.child(`Mari/imagenes/${username}_${file.name}`);
 
                 try {
                     await imageRef.put(file);
@@ -326,6 +363,34 @@
                     location.reload();  // Recargar la página después de la subida exitosa
                 } catch (error) {
                     alert('Error al subir la imagen: ' + error.message);
+                }
+            } else {
+                alert('Por favor complete todos los campos.');
+            }
+        }
+
+        function showTextInput() {
+            document.getElementById("textInputForm").style.display = "block";
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            document.getElementById('recordingMessage').style.display = 'none';
+            document.getElementById('anonymInstructions').style.display = 'none';
+        }
+
+        async function uploadText() {
+            const username = document.getElementById("username").value;
+            const textInput = document.getElementById("textInput").value;
+            const textFileName = `${username}.txt`;
+
+            if (textInput && username) {
+                const blob = new Blob([textInput], { type: 'text/plain' });
+                const storageRef = firebase.storage().ref().child(`Mari/texto/${textFileName}`);
+                try {
+                    await storageRef.put(blob);
+                    alert("Texto subido exitosamente.");
+                    location.reload();
+                } catch (error) {
+                    alert("Error al subir el texto: " + error.message);
                 }
             } else {
                 alert('Por favor complete todos los campos.');
