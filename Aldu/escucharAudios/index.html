@@ -298,15 +298,28 @@
         }
 
         .text-popup div {
-            background-color: #6d6d6d;
+            background-color: black;
             width: 750px;
             max-width: 90%; /* Asegura que el contenedor no sea demasiado ancho en pantallas pequeñas */
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 15px;
             text-align: center;
             overflow-y: auto; /* Permite desplazamiento vertical */
             word-wrap: break-word; /* Fuerza a que las palabras largas se dividan */
+            word-break: break-all; /* Rompe palabras largas para evitar scroll horizontal */
+            border: 3px solid #fff; /* Borde blanco exterior */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        #textContainer {
+            color: white;
+            width: 100%;
+            text-align: left; /* Para asegurar que el texto sea alineado a la izquierda */
+            border: none; /* Elimina el borde del contenedor de texto interno */
+        }
+
 
 
         .emote {
