@@ -126,15 +126,15 @@
         }
 
         .user-card.color2 {
-            border-color: #ff4b2b; /* Azul */
+            border-color: #3498db; /* Azul */
         }
 
         .user-card.color3 {
-            border-color: #ff4b2b; /* Verde */
+            border-color: #2ecc71; /* Verde */
         }
 
         .user-card.color4 {
-            border-color: #ff4b2b; /* Amarillo */
+            border-color: #f1c40f; /* Amarillo */
         }
 
         /* Imagen de perfil */
@@ -298,11 +298,16 @@
         }
 
         .text-popup div {
-            background-color: white;
+            background-color: #6d6d6d;
+            width: 750px;
+            max-width: 90%; /* Asegura que el contenedor no sea demasiado ancho en pantallas pequeñas */
             padding: 20px;
             border-radius: 5px;
             text-align: center;
+            overflow-y: auto; /* Permite desplazamiento vertical */
+            word-wrap: break-word; /* Fuerza a que las palabras largas se dividan */
         }
+
 
         .emote {
             position: absolute;
@@ -348,7 +353,7 @@
             <div class="user-card color1">
                 <h3>dantesito</h3>
                 <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Tadermoo_1718840802029.wav" type="audio/mpeg">
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Gerardo Matraca 3_1720454971115.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
             </div>
@@ -356,17 +361,15 @@
             <div class="user-card color2">
                 <h3>gabo</h3>
                 <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/roman_escu_1718840620071.wav" type="audio/mpeg">
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Gerardo Matraca 3_1720454971115.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
             </div>
 
             <div class="user-card color3">
                 <h3>blito</h3>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Pugliaa_1718826207731.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tv/32.gif?raw=true'])">FOTOS</button>
+                <button onclick="showText('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/Aldu/escucharAudios/textFiles/texto1.txt')">TEXTO</button>
             </div>
             
             <div class="user-card color4">
@@ -387,26 +390,21 @@
             
             <div class="user-card color2">
                 <h3>flor</h3>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Lewy (se lee lebui)_1718833663029.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
+                <button onclick="showText('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/Aldu/escucharAudios/textFiles/texto1.txt')">TEXTO</button>
             </div>
 
             <div class="user-card color3">
                 <h3>aldu</h3>
                 <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/José Pablo _1718848061268.wav" type="audio/mpeg">
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Gerardo Matraca 3_1720454971115.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
+                <button onclick="showText('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/Aldu/escucharAudios/textFiles/texto1.txt')">TEXTO</button>
             </div>
 
             <div class="user-card color1">
                 <h3>miachir</h3>
-                <audio controls>
-                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Comechingones1234_1718828101199.wav" type="audio/mpeg">
-                    Tu navegador no admite el elemento de audio.
-                </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/fondo.JPG?raw=true'])">FOTOS</button>
             </div>
 
             <div class="user-card color4">
@@ -431,8 +429,8 @@
                     <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/JulianPZ7_1719177105101.wav" type="audio/mpeg">
                     Tu navegador no admite el elemento de audio.
                 </audio>
-                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/audios/JulianPZ7_1719177193975_Captura de pantalla 2024-03-20 014111.png?raw=true'])">FOTOS</button>
-                <button onclick="showText('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/audios/archivo.txt')">TEXTO</button>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/images/fondo.JPG?raw=true'])">FOTOS</button>
+                <button onclick="showText('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/Aldu/escucharAudios/textFiles/texto1.txt')">TEXTO</button>
             </div>  
             
         </div>
