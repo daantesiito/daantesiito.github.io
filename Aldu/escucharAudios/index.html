@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Aldi Resuelve</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- animate -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
+    <!-- fullpage -->
+    <link rel="stylesheet" href="css/jquery.fullPage.css">
+    <!-- custom -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/colors/purple.css" id="color-change">
+    <style>
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: #772ce8;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Contenedor principal */
+        .container {
+            z-index: 100;
+            display: flex;
+            width: 1200px;
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column; 
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+            text-align: center; 
+            margin: 20px auto; /* Añadir margen para centrar y separar del borde */
+        }
+
+        /* Estilo para permitir desplazamiento */
+        body {
+            overflow-y: scroll;
+        }
+
+        /* Ajuste del alto del contenedor */
+        .user-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 100;
+        }
+
+        /* Estilo para el h2 */
+        .container h2 {
+            color: #6441a5;
+            border: 2px solid #6441a5;
+            border-radius: 10px;
+            padding: 10px; /* Añade espacio interno */
+            margin: 10px; /* Espacio entre los elementos */
+            text-align: center; /* Asegura que el texto dentro del h2 esté centrado */
+            display: inline-block; /* Mantiene el ancho ajustado al contenido */
+        }
+
+        /* Estilo para el enlace dentro del h2 */
+        .container h2 a {
+            color: inherit; /* Mantiene el color del enlace igual que el color del texto padre */
+            text-decoration: none; /* Opcional: elimina el subrayado de los enlaces */
+        }
+
+        /* Estilo para el h1 */
+        .container h1 {
+            color: white;
+            margin-top: 20px; /* Espacio entre el h2 y el h1 */
+            font-size: 48px; /* Ajusta el tamaño de fuente */
+        }
+
+        /* Título de la sección */
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease-in-out;
+            z-index: 100;
+        }
+
+        /* Contenedor de las tarjetas de usuario */
+        .user-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        /* Tarjetas de usuario */
+        .user-card {
+            width: 250px;
+            background-color: #1c1c1c;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-in-out;
+            border: 3px solid transparent;
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Clases de colores para las tarjetas de usuario */
+        .user-card.color1 {
+            border-color: #ff4b2b; /* Rojo */
+        }
+
+        .user-card.color2 {
+            border-color: #ff4b2b; /* Azul */
+        }
+
+        .user-card.color3 {
+            border-color: #ff4b2b; /* Verde */
+        }
+
+        .user-card.color4 {
+            border-color: #ff4b2b; /* Amarillo */
+        }
+
+        /* Imagen de perfil */
+        .user-card img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 2px solid #fff;
+        }
+
+        /* Nombre de usuario */
+        .user-card h3 {
+            font-size: 24px;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        /* Tipo de usuario */
+        .user-card p.user-type {
+            font-size: 16px;
+            color: #c7c7c7;
+            margin-bottom: 15px;
+        }
+
+        /* Controles de audio */
+        .user-card audio {
+            width: 100%;
+            border-radius: 5px;
+            background: none;
+            box-shadow: none;
+            border: none;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 3;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Controles de grabación de audio */
+        #controls {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: #8e44ad;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+            border: none;
+            background: none;
+            box-shadow: none;
+        }
+
+        #recordingMessage {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #e74c3c;
+        }
+
+        /* Estilos para la pantalla de bloqueo */
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lock-screen > div {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .lock-screen input[type="password"] {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            color: #000;  /* Color del texto */
+            background-color: #fff;  /* Color de fondo */
+        }
+
+        .lock-screen button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        .lock-screen button:hover {
+            background-color: #45a049;
+        }
+
+        .image-popup {
+            display: none; /* Inicialmente oculto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Capa superior */
+        }
+
+        .image-popup img {
+            max-width: 90%; /* Ajusta el ancho máximo de la imagen al 90% del contenedor */
+            max-height: 90%; /* Ajusta el alto máximo de la imagen al 90% del contenedor */
+            border: 2px solid #fff; /* Borde blanco de 2px */
+            border-radius: 10px; /* Bordes redondeados */
+        }
+
+        .image-popup #imageContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap; /* Permite que las imágenes se envuelvan si hay muchas */
+        }
+
+        .image-popup #imageContainer img {
+            max-width: 90%; /* Ajusta el ancho máximo de la imagen */
+            max-height: 90%; /* Ajusta el alto máximo de la imagen */
+            border: 2px solid #fff; /* Borde blanco de 2px */
+            border-radius: 10px; /* Bordes redondeados */
+            margin: 10px; /* Espacio entre las imágenes */
+        }
+
+        .emote {
+            position: absolute;
+            bottom: 100vh; /* Start off-screen, above the viewport */
+            width: 102px;
+            height: 56px;
+            pointer-events: none;
+            z-index: 1; /* Ensure images are behind the text */
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh); /* Start off-screen, above the viewport */
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh); /* End off-screen, below the viewport */
+                opacity: 0.1;
+            }
+        }
+
+        #emote-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevents emotes from accumulating at the bottom */
+            pointer-events: none; /* Makes the container non-interactive */
+            z-index: -1; /* Sends the container behind other content */
+        }
+    </style>
+</head>
+<body class="body-prueba">
+    <div id="emote-container"></div>
+    <div class="container" id="mainContent">
+        <h2 class="section-title">
+            <a href="https://twitch.tv/aldimirco">twitch.tv/Aldimirco</a>
+        </h2>
+        <h1 class="section-title">Aldi Resuelve</h1>
+        <div class="user-container">
+            <div class="user-card color1">
+                <h3>Tadermoo</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Tadermoo_1718840802029.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card color2">
+                <h3>roman_escu</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/roman_escu_1718840620071.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color3">
+                <h3>Pugliaa</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Pugliaa_1718826207731.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card color4">
+                <h3>ANONIMO</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANÓNIMO _1718826105209.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color1">
+                <h3>Nico olmedo</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Nico olmedo_1718843997215.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            
+            <div class="user-card color2">
+                <h3>Lewy (lebui)</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Lewy (se lee lebui)_1718833663029.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color3">
+                <h3>José Pablo</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/José Pablo _1718848061268.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color1">
+                <h3>Comechingones1234</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Comechingones1234_1718828101199.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color4">
+                <h3>Comechingones1234  Audio 2</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Comechingones1234audio2_1718828210892.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color2">
+                <h3>Arian</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Arian_1718836478921.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color2">
+                <h3>The Daviel</h3>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/audios/The_Daviel_1718831815372_inbound5976959344037160160.png?raw=true'])">FOTOS</button>
+            </div>
+
+            <div class="user-card color3">
+                <h3>ANONIMO</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/ANONIMO_1718862733224.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color2">
+                <h3>Cup-xon</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/Cup-xon_1718869977101.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color4">
+                <h3>sharif</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/sharif_1718910759421.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color1">
+                <h3>ANONIMO</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/2024-06-20 17-31-39.mp3" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color2">
+                <h3>JulianPz7</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/JulianPZ7_1719177105101.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+                <button onclick="showImages(['https://github.com/daantesiito/daantesiito.github.io/blob/main/audios/JulianPZ7_1719177193975_Captura de pantalla 2024-03-20 014111.png?raw=true'])">FOTOS</button>
+            </div>
+
+            <div class="user-card color3">
+                <h3>ANONIMO</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/2024-06-20 17-28-55.mp3" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color3">
+                <h3>ANONIMO</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/2024-06-20 17-28-08.mp3" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color2">
+                <h3>ANONIMO</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/2024-06-20 17-26-04.mp3" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color4">
+                <h3>Slynack</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/slynack_1719002849219.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="user-card color1">
+                <h3>Slynack Audio 2</h3>
+                <audio controls>
+                    <source src="https://github.com/daantesiito/daantesiito.github.io/raw/main/audios/slynack2_1719003186087.wav" type="audio/mpeg">
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>            
+            
+        </div>
+    </div>
+
+    <!-- Popup de imágenes -->
+    <div class="image-popup" id="imagePopup">
+        <div>
+            <button onclick="closeImages()">Cerrar</button>
+            <div id="imageContainer"></div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!-- bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- fullpage -->
+    <script src="js/jquery.fullPage.js"></script>
+    <!-- smoothScroll -->
+    <script src="js/smoothscroll.js"></script>
+    <!-- wow -->
+    <script src="js/wow.min.js"></script>
+    <!-- text rotater -->
+    <script src="js/jquery.simple-text-rotator.js"></script>
+    <!-- custom -->
+    <script src="js/custom.js"></script>
+    <!-- Lock screen JS -->
+    <script>
+        function showImages(imageUrls) {
+            var imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = '';
+
+            imageUrls.forEach(function(url) {
+                var img = new Image();
+                img.onload = function() {
+                    var maxWidth = window.innerWidth * 0.8; // 80% del ancho de la ventana
+                    var maxHeight = window.innerHeight * 0.8; // 80% de la altura de la ventana
+                    var ratio = Math.min(maxWidth / this.width, maxHeight / this.height);
+
+                    // Crear elemento de imagen
+                    var imageElement = document.createElement('img');
+                    imageElement.src = url;
+                    imageElement.style.maxWidth = (this.width * ratio) + 'px';
+                    imageElement.style.maxHeight = (this.height * ratio) + 'px';
+                    imageElement.style.border = '2px solid #fff';
+                    imageElement.style.borderRadius = '10px';
+
+                    // Agregar imagen al contenedor
+                    imageContainer.appendChild(imageElement);
+                };
+                img.src = url;
+            });
+
+            document.getElementById('imagePopup').style.display = 'flex';
+        }
+
+        function closeImages() {
+            document.getElementById('imagePopup').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let numEmotes = 100;
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                numEmotes = 30;
+            }
+            const emoteSources = [
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Smajj.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sittbutluvv.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Sadgers.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/peepoLove.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/owoL.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/OkaygeL.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/luvvbutmajj.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Luvv.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/luv.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/bluwubbers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckLove.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckSadge.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Heartgers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Lovegers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/LUBBERS.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Luv.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/peepoPat.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/pepeLost.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadcat.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Sadge.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/SadgeRain.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadJAM.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadVegeta.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadWankge.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/SpongeOfLOVE.gif?raw=true'
+            ];
+
+            const emoteContainer = document.getElementById('emote-container');
+
+            for (let i = 0; i < numEmotes; i++) {
+                const emote = document.createElement('img');
+                emote.src = emoteSources[Math.floor(Math.random() * emoteSources.length)];
+                emote.className = 'emote';
+                emote.style.left = Math.random() * 100 + 'vw';
+                emote.style.animationDuration = Math.random() * 5 + 5 + 's';
+                emote.style.animationDelay = Math.random() * 6 + 's';
+                emoteContainer.appendChild(emote);
+            }
+        });
+    </script>
+</body>
+</html>
