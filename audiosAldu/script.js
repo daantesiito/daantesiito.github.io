@@ -66,7 +66,7 @@ async function confirmAndUploadAudio() {
     if (username) {
         const storageRef = firebase.storage().ref();
         const timestamp = Date.now();
-        const audioRef = storageRef.child(`audiosAldu/${username}_${timestamp}.wav`);
+        const audioRef = storageRef.child(`Aldu/audiosAldu/${username}_${timestamp}.wav`);
 
         try {
             await audioRef.put(audioBlob);
@@ -87,7 +87,7 @@ async function confirmAndUploadImage() {
     if (file && username) {
         const storageRef = firebase.storage().ref();
         const timestamp = Date.now();
-        const imageRef = storageRef.child(`imagesAldu/${username}_${timestamp}_${file.name}`);
+        const imageRef = storageRef.child(`Aldu/imagesAldu/${username}_${timestamp}_${file.name}`);
 
         try {
             await imageRef.put(file);
@@ -116,7 +116,7 @@ async function uploadText() {
 
     if (textInput && username) {
         const blob = new Blob([textInput], { type: 'text/plain' });
-        const storageRef = firebase.storage().ref().child(`textoAldu/${textFileName}`);
+        const storageRef = firebase.storage().ref().child(`Aldu/textoAldu/${textFileName}`);
         try {
             await storageRef.put(blob);
             alert("Texto subido exitosamente.");
