@@ -22,7 +22,7 @@ h2, h3, h4, h5 {
 }
 
 h4, h5 {
-    font-size: 1.5em;
+    font-size: 1.15em;
     margin: 0.5em 0;
     animation: fadeInUp 1s ease-in-out;
 }
@@ -88,7 +88,8 @@ h2 {
 }
 
 #uploadForm button,
-#imageInput {
+#imageInput,
+#textInputForm button {
     padding: 10px 20px;
     background-color: #ff416c;
     color: white;
@@ -104,7 +105,8 @@ h2 {
 }
 
 #uploadForm button:hover,
-#imageInput:hover {
+#imageInput:hover,
+#textInputForm button:hover {
     background-color: #ff4b2b;
 }
 
@@ -174,6 +176,25 @@ h2 {
     background-color: #ff4b2b;
 }
 
+#imageUploadForm,
+#textInputForm {
+    margin-top: 20px;
+}
+
+#textInputForm textarea {
+    width: 80%;
+    max-width: 500px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}
+
 #recordingMessage {
     font-size: 1.2em;
     display: none;
@@ -236,7 +257,11 @@ h2 {
     }
 }
 
+#rememberAlert {
+    color: #ff0000;
+}
+
 /* Asegurarse de que los textos y botones estén sobre las imágenes animadas */
-#infoMain, #uploadForm, #controls, #anonymInstructions, #imageUploadForm {
+#infoMain, #uploadForm, #controls, #anonymInstructions, #imageUploadForm, #rememberAlert, #textInputForm {
     z-index: 100; /* Asegurar que todos estos elementos estén sobre las imágenes de fondo */
 }

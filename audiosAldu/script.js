@@ -101,6 +101,34 @@ async function confirmAndUploadImage() {
     }
 }
 
+function showTextInput() {
+    document.getElementById("textInputForm").style.display = "block";
+    document.getElementById('uploadForm').style.display = 'none';
+    document.getElementById('controls').style.display = 'none';
+    document.getElementById('recordingMessage').style.display = 'none';
+    document.getElementById('anonymInstructions').style.display = 'none';
+}
+
+async function uploadText() {
+    const username = document.getElementById("username").value;
+    const textInput = document.getElementById("textInput").value;
+    const textFileName = `${username}.txt`;
+
+    if (textInput && username) {
+        const blob = new Blob([textInput], { type: 'text/plain' });
+        const storageRef = firebase.storage().ref().child(`textoAldu/${textFileName}`);
+        try {
+            await storageRef.put(blob);
+            alert("Texto subido exitosamente.");
+            location.reload();
+        } catch (error) {
+            alert("Error al subir el texto: " + error.message);
+        }
+    } else {
+        alert('Por favor complete todos los campos.');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     let numEmotes = 100;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
