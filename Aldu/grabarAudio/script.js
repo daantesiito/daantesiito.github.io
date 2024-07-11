@@ -76,7 +76,7 @@ async function confirmAndUploadAudio() {
             alert('Error al subir el audio: ' + error.message);
         }
     } else {
-        alert('Por favor complete todos los campos.');
+        alert('Por favor complete todos los campos. (Username)');
     }
 }
 
@@ -97,7 +97,7 @@ async function confirmAndUploadImage() {
             alert('Error al subir la imagen: ' + error.message);
         }
     } else {
-        alert('Por favor complete todos los campos.');
+        alert('Por favor complete todos los campos. (Username)');
     }
 }
 
@@ -125,7 +125,7 @@ async function uploadText() {
             alert("Error al subir el texto: " + error.message);
         }
     } else {
-        alert('Por favor complete todos los campos.');
+        alert('Por favor complete todos los campos. (Username)');
     }
 }
 
