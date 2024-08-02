@@ -1,0 +1,29 @@
+{
+  "name": "@silent_m4gician/ftv-scraper",
+  "version": "0.0.4",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/silentm4gician/fltv-scraper#readme",
+  "repository": {
+    "url": "https://github.com/silentm4gician/fltv-scraper"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "futbol libre",
+    "ftv",
+    "scraper"
+  ],
+  "author": "siletnM4gician",
+  "license": "MIT",
+  "description": "scraper for futbol libre tv",
+  "devDependencies": {
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "playwright": "^1.45.0"
+  }
+}

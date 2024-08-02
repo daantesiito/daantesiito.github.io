@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restreaming Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <video id="player" controls preload="metadata">
+        <source src="blob:https://streamtp.live/bddd344c-0a2a-4008-8e53-ea9d2da5bdc7" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+
+    <script>
+        // Esta función puede ser usada si necesitas obtener parámetros de la URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Aquí puedes agregar lógica para cambiar la URL del video basado en algún parámetro
+        var id = getParameterByName('id');
+        var videoElement = document.getElementById('player');
+
+        var ConfiguracionCanales = {
+            "SKY_SPORTS_F1": {
+                url: "https://linear005-gb-dash1-prd-ll.cdn.skycdp.com/016a/Content/DASH_003_720_120/Live/channel(skysportsf1)/manifest_720.mpd"
+            }
+        };
+
+        if (id && ConfiguracionCanales[id]) {
+            videoElement.src = ConfiguracionCanales[id].url;
+        }
+    </script>
+</body>
+</html>

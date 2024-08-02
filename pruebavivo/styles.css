@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+main {
+    padding: 2em;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+#streams ul {
+    list-style: none;
+    padding: 0;
+}
+
+#streams li {
+    background-color: #fff;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#streams li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+#player-section {
+    background-color: #fff;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#player {
+    width: 100%;
+    height: 360px; /* Ajusta según tus necesidades */
+}

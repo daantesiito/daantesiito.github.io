@@ -1,0 +1,73 @@
+(function () {
+  try {
+
+    // set up our pixel
+    var fcmp = typeof __cmp == 'function';
+    var fcmpv2 = typeof __tcfapi == 'function';
+    var rnd = Math.random();
+    var img = document.createElement('img');
+    var exptid = encodeURIComponent('ZHdAAmal33cAAAAIF7PeAw==');
+    var url = window.top.location === window.location ? window.location.toString() : document.referrer;
+    var img_src = 'https://pd.sharethis.com/pd/dtscout?_t_=px&url=' + encodeURIComponent(url) + '&event_source=dtscout' + '&rnd=' + rnd + '&exptid=' + exptid + '&fcmp=' + fcmp;
+    img.async = true;
+
+    // set up the aqfer script
+    var pxscrpt = document.createElement('script');
+    pxscrpt.id = 'pxscrpt';
+    pxscrpt.async = true;
+    var pxscrpt_src = 'https://t.sharethis.com/1/k/t.dhj?cid=c010&cls=C&rnd=' + rnd + '&stid=' + exptid;
+
+    var done = false;
+    function load() {
+      img.src = img_src;
+      document.body.appendChild(img);
+      pxscrpt.src = pxscrpt_src;
+      document.body.appendChild(pxscrpt);
+      done = true;
+    }
+
+    // set a timeout in case gdpr service is too slow or unavailable
+    setTimeout(function () {
+      if (!done) load();
+    }, 3000);
+
+    // if the v2 cmp exists, check it first for consent data
+    if (fcmpv2) {
+
+      const tcfapi_callback = (data) => {
+        if (data && data.tcString) {
+          img_src += "&gdpr_consent=" + data.tcString;
+          img_src += "&gdpr_method=api";
+          pxscrpt_src += "&gdpr_consent=" + data.tcString;
+          pxscrpt_src += "&gdpr_method=api";
+          if (data.isServiceSpecific) {
+            img_src += "&gdpr_domain=" + document.location.hostname;
+            pxscrpt_src += "&gdpr_domain=" + document.location.hostname;
+          } else {
+            img_src += "&gdpr_domain=.consensu.org";
+            pxscrpt_src += "&gdpr_domain=.consensu.org";
+          }
+        }
+        load();
+        if (data && data.listenerId) {
+          __tcfapi('removeEventListener', 2, () => {}, data.listenerId);
+        }
+      }
+      __tcfapi('addEventListener', 2, tcfapi_callback);
+
+    } else {
+      load();
+    }
+
+  } catch (err) {
+    try {
+      var rnd = Math.random();
+      if (rnd < 0.01) {
+        var e = encodeURIComponent('' + err);
+        var imge = document.createElement('img');
+        imge.src = 'https://pd.sharethis.com/pd/error?e=' + e + '&partner=dtscout';
+        document.body.appendChild(imge);
+      }
+    } catch (errr) { }
+  }
+})()
