@@ -12,7 +12,7 @@ body {
     overflow: hidden;
 }
 
-h2, h3, h4, h5 {
+h1, h2, h3, h4, h5 {
     padding: 10px;
     border-radius: 10px;
     z-index: 100; /* Asegurarse de que esté sobre las imágenes de fondo */
