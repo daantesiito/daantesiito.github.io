@@ -4,46 +4,78 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
     margin: 0;
+    overflow: hidden;
 }
 
 .container {
     width: 80%;
     max-width: 600px;
     text-align: center;
+    margin-top: 20px;
+    position: relative;
 }
 
-#searchBar {
+#emoteSetID, #searchBar {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border: 2px solid #555;
     border-radius: 5px;
     background-color: #444;
     color: #fff;
+    position: relative;
+    z-index: 10;
 }
 
-#emotePreview {
+#loadEmotes {
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+#previewArea, #selectedEmotes {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    max-height: 60vh;
+    padding-top: 20px;
+    position: relative;
+    z-index: 5;
 }
 
-#emotePreview img {
+#previewArea {
+    margin-bottom: 20px;
+}
+
+.emote {
+    margin: 5px;
     cursor: pointer;
-    width: 50px;
-    height: 50px;
-    transition: transform 0.2s;
 }
 
-#emotePreview img:hover {
-    transform: scale(1.2);
+.selected-emote {
+    margin: 5px;
+    display: block;
+    cursor: pointer;
 }
 
-#selectedEmote {
-    margin-top: 20px;
-    font-size: 18px;
+.emote-container {
+    position: relative; /* Necesario para la superposición de Zero-Width emotes */
+    display: inline-block;
+}
+
+.zero-width-emote {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Asegura que se superponga correctamente */
+    pointer-events: none; /* Permite que se clickee el emote de atrás */
+    opacity: 0.9; /* Controla la visibilidad si es necesario */
+}
+
+h3 {
+    font-size: 1em;
 }
