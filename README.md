@@ -1,1 +1,1 @@
-Pagina personal para guardar proyectos, writeups, scripts, fotos, etc.
+Pagina personal para guardar proyectos, writeups, scripts, fotos, etc. ¯\_(ツ)_/¯
