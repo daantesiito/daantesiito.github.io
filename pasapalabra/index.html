@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasa Palabra</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>PASAPALABRA</h1>
+    <div id="timer">360</div>
+    <div id="rosco">
+        <!-- Las letras se generarán dinámicamente con IDs únicos -->
+    </div>
+
+    <!-- Popup de texto -->
+    <div class="text-popup" id="textPopup">
+        <div class="popup-content">
+            <button class="close-button" onclick="closeText()">Cerrar</button>
+            <div id="clueContainer" class="clue-text"></div>
+            <div id="optionsContainer" class="options-container"></div>
+            <div class="response-buttons">
+                <button id="confirmButton" class="response-button" onclick="confirmAnswer()">Confirmar Respuesta</button>
+                <button id="passButton" class="response-button" onclick="passWord()">Pasa Palabra</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+Quiero hacer una pagina web desde 0, con archivos separados, que dentro de esta, este el rosco de letras del famoso programa "Pasa Palabra".
+Basicamente es un circulo gigante que tiene todas las letras del abecedario sobre los bordes.
+Quiero que la pagina tenga arriba un texto que diga "Bienvenido al Desafio PASAPALABRA".
+
+Estas letras lo que quiero que hagan es que al ser apretadas, se habra una ventana dentro de la pagina la cual tenga este formato:
+"FRASE DE PISTA DE PALABRA"
+
+"OPCION DE RESPUESTA 1" ---- "OPCION DE RESPUESTA 2" ---- "OPCION DE RESPUESTA 3" 
+
+"BOTON CONFIRMAR" ---- "BOTON PASA PALABRA"
+
+Debajo del texto "Bienvenido al Desafio PASAPALABRA" necesito que haya un Timer de 360 segundos. Este timer solo se activa cuando una de las letras es apretada. Ademas, cuando se aprieta el boton "Pasa Palabra" o "Confirmar Respuesta", las cuales son las que sacan la ventanita de cada letra, el timer debe detenerse. Basicamente tiene que activarse el timer cuando se aprieta la letra para que corra el tiempo y luego, al responder alguno de los dos botones, se detiene para que deje de contar tiempo de juego.
+
+Quiero que todas las LETRAS tengan su propia lista de frases de pista, para que en cada lista, al haber 3 por ejemplo, se elija una random de las 3. Cada una de estas frases de pista debe tener su respuesta correcta.
+
+Al tener las respuestas correctas de cada frase de pista, necesito que, ademas de la respuesta correcta, tenga 2 respuestas erroneas para mostrar las 3 opciones y poder hacer que el usuario elija entre las 3. Al elegir una, si la opcion elegida es correcta, que sume 1 punto.
+
+Para cada letra al tener los 2 botones de respuesta ("BOTON CONFIRMAR" ---- "BOTON PASA PALABRA")
+BOTON CONFIRMAR (cuando es correcta la respuesta): al tocar el boton confirmar, se debe checkear si la respuesta elegida entre las 3 opciones es correcta. Si la opcion elegida es correcta se suma 1 punto como ya te indique, el color de la letra en el rosco debe ponerse en verde, ademas, se debe parar el tiempo y debe cerrar la opcion de poder clickear esta letra devuelta. 
+BOTON CONFIRMAR (cuando es incorrecta la respuesta): Si la opcion es incorrecta no se suma nada y la letra del rosco debe ponerse en rojo, ademas, se debe parar el tiempo y debe cerrar la opcion de poder clickear esta letra devuelta. 
+BOTON PASA PALABRA: En cambio el boton pasa palabra, debe sacar la ventana, parar el tiempo y poner la letra del rosco en amarillo. Este boton, en comparacion con el de confirmar respuesta, debe dejar que se pueda clickear para responder devuelta, ya que no hubo una respuesta final, si no que para no perder tiempo del juego, se pasa y podes pensar mejor la respuesta.
+

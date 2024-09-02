@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Componentes de PC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar Componente de PC</h1>
+        <input type="text" id="searchInput" placeholder="Ingresa el nombre del componente">
+        <button id="searchButton">Buscar</button>
+
+        <div id="loadingMessage" style="display: none;">Cargando resultados...</div>
+
+        <table id="resultsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Tienda</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- Los resultados se insertarán aquí dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
