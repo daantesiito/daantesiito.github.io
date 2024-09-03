@@ -20,3 +20,104 @@ BOTON CONFIRMAR (cuando es correcta la respuesta): al tocar el boton confirmar, 
 BOTON CONFIRMAR (cuando es incorrecta la respuesta): Si la opcion es incorrecta no se suma nada y la letra del rosco debe ponerse en rojo, ademas, se debe parar el tiempo y debe cerrar la opcion de poder clickear esta letra devuelta. 
 BOTON PASA PALABRA: En cambio el boton pasa palabra, debe sacar la ventana, parar el tiempo y poner la letra del rosco en amarillo. Este boton, en comparacion con el de confirmar respuesta, debe dejar que se pueda clickear para responder devuelta, ya que no hubo una respuesta final, si no que para no perder tiempo del juego, se pasa y podes pensar mejor la respuesta.
 
+,
+    { letter: 'C', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'D', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'E', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'F', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'G', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'H', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'I', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'J', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'K', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'L', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'M', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'N', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'Ñ', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'O', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'P', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'Q', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'R', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'S', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'T', clues: [
+        { clue: "EX DE FLOR", correct: "Thiago", options: ["Tomas", "Thiago", "Tobias"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'U', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'V', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'W', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'X', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'Y', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'Z', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},

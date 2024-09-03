@@ -8,16 +8,37 @@
 </head>
 <body>
 
+    <!-- Modal para ingresar el nombre de usuario -->
+    <div id="usernameModal" class="modal">
+        <div class="modal-content">
+            <h2>Ingrese su nombre de usuario:</h2>
+            <input type="text" id="usernameInput" placeholder="Nombre de usuario">
+            <button onclick="saveUsername()">Confirmar</button>
+        </div>
+    </div>
+
     <h1>PASAPALABRA</h1>
-    <div id="timer">360</div>
-    <div id="rosco">
-        <!-- Las letras se generarán dinámicamente con IDs únicos -->
+    <div id="gameContent">
+
+        <div id="timer">Segundos: 360</div>
+
+        <div id="rosco">
+            <!-- Las letras se generarán dinámicamente con IDs únicos -->
+        </div>
+
+        <div id="scoreBoard"></div> <!-- Aquí se mostrará el nombre de usuario y los puntos -->
+
+        <!-- Botón para ir al ranking -->
+        <div id="endGameButton" style="display: none; margin-top: 20px;">
+            <button onclick="goToRanking()">IR AL RANKING</button>
+        </div>
+        
     </div>
 
     <!-- Popup de texto -->
     <div class="text-popup" id="textPopup">
         <div class="popup-content">
-            <button class="close-button" onclick="closeText()">Cerrar</button>
+            <div id="timerPopup">Segundos: 360</div> <!-- Temporizador dentro del popup -->
             <div id="clueContainer" class="clue-text"></div>
             <div id="optionsContainer" class="options-container"></div>
             <div class="response-buttons">
@@ -26,6 +47,7 @@
             </div>
         </div>
     </div>
+
     
     <script src="script.js"></script>
 </body>
