@@ -30,6 +30,106 @@ const letters = [
     { letter: 'B', clues: [
         { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
         { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'C', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'D', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'E', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'F', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'G', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'H', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'I', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'J', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'K', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'L', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'M', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'N', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'Ñ', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'O', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'P', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'Q', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'R', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'S', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'T', clues: [
+        { clue: "EX DE FLOR", correct: "Thiago", options: ["Tomas", "Thiago", "Tobias"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'U', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'V', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'W', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'X', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
+    ]},
+    { letter: 'Y', clues: [
+        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
+        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
+    ]},
+    { letter: 'Z', clues: [
+        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
+        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
     ]}
     // Añadir más letras y sus pistas aquí
     // ...
