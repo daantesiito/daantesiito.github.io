@@ -338,20 +338,35 @@ const menuStatics = [
 document.addEventListener('DOMContentLoaded', function () {
     // Funcionalidad del botón INSTRUCCIONES
     const btnInstrucciones = document.getElementById('btn-instrucciones');
+	const btnCompetition = document.getElementById('btn-competition');
     const popupInstrucciones = document.getElementById('popup-instrucciones');
+	const popupCompetition = document.getElementById('popup-competition');
     const closePopup = document.getElementById('close-popup');
+	const closePopupCompetition = document.getElementById('close-popup-competition');
+	
 
     // Asegurar que el popup esté oculto al inicio
     popupInstrucciones.style.display = 'none';
+	popupCompetition.style.display = 'none';
 
     // Mostrar el popup cuando se presione el botón INSTRUCCIONES
     btnInstrucciones.addEventListener('click', function () {
         popupInstrucciones.style.display = 'block';
     });
 
+	// Mostrar el popup cuando se presione el botón COMPETENCIA
+    btnCompetition.addEventListener('click', function () {
+        popupCompetition.style.display = 'block';
+    });
+
     // Cerrar el popup cuando se presione el botón de cerrar
     closePopup.addEventListener('click', function () {
         popupInstrucciones.style.display = 'none';
+    });
+
+	// Cerrar el popup cuando se presione el botón de cerrar
+    closePopupCompetition.addEventListener('click', function () {
+        popupCompetition.style.display = 'none';
     });
 
     // Funcionalidad para mostrar la imagen bg_guia.png cuando se presiona JUGAR

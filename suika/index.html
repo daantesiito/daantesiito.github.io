@@ -102,7 +102,7 @@ body {
   color: var(--col-primary-dark);
 }
 
-#game-end-link, #boton-jugar, .button-top-left {
+#game-end-link, #boton-jugar, .button-top-left, .button-competition {
   display: inline-block;
   color: var(--col-white);
   font-size: 2.5vh;
@@ -114,7 +114,7 @@ body {
   box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
 }
 
-#boton-jugar, .button-top-left {
+#boton-jugar, .button-top-left, .button-competition {
   margin-top: 3vh;
   padding: 3vh;
   padding-right: 6vw;
@@ -122,10 +122,10 @@ body {
   border-radius: 2.5vh;
 }
 
-.button-top-left {
+.button-top-left, .button-competition {
   position: fixed;
   top: 10vh;
-  left: 5vw;
+  left: 7.5vw;
   transform: translateY(-50%);
   padding: 1vh 2vw;
   border-radius: 2vh;
@@ -133,7 +133,12 @@ body {
   z-index: 100;
 }
 
-#game-end-link:hover, #boton-jugar:hover, .button-top-left:hover {
+.button-competition {
+  top: 18vh;
+  left: 8vw;
+}
+
+#game-end-link:hover, #boton-jugar:hover, .button-top-left:hover, .button-competition:hover {
   background-color: var(--col-primary);
   box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
 }
@@ -178,7 +183,7 @@ body {
   display: none;
   position: fixed;
   top: 30vh;
-  left: 8vw;
+  left: 30vw;
   transform: translateY(-50%);
   z-index: 1000;
   width: 40vw;
@@ -192,7 +197,7 @@ body {
   text-align: center;
 }
 
-#close-popup {
+#close-popup, #close-popup-competition {
   position: absolute;
   top: 1vh;
   right: 1vh;
@@ -201,7 +206,7 @@ body {
 }
 
 /* Imagen Guía - Lado derecho */
-#bg-guia-container {
+#bg-guia-container, #bg-podio-container {
   display: block;
   position: fixed;
   top: 50vh;
@@ -210,7 +215,13 @@ body {
   z-index: 100;
 }
 
-#bg-guia {
+#bg-podio-container {
+  top: 70vh;
+  left: 5vw;
+  pointer-events: none; /* Esto hace que la imagen no interfiera con los clics */
+}
+
+#bg-guia, #bg-podio {
   width: 20vw;
   height: auto;
 }
@@ -226,14 +237,33 @@ body {
         <span id="close-popup">&times;</span>
         <h2>Instrucciones del Juego</h2>
         <p>‎ </p>
-        <p>El objetivo del juego es combinar 2 caras iguales para crear una más grande y asi llegar a combinar 2 Mortedor.</p>
+        <p>- El objetivo del juego es combinar 2 caras iguales para crear una más grande y asi llegar a combinar 2 Mortedor.</p>
         <p>‎ </p>
-        <p>Para soltar las caras clickea con el mouse donde quieras que caiga y formá las combinaciones.</p>
+        <p>- Para soltar las caras clickea con el mouse donde quieras que caiga y formá las combinaciones.</p>
+        <p>‎ </p>
+        <p>- En la parte de abajo vas a ver el puntaje maximo que obtuviste y la siguiente cara.</p>
+        <p>‎ </p>
+        <p>- Se pierde cuando soltas una cara por arriba de la linea punteada.</p>
+        <p>‎ </p>
+        <p>- Si la pagina la abris desde una tele o un monitor con diferente resolucion, se va a ver desfasado el juego un poco para la izquierda.</p>
+      </div>
+    </div>
+      <button id="btn-competition" class="button-competition">COMPETENCIA</button>
+    <div id="popup-competition" class="popup">
+      <div class="popup-content">
+        <span id="close-popup-competition">&times;</span>
+        <h2>Competencia del Juego</h2>
+        <p>‎ </p>
+        <p>- Si queres competir contra otros streamers tenes que hacer el mayor puntaje posible y alguien del chat que haga el clip y me lo mande por susurro o algun lado asi yo lo verifico.</p>
+        <p>‎ </p>
+        <p>- El que mayor cantidad de puntos haga, se va a ganar 5 subs</p>
+        <p>‎ </p>
+        <p>- La tabla de posiciones no se modifica sola, la tengo que modificar a mano, asi que si ven que el puntaje de ustedes es mayor que alguno de la tabla y no se modifica no se preocupen.</p>
       </div>
     </div>
     <div id="bg-guia-container">
       <img id="bg-guia" src="./assets/img/bg-guia.png" alt="Guía del juego">
-    </div>    
+    </div>     
       <div id="game-ui">
         <p id="game-score"></p>
 
@@ -260,7 +290,10 @@ body {
     <!-- Botón de "JUGAR" ubicado fuera del canvas de juego -->
     <div id="game-start-container">
       <button id="boton-jugar" class="btn-jugar">JUGAR</button>
-  </div>  
+    </div>  
+    <div id="bg-podio-container">
+      <img id="bg-podio" src="./assets/img/bg-podium.png" alt="Podio del juego">
+    </div>  
   </div>
 
   <script type="text/javascript" src="./matter.js"></script>
