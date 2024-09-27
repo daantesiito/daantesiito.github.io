@@ -65,6 +65,15 @@
       text-shadow: 3px 3px 0 var(--col-primary), -3px -3px 0 var(--col-primary), -3px 3px 0 var(--col-primary), 3px -3px 0 var(--col-primary);
     }
 
+    #game-start-container {
+      position: absolute;
+      top: 75%; /* Ajusta según sea necesario */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10; /* Asegúrate de que esté sobre el canvas */
+    }
+
     #game-end-container {
       position: absolute;
       width: 100%;
@@ -93,7 +102,7 @@
       color: var(--col-primary-dark);
     }
 
-    #game-end-link {
+    #game-end-link, #boton-jugar, .button-top-left {
       display: inline-block;
       color: var(--col-white);
       font-size: 24px;
@@ -104,8 +113,27 @@
       border-radius: 16px;
       box-shadow: 4px 4px 0 var(--col-shadow);
     }
+    
+    #boton-jugar, .button-top-left {
+      margin-top: 24px;
+      padding: 24px;
+      padding-right: 60px;
+      padding-left: 60px;
+      border-radius: 24px;
+    }
 
-    #game-end-link:hover {
+    .button-top-left {
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      transform: translateY(-50%);
+      padding: 10px 20px;
+      border-radius: 16px;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    #game-end-link:hover, #boton-jugar:hover, .button-top-left:hover {
       background-color: var(--col-primary);
       box-shadow: 6px 6px 0 var(--col-shadow);
     }
@@ -144,11 +172,67 @@
       width: 24px;
       height: 24px;
     }
+
+    /* Popup de instrucciones */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 8.5%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      width: 300px;
+      background-color: white;
+      border: 2px solid #888;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .popup-content {
+      text-align: center;
+    }
+
+    #close-popup {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Imagen bg_guia.png - Lado derecho */
+    #bg-guia-container {
+      display: none; /* Oculto inicialmente */
+      position: fixed;
+      top: 50%;
+      right: 4%;
+      transform: translateY(-50%);
+      z-index: 100;
+    }
+
+    #bg-guia {
+      width: 425px;
+      height: auto;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div id="game-canvas">
+      <button id="btn-instrucciones" class="button-top-left">INSTRUCCIONES</button>
+    <div id="popup-instrucciones" class="popup">
+      <div class="popup-content">
+        <span id="close-popup">&times;</span>
+        <h2>Instrucciones del Juego</h2>
+        <p>‎ </p>
+        <p>El objetivo del juego es combinar 2 caras iguales para crear una más grande y asi llegar a combinar 2 Mortedor.</p>
+        <p>‎ </p>
+        <p>Para soltar las caras clickea con el mouse donde quieras que caiga y formá las combinaciones.</p>
+      </div>
+    </div>
+    <div id="bg-guia-container">
+      <img id="bg-guia" src="./assets/img/bg-guia.png" alt="Guía del juego">
+    </div>    
       <div id="game-ui">
         <p id="game-score"></p>
 
@@ -171,7 +255,13 @@
         </div>
       </div>
     </div>
+
+    <!-- Botón de "JUGAR" ubicado fuera del canvas de juego -->
+    <div id="game-start-container">
+      <button id="boton-jugar" class="btn-jugar">JUGAR</button>
+  </div>  
   </div>
+
   <script type="text/javascript" src="./matter.js"></script>
   <script type="text/javascript" src="./index.js?v=4"></script>
 </body>

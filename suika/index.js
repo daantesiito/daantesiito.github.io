@@ -124,24 +124,26 @@ const Game = {
 	initGame: function () {
 		Render.run(render);
 		Runner.run(runner, engine);
-
+	
 		Composite.add(engine.world, menuStatics);
-
+	
 		Game.loadHighscore();
 		Game.elements.ui.style.display = 'none';
 		Game.fruitsMerged = Array.apply(null, Array(Game.fruitSizes.length)).map(() => 0);
-
-		const menuMouseDown = function () {
-			if (mouseConstraint.body === null || mouseConstraint.body?.label !== 'btn-start') {
-				return;
-			}
-
-			Events.off(mouseConstraint, 'mousedown', menuMouseDown);
+	
+		// Mostrar el botón JUGAR
+		document.getElementById("game-start-container").style.display = "block";
+	
+		// Añadir evento click al botón JUGAR
+		document.getElementById("boton-jugar").addEventListener("click", function() {
+			// Oculta el botón de JUGAR al iniciar el juego
+			document.getElementById("game-start-container").style.display = "none";
+	
+			// Iniciar el juego
 			Game.startGame();
-		}
-
-		Events.on(mouseConstraint, 'mousedown', menuMouseDown);
+		});
 	},
+	
 
 	startGame: function () {
 		Game.sounds.click.play();
@@ -309,35 +311,62 @@ const render = Render.create({
 });
 
 const menuStatics = [
-	Bodies.rectangle(Game.width / 2, Game.height * 0.4, 512, 512, {
-		isStatic: true,
-		render: { sprite: { texture: './assets/img/bg-menu.png' } },
-	}),
+    Bodies.rectangle(Game.width / 2, Game.height * 0.4, 512, 512, {
+        isStatic: true,
+        render: { sprite: { texture: './assets/img/bg-menu.png' } },
+    }),
 
-	// Add each fruit in a circle
-	...Array.apply(null, Array(Game.fruitSizes.length)).map((_, index) => {
-		const x = (Game.width / 2) + 192 * Math.cos((Math.PI * 2 * index)/12);
-		const y = (Game.height * 0.4) + 192 * Math.sin((Math.PI * 2 * index)/12);
-		const r = 64;
+    // Add each fruit in a circle
+    ...Array.apply(null, Array(Game.fruitSizes.length)).map((_, index) => {
+        const x = (Game.width / 2) + 192 * Math.cos((Math.PI * 2 * index)/12);
+        const y = (Game.height * 0.4) + 192 * Math.sin((Math.PI * 2 * index)/12);
+        const r = 64;
 
-		return Bodies.circle(x, y, r, {
-			isStatic: true,
-			render: {
-				sprite: {
-					texture: `./assets/img/circle${index}.png`,
-					xScale: r / 1024,
-					yScale: r / 1024,
-				},
-			},
-		});
-	}),
-
-	Bodies.rectangle(Game.width / 2, Game.height * 0.75, 512, 96, {
-		isStatic: true,
-		label: 'btn-start',
-		render: { sprite: { texture: './assets/img/btn-start.png' } },
-	}),
+        return Bodies.circle(x, y, r, {
+            isStatic: true,
+            render: {
+                sprite: {
+                    texture: `./assets/img/circle${index}.png`,
+                    xScale: r / 1024,
+                    yScale: r / 1024,
+                },
+            },
+        });
+    }),
 ];
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Funcionalidad del botón INSTRUCCIONES
+    const btnInstrucciones = document.getElementById('btn-instrucciones');
+    const popupInstrucciones = document.getElementById('popup-instrucciones');
+    const closePopup = document.getElementById('close-popup');
+
+    // Asegurar que el popup esté oculto al inicio
+    popupInstrucciones.style.display = 'none';
+
+    // Mostrar el popup cuando se presione el botón INSTRUCCIONES
+    btnInstrucciones.addEventListener('click', function () {
+        popupInstrucciones.style.display = 'block';
+    });
+
+    // Cerrar el popup cuando se presione el botón de cerrar
+    closePopup.addEventListener('click', function () {
+        popupInstrucciones.style.display = 'none';
+    });
+
+    // Funcionalidad para mostrar la imagen bg_guia.png cuando se presiona JUGAR
+    const btnStartGame = document.getElementById('boton-jugar'); // Asegúrate de que el botón JUGAR tenga este ID
+    const bgGuiaContainer = document.getElementById('bg-guia-container');
+
+    // Asegurar que la imagen bg_guia.png esté oculta al inicio
+    bgGuiaContainer.style.display = 'none';
+
+    // Mostrar la imagen bg_guia.png cuando se presiona el botón JUGAR
+    btnStartGame.addEventListener('click', function () {
+        bgGuiaContainer.style.display = 'block';
+    });
+});
+
 
 const wallProps = {
 	isStatic: true,
