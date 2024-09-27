@@ -6,213 +6,215 @@
   <title>Suika Twitch Game</title>
   <meta property="og:title" content="Suika Twitch Game" />
   <style>
-  @import url(https://fonts.bunny.net/css?family=azeret-mono:400,700,900);
-  :root {
-    --col-bg: #e5d4ff;
-    --col-bg-light: #d4b8fd;
-    --col-bg-lighter: #c096ff;
-    --col-primary: #9146ff;
-    --col-primary-dark: #634e83;
-    --col-primary-light: #c096ff;
-    --col-shadow: rgba(0, 0, 0, 0.25);
-    --col-white: #fff;
-  }
+ @import url(https://fonts.bunny.net/css?family=azeret-mono:400,700,900);
 
-  * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    line-height: 1;
-  }
+:root {
+  --col-bg: #e5d4ff;
+  --col-bg-light: #d4b8fd;
+  --col-bg-lighter: #c096ff;
+  --col-primary: #9146ff;
+  --col-primary-dark: #634e83;
+  --col-primary-light: #c096ff;
+  --col-shadow: rgba(0, 0, 0, 0.25);
+  --col-white: #fff;
+}
 
-  body {
-    background-color: var(--col-bg);
-    font-family: 'Azeret Mono', sans-serif;
-  }
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
 
-  .container {
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    height: 100vh;
-  }
+body {
+  background-color: var(--col-bg);
+  font-family: 'Azeret Mono', sans-serif;
+}
 
-  #game-canvas {
-    position: relative;
-  }
+.container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  height: 100vh;
+}
 
-  #game-ui {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    user-select: none;
-    font-weight: 700;
-    display: none;
-    transform-origin: top left;
-    color: var(--col-primary-dark);
-  }
+#game-canvas {
+  position: relative;
+}
 
-  #game-score {
-    position: absolute;
-    width: 100%;
-    border-bottom: 0.2vh dotted #333;
-    font-size: 7vh;
-    font-weight: 900;
-    padding-left: 2vw;
-    color: var(--col-bg-lighter);
-    text-shadow: 0.5vw 0.5vw 0 var(--col-primary), -0.5vw -0.5vw 0 var(--col-primary), -0.5vw 0.5vw 0 var(--col-primary), 0.5vw -0.5vw 0 var(--col-primary);
-  }
+#game-ui {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+  font-weight: 700;
+  display: none;
+  transform-origin: top left;
+  color: var(--col-primary-dark);
+}
 
-  #game-start-container {
-    position: absolute;
-    top: 75vh; /* Ajustado según viewport height */
-    left: 50vw;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 10; /* Asegúrate de que esté sobre el canvas */
-  }
+#game-score {
+  position: absolute;
+  width: 100%;
+  border-bottom: 0.2vh dotted #333;
+  font-size: 7vh;
+  font-weight: 900;
+  padding-left: 2vw;
+  color: var(--col-bg-lighter);
+  text-shadow: 3px 3px 0 var(--col-primary), -3px -3px 0 var(--col-primary), -3px 3px 0 var(--col-primary), 3px -3px 0 var(--col-primary);
+}
 
-  #game-end-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--col-shadow);
-  }
+#game-start-container {
+  position: absolute;
+  top: 75vh; /* Ajustado según viewport height */
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10; /* Asegúrate de que esté sobre el canvas */
+}
 
-  #game-end {
-    text-align: center;
-    padding: 4vh 6vw;
-    background-color: var(--col-bg-lighter);
-    border: 0.5vh solid var(--col-primary);
-    box-shadow: 0 0.5vh 5vw var(--col-shadow);
-    border-radius: 3vh;
-    margin: 0 auto;
-    pointer-events: initial;
-    user-select: initial;
-  }
+#game-end-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--col-shadow);
+}
 
-  #game-end-title {
-    font-weight: 700;
-    font-size: 5vh;
-    color: var(--col-primary-dark);
-  }
+#game-end {
+  text-align: center;
+  padding: 4vh 6vw;
+  background-color: var(--col-bg-lighter);
+  border: 0.5vh solid var(--col-primary);
+  box-shadow: 0 0.5vh 5vw var(--col-shadow);
+  border-radius: 3vh;
+  margin: 0 auto;
+  pointer-events: initial;
+  user-select: initial;
+}
 
-  #game-end-link, #boton-jugar, .button-top-left {
-    display: inline-block;
-    color: var(--col-white);
-    font-size: 2.5vh;
-    text-decoration: none;
-    background-color: var(--col-primary-light);
-    padding: 2vh;
-    margin-top: 2vh;
-    border-radius: 2vh;
-    box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
-  }
+#game-end-title {
+  font-weight: 700;
+  font-size: 5vh;
+  color: var(--col-primary-dark);
+}
 
-  #boton-jugar, .button-top-left {
-    margin-top: 3vh;
-    padding: 3vh;
-    padding-right: 6vw;
-    padding-left: 6vw;
-    border-radius: 2.5vh;
-  }
+#game-end-link, #boton-jugar, .button-top-left {
+  display: inline-block;
+  color: var(--col-white);
+  font-size: 2.5vh;
+  text-decoration: none;
+  background-color: var(--col-primary-light);
+  padding: 2vh;
+  margin-top: 2vh;
+  border-radius: 2vh;
+  box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
+}
 
-  .button-top-left {
-    position: fixed;
-    top: 10vh;
-    left: 5vw;
-    transform: translateY(-50%);
-    padding: 1vh 2vw;
-    border-radius: 2vh;
-    cursor: pointer;
-    z-index: 100;
-  }
+#boton-jugar, .button-top-left {
+  margin-top: 3vh;
+  padding: 3vh;
+  padding-right: 6vw;
+  padding-left: 6vw;
+  border-radius: 2.5vh;
+}
 
-  #game-end-link:hover, #boton-jugar:hover, .button-top-left:hover {
-    background-color: var(--col-primary);
-    box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
-  }
+.button-top-left {
+  position: fixed;
+  top: 10vh;
+  left: 5vw;
+  transform: translateY(-50%);
+  padding: 1vh 2vw;
+  border-radius: 2vh;
+  cursor: pointer;
+  z-index: 100;
+}
 
-  #game-status {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 5vh;
-    background-color: var(--col-bg-lighter);
-    display: flex;
-  }
+#game-end-link:hover, #boton-jugar:hover, .button-top-left:hover {
+  background-color: var(--col-primary);
+  box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
+}
 
-  .game-status-item {
-    display: flex;
-    line-height: 1;
-    align-items: center;
-    margin-right: 3vw;
-  }
+#game-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5vh;
+  background-color: var(--col-bg-lighter);
+  display: flex;
+}
 
-  .game-status-label {
-    color: #666;
-    font-size: 2vh;
-    margin-left: 2vw;
-    margin-right: 1vw;
-  }
+.game-status-item {
+  display: flex;
+  line-height: 1;
+  align-items: center;
+  margin-right: 3vw;
+}
 
-  #game-highscore-value {
-    color: #333;
-    font-weight: 700;
-    font-size: 3vh;
-  }
+.game-status-label {
+  color: #666;
+  font-size: 2vh;
+  margin-left: 2vw;
+  margin-right: 1vw;
+}
 
-  #game-next-fruit {
-    width: 3vh;
-    height: 3vh;
-  }
+#game-highscore-value {
+  color: #333;
+  font-weight: 700;
+  font-size: 3vh;
+}
 
-  /* Popup de instrucciones */
-  .popup {
-    display: none;
-    position: fixed;
-    top: 30vh;
-    left: 8vw;
-    transform: translateY(-50%);
-    z-index: 1000;
-    width: 40vw;
-    background-color: white;
-    border: 0.2vh solid #888;
-    box-shadow: 0 0.5vh 1vw rgba(0, 0, 0, 0.1);
-    padding: 2vh;
-  }
+#game-next-fruit {
+  width: 3vh;
+  height: 3vh;
+}
 
-  .popup-content {
-    text-align: center;
-  }
+/* Popup de instrucciones */
+.popup {
+  display: none;
+  position: fixed;
+  top: 30vh;
+  left: 8vw;
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 40vw;
+  background-color: white;
+  border: 0.2vh solid #888;
+  box-shadow: 0 0.5vh 1vw rgba(0, 0, 0, 0.1);
+  padding: 2vh;
+}
 
-  #close-popup {
-    position: absolute;
-    top: 1vh;
-    right: 1vh;
-    font-size: 3vh;
-    cursor: pointer;
-  }
+.popup-content {
+  text-align: center;
+}
 
-  /* Imagen Guía - Lado derecho */
-  #bg-guia-container {
-    display: block;
-    position: fixed;
-    top: 50vh;
-    right: 5vw;
-    transform: translateY(-50%);
-    z-index: 100;
-  }
+#close-popup {
+  position: absolute;
+  top: 1vh;
+  right: 1vh;
+  font-size: 3vh;
+  cursor: pointer;
+}
 
-  #bg-guia {
-    width: 20vw;
-    height: auto;
-  }
+/* Imagen Guía - Lado derecho */
+#bg-guia-container {
+  display: block;
+  position: fixed;
+  top: 50vh;
+  right: 5vw;
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+#bg-guia {
+  width: 20vw;
+  height: auto;
+}
+
   </style>
 </head>
 <body>
