@@ -108,8 +108,8 @@
       font-size: 24px;
       text-decoration: none;
       background-color: var(--col-primary-light);
-      margin-top: 16px;
       padding: 16px;
+      margin-top: 16px;
       border-radius: 16px;
       box-shadow: 4px 4px 0 var(--col-shadow);
     }
@@ -124,8 +124,8 @@
 
     .button-top-left {
       position: fixed;
-      top: 10%;
-      left: 10%;
+      top: 10vh; /* Ajustado a viewport height */
+      left: 5vw; /* Ajustado a viewport width */
       transform: translateY(-50%);
       padding: 10px 20px;
       border-radius: 16px;
@@ -200,18 +200,18 @@
       cursor: pointer;
     }
 
-    /* Imagen bg_guia.png - Lado derecho */
+    /* Imagen Guía - Lado derecho */
     #bg-guia-container {
-      display: none; /* Oculto inicialmente */
+      display: block; /* Ahora visible */
       position: fixed;
-      top: 50%;
-      right: 4%;
+      top: 50vh; /* Ajustado a viewport height */
+      right: 5vw; /* Ajustado a viewport width */
       transform: translateY(-50%);
       z-index: 100;
     }
 
     #bg-guia {
-      width: 425px;
+      width: 20vw; /* Ajusta a un tamaño relativo al ancho de la pantalla */
       height: auto;
     }
   </style>
