@@ -1,0 +1,212 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio al Pasto</title>
+    <link rel="icon" type="image/png" href="https://github.com/daantesiito/daantesiito.github.io/blob/main/images/desafioalpasto/logo-F1.png?raw=true">
+    <!-- animate -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
+    <!-- custom -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!-- Raleway Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,600&display=swap">
+    <style>
+        :root {
+            --col-bg: #e5d4ff;
+            --col-bg-light: #b27eff;
+            --col-bg-lighter: #a96fff;
+            --col-primary: #8738ff;
+            --col-primary-dark: #5a3e83;
+            --col-primary-light: #b27eff;
+            --col-shadow: rgba(0, 0, 0, 0.25);
+            --col-white: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        body {
+            background-color: var(--col-bg);
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            color: var(--col-primary-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: var(--col-primary);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--col-bg-light);
+            color: var(--col-primary-dark);
+        }
+
+        table th {
+            background-color: var(--col-primary-light);
+            color: var(--col-white);
+            font-weight: 700;
+        }
+
+        table td a {
+            color: var(--col-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        table td a:hover {
+            color: var(--col-primary-dark);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            background-color: var(--col-bg-light);
+        }
+
+        footer p, footer a {
+            color: var(--col-primary-dark);
+            font-size: 14px;
+        }
+
+        footer a:hover {
+            color: var(--col-primary);
+        }
+
+        ul.social-icon {
+            list-style: none;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        ul.social-icon li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        ul.social-icon li a {
+            color: var(--col-primary);
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        ul.social-icon li a:hover {
+            color: var(--col-primary-dark);
+        }
+
+        /* Animaciones */
+        .wow {
+            visibility: hidden;
+            animation-name: fadeIn;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            table th, table td {
+                font-size: 14px;
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="fullpage">
+        
+        <!-- Sección de bienvenida -->
+        <div class="welcome-section">
+            <div class="container">
+                <h1>Tabla de Puntos Suika</h1>
+            </div>
+        </div>
+
+        <!-- Sección de Tabla de Posiciones -->
+        <div class="table-section" id="table-section">
+            <div class="container">
+                <div class="table-responsive"> <!-- Agregamos una clase para hacer la tabla adaptable -->
+                    <table class="table"> <!-- Agregamos clases Bootstrap para estilizar la tabla -->
+                        <thead>
+                            <tr>
+                                <th>TOP</th>
+                                <th>NOMBRE</th>
+                                <th>PUNTAJE</th>
+                                <th>LINK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="https://www.twitch.tv/harryalexok">HarryAlexOk</a></td>
+                                <td>2859</td>
+                                <td><a href="https://www.twitch.tv/harryalexok/clip/GleamingUglyTomatoAMPTropPunch-21ojQ4kqVsoed0Z3">Clip</a></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <!-- start footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">          
+                    Designed by <a rel="nofollow noopener" href="https://github.com/daantesiito">dantesito</a></p>
+                    <ul class="social-icon">
+                        <li><a href="https://instagram.com/dante_puddu" class="fa fa-instagram"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end footer -->
+
+    <!-- Scripts -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
