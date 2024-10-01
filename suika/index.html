@@ -102,7 +102,7 @@ body {
   color: var(--col-primary-dark);
 }
 
-#game-end-link, #boton-jugar, .button-top-left, .button-competition, .button-top-link {
+#game-end-link, #boton-jugar, .button-top-left, .button-competition, .button-top-link, .button-top-viewers-link {
   display: inline-block;
   color: var(--col-white);
   font-size: 2.5vh;
@@ -114,7 +114,7 @@ body {
   box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
 }
 
-#boton-jugar, .button-top-left, .button-competition, .button-top-link {
+#boton-jugar, .button-top-left, .button-competition, .button-top-link, .button-top-viewers-link {
   margin-top: 3vh;
   padding: 3vh;
   padding-right: 6vw;
@@ -122,7 +122,7 @@ body {
   border-radius: 2.5vh;
 }
 
-.button-top-left, .button-competition, .button-top-link {
+.button-top-left, .button-competition, .button-top-link, .button-top-viewers-link {
   position: fixed;
   top: 10vh;
   left: 7.5vw;
@@ -143,12 +143,17 @@ body {
   left: 11vw;
 }
 
-.button-top-link a {
+.button-top-viewers-link {
+  top: 92vh;
+  left: 8.2vw;
+}
+
+.button-top-link a, .button-top-viewers-link a {
     text-decoration: none; /* Elimina el subrayado */
     color: inherit; /* Usa el color del botón en lugar del azul predeterminado del enlace */
 }
 
-#game-end-link:hover, #boton-jugar:hover, .button-top-left:hover, .button-competition:hover, .button-top-link:hover {
+#game-end-link:hover, #boton-jugar:hover, .button-top-left:hover, .button-competition:hover, .button-top-link:hover, .button-top-viewers-link:hover {
   background-color: var(--col-primary);
   box-shadow: 0.5vw 0.5vw 0 var(--col-shadow);
 }
@@ -268,14 +273,23 @@ body {
         <p>‎ </p>
         <p>- El que mayor cantidad de puntos haga se va a ganar 5 subs. TORNEO DESDE 30/9 AL 7/10 (El juego sigue para siempre, solo el torneo es 1 semana.)</p>
         <p>‎ </p>
+        <p>IMPORTANTE</p>
+        <p>‎ </p>
+        <p>- Para el TOP de competencia solo cuentan los puntos validados por CLIP.</p>
+        <p>‎ </p>
+        <p>- Para el TOP de viewers me mandan una foto y yo los agrego. (no mientan)</p>
+        <p>‎ </p>
         <p>- La tabla de posiciones no se modifica sola, la tengo que modificar a mano, asi que si ven que el puntaje de ustedes es mayor que alguno de la tabla y no se modifica no se preocupen.</p>
         <p>‎ </p>
-        <p>- Mi discord para los clips: dantesitoo / id: 326820001879162880</p>
+        <p>- Mi discord para los clips o fotos: dantesitoo / id: 326820001879162880</p>
       </div>
     </div>
       <button id="btn-instrucciones" class="button-top-link">
         <a href="https://daantesiito.github.io/suika/top" target="_blank" rel="noopener noreferrer">TOP</a>
       </button>
+      <button id="btn-instrucciones" class="button-top-viewers-link">
+        <a href="https://daantesiito.github.io/suika/topViewers" target="_blank" rel="noopener noreferrer">TOP VIEWERS</a>
+      </button>      
     <div id="bg-guia-container">
       <img id="bg-guia" src="./assets/img/bg-guia.png" alt="Guía del juego">
     </div>     
