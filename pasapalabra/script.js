@@ -136,7 +136,6 @@ function closeText() {
 }
 
 function confirmAnswer() {
-    stopTimer();
     const selectedButton = document.querySelector('.option-button.selected');
     if (!selectedButton) {
         alert("Por favor, selecciona una respuesta.");
@@ -150,24 +149,50 @@ function confirmAnswer() {
 
     if (!currentClueData) {
         console.error("Clue data not found.");
-        closeText();
         return;
     }
 
     if (selectedAnswer === currentClueData.correct) {
-        score++; // Incrementa el puntaje aquí
-        updateScoreBoard(); // Actualiza el marcador inmediatamente después
+        score++;
+        updateScoreBoard();
         updateLetterStatus(currentLetter, 'correct');
-        alert("¡Respuesta correcta!");
+
+        // Avanza a la siguiente letra
+        currentLetter++;
+        
+        if (currentLetter < letters.length) {
+            // Mostrar la pista y opciones de la siguiente letra en el mismo popup
+            const nextLetterData = letters[currentLetter];
+
+            // Selecciona una nueva pista aleatoria para la nueva letra
+            nextLetterData.selectedClue = nextLetterData.clues[Math.floor(Math.random() * nextLetterData.clues.length)];
+            const selectedClue = nextLetterData.selectedClue;
+
+            // Actualiza la pista y opciones en el popup
+            document.getElementById('clueContainer').innerText = selectedClue.clue;
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            selectedClue.options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.innerText = option;
+                optionButton.classList.add('option-button');
+                optionButton.onclick = () => selectOption(optionButton);
+                optionsContainer.appendChild(optionButton);
+            });
+        } else {
+            // Si ya no quedan letras, finaliza el juego
+            checkGameOver();
+        }
     } else {
         updateLetterStatus(currentLetter, 'incorrect');
         alert(`Respuesta incorrecta. La respuesta correcta era: ${currentClueData.correct}`);
+        stopTimer();
+        // Cerrar el popup en caso de respuesta incorrecta
+        closeText();
     }
 
-    setTimeout(() => {
-        closeText();
-        checkGameOver();
-    }, 100);
+    // Si ya no quedan letras, finaliza el juego
+    checkGameOver();
 }
 
 function passWord() {
