@@ -1,21 +1,59 @@
+// Configuración de Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyA4jwDsKA3OfzGx59iEZixdTGc9ilq0JxA",
+    authDomain: "pasapalabra-a1320.firebaseapp.com",
+    databaseURL: "https://pasapalabra-a1320-default-rtdb.firebaseio.com",
+    projectId: "pasapalabra-a1320",
+    storageBucket: "pasapalabra-a1320.appspot.com",
+    messagingSenderId: "986445345846",
+    appId: "1:986445345846:web:7bdc7c987ee62c14e9d497",
+    measurementId: "G-2EZ1QXZ8BK"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Variables del juego
 let timer;
 let timeLeft = 360;
 let currentLetter = null;
 let score = 0;
-let username = ''; // Variable para almacenar el nombre de usuario
+let username = ''; 
 
 // Función para guardar el nombre de usuario y mostrar el contenido del juego
 function saveUsername() {
     username = document.getElementById('usernameInput').value.trim();
-    if (username) {
-        document.getElementById('usernameModal').style.display = 'none';
-        document.getElementById('gameContent').style.display = 'block';
-        updateScoreBoard(); // Mostrar el nombre de usuario y los puntos
-    } else {
+    const modal = document.getElementById('usernameModal');
+    
+    if (!username) {
         alert("Por favor, ingrese un nombre de usuario.");
+        return;
     }
+
+    // Verificar si el nombre de usuario ya existe en Firebase
+    const dbRef = firebase.database().ref(`leaderboard/${username}`);
+    dbRef.once('value')
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                // Si el usuario ya existe, mostrar un mensaje de advertencia y restaurar estilos
+                alert("El nombre de usuario ya existe. Por favor, elija otro nombre.");
+                modal.style.display = 'flex';  // Asegura que el modal se muestre correctamente
+            } else {
+                // Si el usuario no existe, ocultar el modal y mostrar el contenido del juego
+                modal.style.display = 'none';
+                document.getElementById('gameContent').style.display = 'block';
+                updateScoreBoard();
+            }
+        })
+        .catch(error => {
+            console.error("Error al verificar el nombre de usuario:", error);
+            alert("Ocurrió un error al verificar el nombre de usuario. Intente de nuevo.");
+        });
 }
 
+
+
+// Actualizar el tablero de puntaje
 function updateScoreBoard() {
     const scoreBoard = document.getElementById('scoreBoard');
     scoreBoard.innerText = `${username}: ${score} puntos`;
@@ -38,101 +76,7 @@ const letters = [
     { letter: 'D', clues: [
         { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
         { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'E', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'F', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'G', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'H', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'I', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'J', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'K', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'L', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'M', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'N', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'Ñ', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'O', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'P', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'Q', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'R', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'S', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'T', clues: [
-        { clue: "EX DE FLOR", correct: "Thiago", options: ["Tomas", "Thiago", "Tobias"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'U', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'V', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'W', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'X', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
-    ]},
-    { letter: 'Y', clues: [
-        { clue: "Fruto amarillo", correct: "Banana", options: ["Banana", "Manzana", "Pera"] },
-        { clue: "Parte de una camisa", correct: "Botón", options: ["Botón", "Manga", "Cuello"] },
-    ]},
-    { letter: 'Z', clues: [
-        { clue: "Animal que ladra", correct: "Perro", options: ["Perro", "Gato", "Loro"] },
-        { clue: "A se usa para...", correct: "Hablar", options: ["Hablar", "Escribir", "Dibujar"] },
     ]}
-    // Añadir más letras y sus pistas aquí
-    // ...
 ];
 
 function startTimer() {
@@ -211,7 +155,8 @@ function confirmAnswer() {
     }
 
     if (selectedAnswer === currentClueData.correct) {
-        score++;
+        score++; // Incrementa el puntaje aquí
+        updateScoreBoard(); // Actualiza el marcador inmediatamente después
         updateLetterStatus(currentLetter, 'correct');
         alert("¡Respuesta correcta!");
     } else {
@@ -219,13 +164,11 @@ function confirmAnswer() {
         alert(`Respuesta incorrecta. La respuesta correcta era: ${currentClueData.correct}`);
     }
 
-    // Mostrar el mensaje de fin de juego después de un breve retraso
     setTimeout(() => {
         closeText();
         checkGameOver();
-    }, 100); // 100 ms de retraso para asegurar que el alert se muestra primero
+    }, 100);
 }
-
 
 function passWord() {
     stopTimer();
@@ -258,8 +201,35 @@ function checkGameOver() {
 }
 
 function goToRanking() {
-    window.location.href = 'https://daantesiito.github.io/pasapalabra/ranking';
+    if (!username || score === null) {
+        alert("No se ha encontrado el nombre de usuario o el puntaje.");
+        return;
+    }
+
+    // Referencia a la base de datos
+    const dbRef = firebase.database().ref(`leaderboard/${username}`);
+
+    // Verificar el puntaje existente
+    dbRef.once('value')
+        .then(snapshot => {
+            const existingScore = parseInt(snapshot.val());
+            
+            // Guardar el nuevo puntaje solo si es mayor que el existente
+            if (isNaN(existingScore) || score > existingScore) {
+                return dbRef.set(score)
+                    .then(() => {
+                        alert("¡Puntaje guardado exitosamente en Firebase!");
+                    });
+            } else {
+                alert("Ya tienes un puntaje mayor o igual en la tabla de clasificación.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error al leer o guardar el puntaje en Firebase:", error);
+            alert("Ocurrió un error al guardar el puntaje. Inténtalo de nuevo.");
+        });
 }
+
 
 
 function updateLetterStatus(letterIndex, status) {
