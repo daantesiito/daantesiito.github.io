@@ -219,6 +219,9 @@ function checkGameOver() {
         
         // Mostrar mensaje de fin de juego
         alert("¡Juego terminado! Has completado todas las letras.");
+
+        // Cerrar el pop up
+        closeText();
         
         // Mostrar el botón para ir al ranking
         document.getElementById('endGameButton').style.display = 'block';
