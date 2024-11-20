@@ -2,8 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const board = document.getElementById("board");
     const keyboard = document.getElementById("keyboard");
     const messageElement = document.getElementById("message");
-    const countdown = document.getElementById("countdown");
     const resultElement = document.getElementById("result");
+    const postGameElement = document.getElementById("postGame");
+    const postGameMessage = document.getElementById("postGameMessage");
+    const postGameCountdown = document.getElementById("postGameCountdown");
+    const modal = document.getElementById("gameOverModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalCountdown = document.getElementById("modalCountdown");
+    const closeModal = document.getElementById("closeModal");
 
     const wordList = ["AVION", "FILOS", "PILAS", "MANGO", "RAPTO", "VISTA", "FOCAS", "ALDEA", "MARCO", "PLUMA",
                       "TORTA", "BOTAS", "TIGRE", "PERRO", "GATOS", "CABRA", "JUEGO", "LUCES", "RUBIO", "NUEVO",
@@ -20,23 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedGame = localStorage.getItem("wordleGame");
     const lastPlayedDate = localStorage.getItem("lastPlayedDate");
 
-    const modal = document.getElementById("gameOverModal");
-    const modalMessage = document.getElementById("modalMessage");
-    const modalCountdown = document.getElementById("modalCountdown");
-    const closeModal = document.getElementById("closeModal");
-
-    closeModal.addEventListener("click", () => {
-        modal.style.display = "none";  // Esto debería esconder el modal
-        modal.classList.add("hidden");
-    });
-
     if (savedGame && lastPlayedDate === today.toDateString()) {
         const gameData = JSON.parse(savedGame);
-        if (gameData.currentAttempt >= 6 || gameData.currentGuess === wordToGuess) {
-            showResult(gameData);
-        } else {
-            loadSavedGame(gameData);
-        }
+        showPostGameScreen(gameData);
     } else {
         localStorage.removeItem("wordleGame");
         localStorage.setItem("lastPlayedDate", today.toDateString());
@@ -119,15 +111,25 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        const now = new Date();
+        const nextDay = new Date(now);
+        nextDay.setDate(now.getDate() + 1);
+        nextDay.setHours(0, 0, 0, 0);
+
+        const diff = nextDay - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
         if (currentGuess === wordToGuess) {
             const endTime = new Date();
             const timeTaken = endTime - startTime;
-            const minutes = Math.floor(timeTaken / 60000);
-            const seconds = Math.floor((timeTaken % 60000) / 1000);
-            showMessage(`¡Felicidades! Acertaste la palabra en ${minutes}m ${seconds}s`);
+            const minutesTaken = Math.floor(timeTaken / 60000);
+            const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
+            showModal(`¡Felicidades! Acertaste la palabra en ${minutesTaken}m ${secondsTaken}s`, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
             endGame(endTime);
         } else if (currentAttempt === 5) {
-            showMessage(`No lograste acertar, palabra correcta: ${wordToGuess}`);
+            showModal(`No lograste acertar, palabra correcta: ${wordToGuess}`, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
             endGame();
         } else {
             currentAttempt++;
@@ -165,6 +167,40 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentAttempt >= 6 || currentGuess === wordToGuess) {
             showResult(data);
         }
+    }
+
+    function showPostGameScreen(data) {
+        const now = new Date();
+        const nextDay = new Date(now);
+        nextDay.setDate(now.getDate() + 1);
+        nextDay.setHours(0, 0, 0, 0);
+
+        const diff = nextDay - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
+
+        let message = data.message;
+        if (!message) {
+            if (data.currentGuess === wordToGuess) {
+                const timeTaken = new Date(data.endTime) - new Date(data.startTime);
+                const minutes = Math.floor(timeTaken / 60000);
+                const seconds = Math.floor((timeTaken % 60000) / 1000);
+                message = `Acertaste la palabra "${wordToGuess}" en ${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutos`;
+            } else {
+                message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
+            }
+        }
+
+        board.classList.add("hidden");
+        keyboard.classList.add("hidden");
+        messageElement.classList.add("hidden");
+        resultElement.classList.add("hidden");
+        postGameMessage.innerHTML = `<p>${message}</p>`;
+        postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
+        postGameElement.classList.remove("hidden");
     }
 
     function showModal(message, countdownText) {
@@ -250,6 +286,11 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCountdown();
         const countdownInterval = setInterval(updateCountdown, 1000);
     }
+
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+        location.reload();  // Recarga la página
+    });
 
     document.addEventListener("keydown", (event) => {
         const key = event.key.toUpperCase();

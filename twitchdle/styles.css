@@ -1,9 +1,21 @@
+:root {
+    --col-bg: #e5d4ff;
+    --col-bg-light: #d4b8fd;
+    --col-bg-lighter: #c096ff;
+    --col-primary: #9146ff;
+    --col-primary-dark: #634e83;
+    --col-primary-light: #c096ff;
+    --col-shadow: rgba(0, 0, 0, 0.25);
+    --col-white: #fff;
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: var(--col-bg);
+    color: var(--col-primary-dark);
 }
 
 .container {
@@ -13,55 +25,62 @@ body {
     align-items: center;
 }
 
+h1 {
+    color: var(--col-primary);
+}
+
 #board {
     display: grid;
-    grid-template-columns: repeat(5, 40px);
-    gap: 10px;
+    grid-template-columns: repeat(5, 60px); /* Aumentado el tamaño de las celdas */
+    gap: 15px; /* Aumentado el espacio entre las celdas */
     justify-content: center;
 }
 
 .tile {
-    width: 40px;
-    height: 40px;
+    width: 60px; /* Aumentado el tamaño de las celdas */
+    height: 60px; /* Aumentado el tamaño de las celdas */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 32px; /* Aumentado el tamaño de la fuente */
     font-weight: bold;
-    border: 2px solid #ccc;
-    background-color: white;
+    border: 2px solid var(--col-primary-dark);
+    background-color: var(--col-white);
+    box-shadow: 0 4px 8px var(--col-shadow);
 }
 
 #keyboard {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 20px;
+    gap: 10px; /* Aumentado el espacio entre las filas del teclado */
+    margin-top: 30px; /* Aumentado el margen superior */
 }
 
 .key-row {
     display: flex;
     justify-content: center;
-    gap: 5px;
+    gap: 10px; /* Aumentado el espacio entre las teclas */
 }
 
 .key {
-    width: 35px; /* Ajustado el tamaño del ancho */
-    height: 35px; /* Ajustado el tamaño de la altura */
-    background-color: #ddd;
+    width: 50px; /* Aumentado el tamaño de las teclas */
+    height: 50px; /* Aumentado el tamaño de las teclas */
+    background-color: var(--col-bg-light);
     text-align: center;
-    line-height: 35px; /* Ajustado el line-height */
+    line-height: 50px; /* Aumentado el line-height */
     cursor: pointer;
     border-radius: 5px;
-    font-size: 14px; /* Ajustado el tamaño de la fuente */
+    font-size: 18px; /* Aumentado el tamaño de la fuente */
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 2px 4px var(--col-shadow);
 }
 
 .special-key {
-    width: 60px; /* Ajustado el tamaño del ancho */
-    background-color: #aaa;
+    width: 80px; /* Aumentado el tamaño de las teclas especiales */
+    background-color: var(--col-primary);
+    color: var(--col-white);
 }
 
 .hidden {
@@ -70,6 +89,11 @@ body {
 
 #result {
     display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.post-game {
     text-align: center;
     margin-top: 20px;
 }
@@ -90,7 +114,7 @@ body {
 }
 
 .modal {
-    display: none;  /* Asegúrate de que esté oculto inicialmente */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -98,22 +122,23 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--col-white);
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--col-primary-dark);
     width: 80%;
     max-width: 400px;
     text-align: center;
     border-radius: 10px;
+    box-shadow: 0 4px 8px var(--col-shadow);
 }
 
 .close {
-    color: #aaa;
+    color: var(--col-primary-dark);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -122,7 +147,66 @@ body {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: var(--col-primary);
     text-decoration: none;
     cursor: pointer;
+}
+
+.social-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: var(--col-white);
+    font-weight: bold;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.github {
+    background-color: #333;
+}
+
+.github:hover {
+    background-color: #555;
+}
+
+.cafecito {
+    background-color: #0077b6;
+}
+
+.cafecito:hover {
+    background-color: #0096c7;
+}
+
+.instagram {
+    background-color: #e1306c;
+}
+
+.instagram:hover {
+    background-color: #fd1d1d;
+}
+
+.twitch {
+    background-color: #6441a5;
+}
+
+.twitch:hover {
+    background-color: #9147ff;
+}
+
+.email {
+    background-color: #d44638;
+}
+
+.email:hover {
+    background-color: #c23321;
 }

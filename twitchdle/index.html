@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitchdle</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -13,6 +14,19 @@
         <div id="keyboard"></div>
         <div id="message" class="hidden"></div>
         <div id="result" class="hidden"></div>
+    </div>
+    <div class="post-game hidden" id="postGame">
+        <h2>¡Ya jugaste!</h2>
+        <div id="postGameMessage"></div>
+        <div id="postGameCountdown"></div>
+        <!-- Aquí puedes agregar botones y estadísticas más adelante -->
+        <div class="social-buttons">
+            <a href="https://github.com/daantesiito" target="_blank" class="social-button github"><i class="fab fa-github"></i></a>
+            <a href="https://cafecito.app/dantesiito" target="_blank" class="social-button cafecito"><i class="fas fa-coffee"></i></a>
+            <a href="https://www.instagram.com/dante_puddu/" target="_blank" class="social-button instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitch.tv/daantesiito" target="_blank" class="social-button twitch"><i class="fab fa-twitch"></i></a>
+            <a href="mailto:adantepuddu@gmail.com" class="social-button email"><i class="fas fa-envelope"></i></a>
+        </div>
     </div>
     <div id="gameOverModal" class="modal hidden">
         <div class="modal-content">
