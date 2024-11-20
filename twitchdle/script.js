@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startTime = new Date();
     let currentAttempt = 0;
     let currentGuess = "";
+    let gameBoard = Array(6).fill("").map(() => Array(5).fill("⬛"));
 
     const savedGame = localStorage.getItem("wordleGame");
     const lastPlayedDate = localStorage.getItem("lastPlayedDate");
@@ -104,10 +105,13 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < 5; i++) {
             if (currentGuess[i] === wordToGuess[i]) {
                 tiles[currentAttempt * 5 + i].classList.add("correct");
+                gameBoard[currentAttempt][i] = "🟩";
             } else if (wordToGuess.includes(currentGuess[i])) {
                 tiles[currentAttempt * 5 + i].classList.add("present");
+                gameBoard[currentAttempt][i] = "🟨";
             } else {
                 tiles[currentAttempt * 5 + i].classList.add("absent");
+                gameBoard[currentAttempt][i] = "⬛";
             }
         }
 
@@ -144,7 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
             currentGuess,
             boardState: Array.from(document.querySelectorAll(".tile")).map(tile => tile.textContent),
             startTime: startTime.toISOString(),
-            endTime: endTime ? endTime.toISOString() : null
+            endTime: endTime ? endTime.toISOString() : null,
+            gameBoard
         };
         localStorage.setItem("wordleGame", JSON.stringify(gameData));
     }
@@ -152,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSavedGame(data) {
         currentAttempt = data.currentAttempt;
         currentGuess = data.currentGuess;
+        gameBoard = data.gameBoard;
 
         const tiles = document.querySelectorAll(".tile");
         data.boardState.forEach((letter, index) => {
@@ -200,6 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
         resultElement.classList.add("hidden");
         postGameMessage.innerHTML = `<p>${message}</p>`;
         postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
+        if (data.currentGuess === wordToGuess) {
+            const gameBoardText = data.gameBoard.map(row => row.join("")).join("<br>");
+            postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
+        }
         postGameElement.classList.remove("hidden");
     }
 
