@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const keyElement = document.createElement("div");
                 keyElement.classList.add("key");
                 keyElement.textContent = key;
+                keyElement.id = `key-${key}`; // Asignar un ID único a cada tecla
                 keyElement.addEventListener("click", () => handleKeyPress(key));
                 rowDiv.appendChild(keyElement);
             });
@@ -103,15 +104,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const tiles = document.querySelectorAll(".tile");
         for (let i = 0; i < 5; i++) {
+            const keyElement = document.getElementById(`key-${currentGuess[i]}`);
             if (currentGuess[i] === wordToGuess[i]) {
                 tiles[currentAttempt * 5 + i].classList.add("correct");
                 gameBoard[currentAttempt][i] = "🟩";
+                if (keyElement) keyElement.classList.add("correct");
             } else if (wordToGuess.includes(currentGuess[i])) {
                 tiles[currentAttempt * 5 + i].classList.add("present");
                 gameBoard[currentAttempt][i] = "🟨";
+                if (keyElement) keyElement.classList.add("present");
             } else {
                 tiles[currentAttempt * 5 + i].classList.add("absent");
                 gameBoard[currentAttempt][i] = "⬛";
+                if (keyElement) keyElement.classList.add("absent");
             }
         }
 
@@ -130,10 +135,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const timeTaken = endTime - startTime;
             const minutesTaken = Math.floor(timeTaken / 60000);
             const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
-            showModal(`¡Felicidades! Acertaste la palabra en ${minutesTaken}m ${secondsTaken}s`, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
+            showModal(`¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
             endGame(endTime);
         } else if (currentAttempt === 5) {
-            showModal(`No lograste acertar, palabra correcta: ${wordToGuess}`, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
+            showModal(`No lograste acertar, palabra correcta: "${wordToGuess}"`, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
             endGame();
         } else {
             currentAttempt++;
@@ -171,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (currentAttempt >= 6 || currentGuess === wordToGuess) {
-            showResult(data);
+            showPostGameScreen(data);
         }
     }
 
@@ -200,17 +205,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        postGameMessage.innerHTML = `<p>${message}</p>`;
+        postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
+        if (data.currentGuess === wordToGuess) {
+            const gameBoardText = data.gameBoard.slice(0, data.currentAttempt + 1).map(row => row.join("")).join("<br>");
+            postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
+        }
+        postGameElement.classList.remove("hidden");
         board.classList.add("hidden");
         keyboard.classList.add("hidden");
         messageElement.classList.add("hidden");
         resultElement.classList.add("hidden");
-        postGameMessage.innerHTML = `<p>${message}</p>`;
-        postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
-        if (data.currentGuess === wordToGuess) {
-            const gameBoardText = data.gameBoard.map(row => row.join("")).join("<br>");
-            postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
-        }
-        postGameElement.classList.remove("hidden");
     }
 
     function showModal(message, countdownText) {
@@ -259,17 +264,41 @@ document.addEventListener("DOMContentLoaded", () => {
             message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
         }
 
+        postGameMessage.innerHTML = `<p>${message}</p><p>${countdownText}</p>`;
+        postGameElement.classList.remove("hidden");
         board.classList.add("hidden");
         keyboard.classList.add("hidden");
         messageElement.classList.add("hidden");
-        resultElement.innerHTML = `<p>${message}</p><p>${countdownText}</p>`;
-        resultElement.classList.remove("hidden");
+        resultElement.classList.add("hidden");
     }
 
     function endGame(endTime = null) {
         if (endTime) {
             saveGame(endTime);
         }
+        const now = new Date();
+        const nextDay = new Date(now);
+        nextDay.setDate(now.getDate() + 1);
+        nextDay.setHours(0, 0, 0, 0);
+
+        const diff = nextDay - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
+
+        let message;
+        if (currentGuess === wordToGuess) {
+            const timeTaken = endTime - startTime;
+            const minutesTaken = Math.floor(timeTaken / 60000);
+            const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
+            message = `¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
+        } else {
+            message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
+        }
+
+        showModal(message, countdownText);
         startCountdown();
         keyboard.classList.add("disabled");
     }
@@ -312,3 +341,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+            let numEmotes = 100;
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                numEmotes = 30;
+            }
+            const emoteSources = [
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Smajj.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sittbutluvv.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Sadgers.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/peepoLove.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/owoL.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/OkaygeL.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/luvvbutmajj.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Luvv.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/luv.png?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/bluwubbers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckLove.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/DuckSadge.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Heartgers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Lovegers.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/LUBBERS.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Luv.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/peepoPat.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/pepeLost.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadcat.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/Sadge.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/SadgeRain.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadJAM.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadVegeta.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/sadWankge.gif?raw=true',
+                'https://github.com/daantesiito/daantesiito.github.io/blob/main/images/7tvAldu/SpongeOfLOVE.gif?raw=true'
+            ];
+
+            const emoteContainer = document.getElementById('emote-container');
+
+            for (let i = 0; i < numEmotes; i++) {
+                const emote = document.createElement('img');
+                emote.src = emoteSources[Math.floor(Math.random() * emoteSources.length)];
+                emote.className = 'emote';
+                emote.style.left = Math.random() * 100 + 'vw';
+                emote.style.animationDuration = Math.random() * 5 + 5 + 's';
+                emote.style.animationDelay = Math.random() * 6 + 's';
+                emoteContainer.appendChild(emote);
+            }
+        });
