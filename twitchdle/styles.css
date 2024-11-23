@@ -1,21 +1,26 @@
 :root {
-    --col-bg: #e5d4ff;
-    --col-bg-light: #d4b8fd;
-    --col-bg-lighter: #c096ff;
+    --col-bg: #f0f0f0;
+    --col-bg-light: #e0e0e0;
+    --col-bg-lighter: #d0d0d0;
     --col-primary: #9146ff;
     --col-primary-dark: #634e83;
     --col-primary-light: #c096ff;
     --col-shadow: rgba(0, 0, 0, 0.25);
     --col-white: #fff;
+    --col-correct: #6aaa64;
+    --col-present: #c9b458;
+    --col-absent: #787c7e;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: var(--col-bg);
     color: var(--col-primary-dark);
+    margin: 0;
+    padding: 0;
 }
 
 .container {
@@ -27,60 +32,92 @@ body {
 
 h1 {
     color: var(--col-primary);
+    font-size: 48px;
+    font-weight: 600;
+    margin: 20px 0;
 }
 
 #board {
     display: grid;
-    grid-template-columns: repeat(5, 60px); /* Aumentado el tamaño de las celdas */
-    gap: 15px; /* Aumentado el espacio entre las celdas */
+    grid-template-columns: repeat(5, 60px);
+    gap: 15px;
     justify-content: center;
 }
 
 .tile {
-    width: 60px; /* Aumentado el tamaño de las celdas */
-    height: 60px; /* Aumentado el tamaño de las celdas */
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 32px; /* Aumentado el tamaño de la fuente */
+    font-size: 32px;
     font-weight: bold;
     border: 2px solid var(--col-primary-dark);
     background-color: var(--col-white);
     box-shadow: 0 4px 8px var(--col-shadow);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.tile.correct {
+    background-color: var(--col-correct);
+    color: var(--col-white);
+    transform: scale(1.1);
+}
+
+.tile.present {
+    background-color: var(--col-present);
+    color: var(--col-white);
+    transform: scale(1.1);
+}
+
+.tile.absent {
+    background-color: var(--col-absent);
+    color: var(--col-white);
+    transform: scale(1.1);
 }
 
 #keyboard {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Aumentado el espacio entre las filas del teclado */
-    margin-top: 30px; /* Aumentado el margen superior */
+    gap: 10px;
+    margin-top: 30px;
 }
 
 .key-row {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Aumentado el espacio entre las teclas */
+    gap: 10px;
 }
 
 .key {
-    width: 50px; /* Aumentado el tamaño de las teclas */
-    height: 50px; /* Aumentado el tamaño de las teclas */
+    width: 50px;
+    height: 50px;
     background-color: var(--col-bg-light);
     text-align: center;
-    line-height: 50px; /* Aumentado el line-height */
+    line-height: 50px;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 18px; /* Aumentado el tamaño de la fuente */
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px var(--col-shadow);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.key:hover {
+    background-color: var(--col-primary-light);
+    transform: scale(1.1);
 }
 
 .special-key {
-    width: 80px; /* Aumentado el tamaño de las teclas especiales */
+    width: 80px;
     background-color: var(--col-primary);
     color: var(--col-white);
+}
+
+.special-key:hover {
+    background-color: var(--col-primary-light);
 }
 
 .hidden {
@@ -99,17 +136,17 @@ h1 {
 }
 
 .correct {
-    background-color: #6aaa64;
+    background-color: var(--col-correct);
     color: white;
 }
 
 .present {
-    background-color: #c9b458;
+    background-color: var(--col-present);
     color: white;
 }
 
 .absent {
-    background-color: #787c7e;
+    background-color: var(--col-absent);
     color: white;
 }
 
@@ -213,21 +250,21 @@ h1 {
 
 .emote {
     position: absolute;
-    bottom: 100vh; /* Start off-screen, above the viewport */
+    bottom: 100vh;
     width: 102px;
     height: 56px;
     pointer-events: none;
-    z-index: 1; /* Ensure images are behind the text */
+    z-index: 1;
     animation: fall linear infinite;
 }
 
 @keyframes fall {
     0% {
-        transform: translateY(-100vh); /* Start off-screen, above the viewport */
+        transform: translateY(-100vh);
         opacity: 1;
     }
     100% {
-        transform: translateY(100vh); /* End off-screen, below the viewport */
+        transform: translateY(100vh);
         opacity: 0.1;
     }
 }
@@ -238,7 +275,13 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Prevents emotes from accumulating at the bottom */
-    pointer-events: none; /* Makes the container non-interactive */
-    z-index: -1; /* Sends the container behind other content */
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+#postGameStats {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
 }

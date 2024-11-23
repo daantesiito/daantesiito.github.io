@@ -27,6 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedGame = localStorage.getItem("wordleGame");
     const lastPlayedDate = localStorage.getItem("lastPlayedDate");
 
+    const stats = JSON.parse(localStorage.getItem("wordleStats")) || {
+        gamesPlayed: 0,
+        gamesWon: 0,
+        currentStreak: 0,
+        maxStreak: 0,
+        guessDistribution: Array(6).fill(0),
+        lastPlayedDate: null
+    };
+
     if (savedGame && lastPlayedDate === today.toDateString()) {
         const gameData = JSON.parse(savedGame);
         showPostGameScreen(gameData);
@@ -36,42 +45,74 @@ document.addEventListener("DOMContentLoaded", () => {
         initializeGame();
     }
 
+    function updateStats(won, attempts) {
+        stats.gamesPlayed++;
+        if (won) {
+            stats.gamesWon++;
+            stats.currentStreak++;
+            if (stats.currentStreak > stats.maxStreak) {
+                stats.maxStreak = stats.currentStreak;
+            }
+            stats.guessDistribution[attempts - 1]++;
+        } else {
+            stats.currentStreak = 0;
+        }
+        stats.lastPlayedDate = new Date().toDateString();
+        localStorage.setItem("wordleStats", JSON.stringify(stats));
+    }
+
+    function showStats() {
+        const winPercentage = ((stats.gamesWon / stats.gamesPlayed) * 100).toFixed(2);
+        const statsHTML = `
+            <p>Estadísticas: </p>
+            <p>${stats.gamesPlayed} Jugadas</p>
+            <p>${winPercentage}% Victorias</p>
+            <p>${stats.currentStreak} Racha Actual</p>
+            <p>${stats.maxStreak} Mejor Racha</p>
+            <p>${stats.guessDistribution.map((count, index) => `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`).join(' ')}</p>
+        `;
+        console.log(statsHTML); // Verificar el contenido generado
+        document.getElementById("postGameStats").innerHTML = statsHTML;
+    }
+
     function initializeGame() {
         for (let i = 0; i < 6 * 5; i++) {
             const tile = document.createElement("div");
             tile.classList.add("tile");
             board.appendChild(tile);
         }
-
+    
         const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
         rows.forEach((row) => {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("key-row");
             row.split("").forEach((key) => {
-                const keyElement = document.createElement("div");
-                keyElement.classList.add("key");
-                keyElement.textContent = key;
-                keyElement.id = `key-${key}`; // Asignar un ID único a cada tecla
-                keyElement.addEventListener("click", () => handleKeyPress(key));
-                rowDiv.appendChild(keyElement);
+                const keyDiv = document.createElement("div");
+                keyDiv.classList.add("key");
+                keyDiv.textContent = key;
+                keyDiv.setAttribute("data-key", key); // Agregar atributo data-key
+                keyDiv.addEventListener("click", () => handleKeyPress(key));
+                rowDiv.appendChild(keyDiv);
             });
             keyboard.appendChild(rowDiv);
         });
-
+    
         // Encontrar la fila donde se desea agregar las teclas ENTER y DELETE
         const bottomRow = document.querySelector(".key-row:last-child");
-
+    
         // Crear y agregar la tecla ENTER
         const enterKey = document.createElement("div");
         enterKey.classList.add("key", "special-key");
         enterKey.textContent = "ENTER";
+        enterKey.setAttribute("data-key", "Enter"); // Agregar atributo data-key
         enterKey.addEventListener("click", checkGuess);
         bottomRow.insertBefore(enterKey, bottomRow.firstChild);
-
+    
         // Crear y agregar la tecla DELETE
         const deleteKey = document.createElement("div");
         deleteKey.classList.add("key", "special-key");
         deleteKey.textContent = "DELETE";
+        deleteKey.setAttribute("data-key", "Backspace"); // Agregar atributo data-key
         deleteKey.addEventListener("click", () => {
             if (currentGuess.length > 0) {
                 currentGuess = currentGuess.slice(0, -1);
@@ -101,10 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkGuess() {
         if (currentGuess.length < 5) return;
-
+    
         const tiles = document.querySelectorAll(".tile");
         for (let i = 0; i < 5; i++) {
-            const keyElement = document.getElementById(`key-${currentGuess[i]}`);
+            const keyElement = document.querySelector(`.key[data-key="${currentGuess[i]}"]`);
             if (currentGuess[i] === wordToGuess[i]) {
                 tiles[currentAttempt * 5 + i].classList.add("correct");
                 gameBoard[currentAttempt][i] = "🟩";
@@ -119,17 +160,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (keyElement) keyElement.classList.add("absent");
             }
         }
-
+    
         const now = new Date();
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-
+    
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+    
         if (currentGuess === wordToGuess) {
             const endTime = new Date();
             const timeTaken = endTime - startTime;
@@ -216,60 +257,28 @@ document.addEventListener("DOMContentLoaded", () => {
         keyboard.classList.add("hidden");
         messageElement.classList.add("hidden");
         resultElement.classList.add("hidden");
+
+        showStats(); // Asegúrate de llamar a showStats aquí
     }
 
     function showModal(message, countdownText) {
-        modalMessage.textContent = message;
-        modalCountdown.textContent = countdownText;
-        modal.style.display = "block";  // Asegura que se muestre el modal
+        modalMessage.innerHTML = message;
+        modalCountdown.innerHTML = countdownText;
         modal.classList.remove("hidden");
+        modal.style.display = "block"; // Asegurarse de que el modal se muestre
     }
-    
+
     function showMessage(text) {
-        const now = new Date();
-        const nextDay = new Date(now);
-        nextDay.setDate(now.getDate() + 1);
-        nextDay.setHours(0, 0, 0, 0);
-
-        const diff = nextDay - now;
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-
-        showModal(text, countdownText);
+        messageElement.textContent = text;
+        messageElement.classList.remove("hidden");
+        setTimeout(() => {
+            messageElement.classList.add("hidden");
+        }, 2000);
     }
 
     function showResult(data) {
-        const now = new Date();
-        const nextDay = new Date(now);
-        nextDay.setDate(now.getDate() + 1);
-        nextDay.setHours(0, 0, 0, 0);
-
-        const diff = nextDay - now;
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-
-        let message;
-        if (data.currentGuess === wordToGuess) {
-            const timeTaken = new Date(data.endTime) - new Date(data.startTime);
-            const minutes = Math.floor(timeTaken / 60000);
-            const seconds = Math.floor((timeTaken % 60000) / 1000);
-            message = `¡Ya jugaste! Acertaste la palabra "${wordToGuess}" en ${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutos`;
-        } else {
-            message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
-        }
-
-        postGameMessage.innerHTML = `<p>${message}</p><p>${countdownText}</p>`;
-        postGameElement.classList.remove("hidden");
-        board.classList.add("hidden");
-        keyboard.classList.add("hidden");
-        messageElement.classList.add("hidden");
-        resultElement.classList.add("hidden");
+        resultElement.innerHTML = data;
+        resultElement.classList.remove("hidden");
     }
 
     function endGame(endTime = null) {
@@ -280,25 +289,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-
+    
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+    
         const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-
+    
         let message;
         if (currentGuess === wordToGuess) {
             const timeTaken = endTime - startTime;
             const minutesTaken = Math.floor(timeTaken / 60000);
             const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
             message = `¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
+            updateStats(true, currentAttempt + 1);
         } else {
             message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
+            updateStats(false, currentAttempt + 1);
         }
-
+    
         showModal(message, countdownText);
+        showStats();
         startCountdown();
         keyboard.classList.add("disabled");
     }
@@ -328,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     closeModal.addEventListener("click", () => {
         modal.style.display = "none";
+        modal.classList.add("hidden");
         location.reload();  // Recarga la página
     });
 
