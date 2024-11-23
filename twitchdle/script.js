@@ -64,13 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function showStats() {
         const winPercentage = ((stats.gamesWon / stats.gamesPlayed) * 100).toFixed(2);
         const statsHTML = `
-            <p>Estadísticas: </p>
-            <p>${stats.gamesPlayed} Jugadas</p>
-            <p>${winPercentage}% Victorias</p>
-            <p>${stats.currentStreak} Racha Actual</p>
-            <p>${stats.maxStreak} Mejor Racha</p>
-            <p>${stats.guessDistribution.map((count, index) => `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`).join(' ')}</p>
-        `;
+            <p>Estadísticas</p>
+            <p> Jugadas: ${stats.gamesPlayed}</p>
+            <p> Victorias: ${winPercentage}%</p>
+            <p> Racha Actual: ${stats.currentStreak}</p>
+            <p> Mejor Racha: ${stats.maxStreak}</p>
+            <p>
+                ${stats.guessDistribution.map((count, index) => 
+                    `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`
+                ).join('<br>')}
+            </p>        `;
         console.log(statsHTML); // Verificar el contenido generado
         document.getElementById("postGameStats").innerHTML = statsHTML;
     }
