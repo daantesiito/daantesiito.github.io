@@ -11,10 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalCountdown = document.getElementById("modalCountdown");
     const closeModal = document.getElementById("closeModal");
 
-    const wordList = ["AVION", "FILOS", "PILAS", "MANGO", "RAPTO", "VISTA", "FOCAS", "ALDEA", "MARCO", "PLUMA",
-                      "TORTA", "BOTAS", "TIGRE", "PERRO", "GATOS", "CABRA", "JUEGO", "LUCES", "RUBIO", "NUEVO",
-                      "SALTO", "RISAS", "LLAVE", "SILLA", "CAMPO", "BRISA", "CIELO", "LIMON", "PEZES", "MORAS"];
-
+    const wordList = [
+        "AVION", "FILOS", "PILAS", "MANGO", "RAPTO", "VISTA", "FOCAS", "ALDEA", "MARCO", "PLUMA",
+        "TORTA", "BOTAS", "TIGRE", "PERRO", "GATOS", "CABRA", "JUEGO", "LUCES", "RUBIO", "NUEVO",
+        "SALTO", "RISAS", "LLAVE", "SILLA", "CAMPO", "BRISA", "CIELO", "LIMON", "PEZES", "MORAS",
+        "NIEVE"
+    ];
+    
     const today = new Date();
     const dayIndex = today.getDate() - 1;
     const wordToGuess = wordList[dayIndex % wordList.length];
@@ -64,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function showStats() {
         const winPercentage = ((stats.gamesWon / stats.gamesPlayed) * 100).toFixed(2);
         const statsHTML = `
-            <p>Estadísticas</p>
+            <h2>Estadísticas</h2>
             <p> Jugadas: ${stats.gamesPlayed}</p>
             <p> Victorias: ${winPercentage}%</p>
             <p> Racha Actual: ${stats.currentStreak}</p>
@@ -73,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${stats.guessDistribution.map((count, index) => 
                     `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`
                 ).join('<br>')}
-            </p>        `;
+            </p>`;
         console.log(statsHTML); // Verificar el contenido generado
         document.getElementById("postGameStats").innerHTML = statsHTML;
     }
@@ -145,35 +148,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkGuess() {
         if (currentGuess.length < 5) return;
-    
+
+        if (!wordDictionary.includes(currentGuess)) {
+            showShakeAnimation();
+            return;
+        }
+
         const tiles = document.querySelectorAll(".tile");
         for (let i = 0; i < 5; i++) {
             const keyElement = document.querySelector(`.key[data-key="${currentGuess[i]}"]`);
             if (currentGuess[i] === wordToGuess[i]) {
                 tiles[currentAttempt * 5 + i].classList.add("correct");
                 gameBoard[currentAttempt][i] = "🟩";
-                if (keyElement) keyElement.classList.add("correct");
+                if (keyElement) {
+                    keyElement.classList.remove("present", "absent");
+                    keyElement.classList.add("correct");
+                }
             } else if (wordToGuess.includes(currentGuess[i])) {
                 tiles[currentAttempt * 5 + i].classList.add("present");
                 gameBoard[currentAttempt][i] = "🟨";
-                if (keyElement) keyElement.classList.add("present");
+                if (keyElement && !keyElement.classList.contains("correct")) {
+                    keyElement.classList.remove("absent");
+                    keyElement.classList.add("present");
+                }
             } else {
                 tiles[currentAttempt * 5 + i].classList.add("absent");
                 gameBoard[currentAttempt][i] = "⬛";
-                if (keyElement) keyElement.classList.add("absent");
+                if (keyElement && !keyElement.classList.contains("correct") && !keyElement.classList.contains("present")) {
+                    keyElement.classList.add("absent");
+                }
             }
         }
-    
+
         const now = new Date();
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-    
+
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
+
         if (currentGuess === wordToGuess) {
             const endTime = new Date();
             const timeTaken = endTime - startTime;
@@ -189,6 +205,18 @@ document.addEventListener("DOMContentLoaded", () => {
             currentGuess = "";
         }
         saveGame();
+    }
+
+    function showShakeAnimation() {
+        const tiles = document.querySelectorAll(".tile");
+        for (let i = 0; i < 5; i++) {
+            tiles[currentAttempt * 5 + i].classList.add("shake");
+        }
+        setTimeout(() => {
+            for (let i = 0; i < 5; i++) {
+                tiles[currentAttempt * 5 + i].classList.remove("shake");
+            }
+        }, 500);
     }
 
     function saveGame(endTime = null) {
@@ -414,3 +442,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 emoteContainer.appendChild(emote);
             }
         });
+
+let wordDictionary = [];
+
+fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/twitchdle/words/diccionario.txt')
+    .then(response => response.text())
+    .then(text => {
+        wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
+    });

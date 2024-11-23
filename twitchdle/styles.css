@@ -132,7 +132,6 @@ h1 {
 
 .post-game {
     text-align: center;
-    margin-top: 20px;
 }
 
 .correct {
@@ -284,4 +283,21 @@ h1 {
     margin-top: 20px;
     text-align: center;
     font-size: 16px;
+}
+
+#postGameStats h2 {
+    color: var(--col-primary);
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+.shake {
+    animation: shake 0.5s;
 }
