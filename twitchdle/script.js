@@ -534,7 +534,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/Sadge.gif?raw=true',
                 'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/nerd.png?raw=true',
                 'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/Nerdge.gif?raw=true',
-                'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/SadVegeta.gif?raw=true',
                 'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/sigma.gif?raw=true',
                 'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/sigmaArrive.gif?raw=true',
                 'https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/7tv/yipe.gif?raw=true',
