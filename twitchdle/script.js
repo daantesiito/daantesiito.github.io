@@ -94,33 +94,43 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleTwitchAuth() {
         const hash = window.location.hash;
         if (hash) {
-            const params = new URLSearchParams(hash.substring(1));
+            const params = new URLSearchParams(hash.substring(1)); // Elimina el #
             const accessToken = params.get('access_token');
+            
             if (accessToken) {
                 fetch('https://api.twitch.tv/helix/users', {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
-                        'Client-Id': '0oy4xx9zsvkxsbgwm6n0rmb28xtivy' 
+                        'Client-Id': '0oy4xx9zsvkxsbgwm6n0rmb28xtivy'
                     }
                 })
                 .then(response => response.json())
                 .then(data => {
                     const user = data.data[0];
+    
+                    // Guardar información del usuario en localStorage
                     localStorage.setItem("username", user.display_name);
                     localStorage.setItem("userAvatar", user.profile_image_url);
                     localStorage.setItem("lastPlayedDate", new Date().toDateString());
+    
+                    // Actualizar la UI
                     loginWithTwitchButton.style.display = "none";
                     userInfo.classList.remove("hidden");
                     userAvatar.src = user.profile_image_url;
                     userName.textContent = `Logged in as: ${user.display_name}`;
                     container.classList.remove("hidden");
+    
+                    // Inicializar el juego
                     initializeGame();
                     updateBoard();
+    
+                    // Limpiar la URL para eliminar los parámetros después del #
+                    history.replaceState(null, '', window.location.pathname);
                 })
                 .catch(error => console.error('Error fetching Twitch user:', error));
             }
         }
-    }
+    }    
 
     handleTwitchAuth();
 
