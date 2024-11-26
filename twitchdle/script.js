@@ -83,9 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const redirectUri = 'https://daantesiito.github.io/twitchdle/';
         const scope = 'user:read:email';
         const responseType = 'token';
-        const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+    
+        // Codificar la URL
+        const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${scope}`;
+    
+        // Redirigir a Twitch
         window.location.href = twitchAuthUrl;
-    });
+    });    
 
     function handleTwitchAuth() {
         const hash = window.location.hash;
