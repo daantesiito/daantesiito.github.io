@@ -3,13 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const keyboard = document.getElementById("keyboard");
     const messageElement = document.getElementById("message");
     const resultElement = document.getElementById("result");
-    const postGameElement = document.getElementById("postGame");
+    const postGame = document.getElementById("postGame");
     const postGameMessage = document.getElementById("postGameMessage");
     const postGameCountdown = document.getElementById("postGameCountdown");
+    const postGameStats = document.getElementById("postGameStats");
     const modal = document.getElementById("gameOverModal");
     const modalMessage = document.getElementById("modalMessage");
     const modalCountdown = document.getElementById("modalCountdown");
     const closeModal = document.getElementById("closeModal");
+    const loginWithTwitchButton = document.getElementById("loginWithTwitchButton");
+    const container = document.querySelector(".container");
+    const userInfo = document.getElementById("userInfo");
+    const userAvatar = document.getElementById("userAvatar");
+    const userName = document.getElementById("userName");
+    const userAvatarUrl = localStorage.getItem("userAvatar");
+    const now = new Date();
+    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const lastPlayedTimestamp = localStorage.getItem("lastPlayedTimestamp");
+    const isNewDay = !lastPlayedTimestamp || new Date(parseInt(lastPlayedTimestamp)).toDateString() !== now.toDateString();
 
     const wordList = [
         "AVION", "FILOS", "PILAS", "MANGO", "RAPTO", "VISTA", "FOCAS", "ALDEA", "MARCO", "PLUMA",
@@ -28,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let gameBoard = Array(6).fill("").map(() => Array(5).fill("⬛"));
 
     const savedGame = localStorage.getItem("wordleGame");
-    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const gameFinished = localStorage.getItem("gameFinished");
 
     const stats = JSON.parse(localStorage.getItem("wordleStats")) || {
         gamesPlayed: 0,
@@ -39,94 +50,231 @@ document.addEventListener("DOMContentLoaded", () => {
         lastPlayedDate: null
     };
 
-    if (savedGame && lastPlayedDate === today.toDateString()) {
-        const gameData = JSON.parse(savedGame);
-        showPostGameScreen(gameData);
+    const username = localStorage.getItem("username");
+
+    if (!username) {
+        loginWithTwitchButton.style.display = "block";
     } else {
-        localStorage.removeItem("wordleGame");
-        localStorage.setItem("lastPlayedDate", today.toDateString());
-        initializeGame();
-    }
+        loginWithTwitchButton.style.display = "none";
+        userInfo.classList.remove("hidden");
+        userAvatar.src = userAvatarUrl;
+        userName.textContent = `Logged in as: ${username}`;
+        container.classList.remove("hidden");
 
-    function updateStats(won, attempts) {
-        stats.gamesPlayed++;
-        if (won) {
-            stats.gamesWon++;
-            stats.currentStreak++;
-            if (stats.currentStreak > stats.maxStreak) {
-                stats.maxStreak = stats.currentStreak;
+        if (savedGame && lastPlayedDate === today.toDateString()) {
+            const gameData = JSON.parse(savedGame);
+            if (gameFinished === "true") {
+                showPostGameScreen(gameData);
+            } else {
+                loadSavedGame(gameData);
             }
-            stats.guessDistribution[attempts - 1]++;
         } else {
-            stats.currentStreak = 0;
+            if (lastPlayedDate !== today.toDateString()) {
+                localStorage.removeItem("wordleGame");
+                localStorage.setItem("lastPlayedDate", today.toDateString());
+                localStorage.setItem("gameFinished", "false");
+                initializeGame();
+            }
         }
-        stats.lastPlayedDate = new Date().toDateString();
-        localStorage.setItem("wordleStats", JSON.stringify(stats));
+    }
+    
+    loginWithTwitchButton.addEventListener("click", () => {
+        const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
+        const redirectUri = 'http://localhost:8000/';
+        const scope = 'user:read:email';
+        const responseType = 'token';
+        const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+        window.location.href = twitchAuthUrl;
+    });
+
+    function handleTwitchAuth() {
+        const hash = window.location.hash;
+        if (hash) {
+            const params = new URLSearchParams(hash.substring(1));
+            const accessToken = params.get('access_token');
+            if (accessToken) {
+                fetch('https://api.twitch.tv/helix/users', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Client-Id': '0oy4xx9zsvkxsbgwm6n0rmb28xtivy' 
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.data[0];
+                    localStorage.setItem("username", user.display_name);
+                    localStorage.setItem("userAvatar", user.profile_image_url);
+                    localStorage.setItem("lastPlayedDate", new Date().toDateString());
+                    loginWithTwitchButton.style.display = "none";
+                    userInfo.classList.remove("hidden");
+                    userAvatar.src = user.profile_image_url;
+                    userName.textContent = `Logged in as: ${user.display_name}`;
+                    container.classList.remove("hidden");
+                    initializeGame();
+                    updateBoard();
+                })
+                .catch(error => console.error('Error fetching Twitch user:', error));
+            }
+        }
     }
 
-    function showStats() {
-        const winPercentage = ((stats.gamesWon / stats.gamesPlayed) * 100).toFixed(2);
-        const statsHTML = `
-            <h2>Estadísticas</h2>
-            <p> Jugadas: ${stats.gamesPlayed}</p>
-            <p> Victorias: ${winPercentage}%</p>
-            <p> Racha Actual: ${stats.currentStreak}</p>
-            <p> Mejor Racha: ${stats.maxStreak}</p>
-            <p>
-                ${stats.guessDistribution.map((count, index) => 
-                    `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`
-                ).join('<br>')}
-            </p>`;
-        console.log(statsHTML); // Verificar el contenido generado
-        document.getElementById("postGameStats").innerHTML = statsHTML;
+    handleTwitchAuth();
+
+    if (username && userAvatarUrl) {
+        loginWithTwitchButton.style.display = "none";
+        userInfo.classList.remove("hidden");
+        userAvatar.src = userAvatarUrl;
+        userName.textContent = `Logged in as: ${username}`;
+        container.classList.remove("hidden");
+    }
+
+    function showPostGameScreen(data) {
+        const now = new Date();
+        const nextDay = new Date(now);
+        nextDay.setDate(now.getDate() + 1);
+        nextDay.setHours(0, 0, 0, 0);
+
+        const diff = nextDay - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
+
+        let message = data.message;
+        if (!message) {
+            if (data.currentGuess === wordToGuess) {
+                const timeTaken = new Date(data.endTime) - new Date(data.startTime);
+                const minutes = Math.floor(timeTaken / 60000);
+                const seconds = Math.floor((timeTaken % 60000) / 1000);
+                message = `Acertaste la palabra "${wordToGuess}" en ${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutos`;
+            } else {
+                message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
+            }
+        }
+
+        postGameMessage.innerHTML = `<p>${message}</p>`;
+        postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
+        if (data.currentGuess === wordToGuess) {
+            const gameBoardText = data.gameBoard.slice(0, data.currentAttempt + 1).map(row => row.join("")).join("<br>");
+            postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
+        }
+        postGame.classList.remove("hidden");
+        postGame.classList.add("visible");
+        board.classList.add("hidden");
+        keyboard.classList.add("hidden");
+        messageElement.classList.add("hidden");
+        resultElement.classList.add("hidden");
+
+        showStats(); // Asegúrate de llamar a showStats aquí
+    }
+
+    function endGame(endTime = null) {
+        if (endTime) {
+            saveGame(endTime);
+        }
+    
+        const now = new Date();
+        const nextDay = new Date(now);
+        nextDay.setDate(now.getDate() + 1);
+        nextDay.setHours(0, 0, 0, 0);
+    
+        const diff = nextDay - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+        let message;
+        if (currentGuess === wordToGuess) {
+            const timeTaken = endTime - startTime;
+            const minutesTaken = Math.floor(timeTaken / 60000);
+            const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
+            message = `¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
+            updateStats(true, currentAttempt + 1);
+        } else {
+            message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
+            updateStats(false, currentAttempt + 1);
+        }
+    
+        showModal(message, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
+        showStats();
+        startCountdown();
+        keyboard.classList.add("disabled");
+    
+        const gameData = {
+            message,
+            countdownText: `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`,
+            statsHTML: document.getElementById("postGameStats").innerHTML
+        };
+        localStorage.setItem("wordleGame", JSON.stringify(gameData));
+        showPostGameScreen(gameData);
+    }
+
+    function saveGame(endTime = null) {
+        const gameData = {
+            currentAttempt,
+            currentGuess,
+            gameBoard,
+            endTime,
+            message: modalMessage.innerHTML,
+            countdownText: modalCountdown.innerHTML,
+            statsHTML: postGameStats.innerHTML
+        };
+        localStorage.setItem("wordleGame", JSON.stringify(gameData));
     }
 
     function initializeGame() {
-        for (let i = 0; i < 6 * 5; i++) {
-            const tile = document.createElement("div");
-            tile.classList.add("tile");
-            board.appendChild(tile);
-        }
-    
-        const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-        rows.forEach((row) => {
-            const rowDiv = document.createElement("div");
-            rowDiv.classList.add("key-row");
-            row.split("").forEach((key) => {
-                const keyDiv = document.createElement("div");
-                keyDiv.classList.add("key");
-                keyDiv.textContent = key;
-                keyDiv.setAttribute("data-key", key); // Agregar atributo data-key
-                keyDiv.addEventListener("click", () => handleKeyPress(key));
-                rowDiv.appendChild(keyDiv);
-            });
-            keyboard.appendChild(rowDiv);
-        });
-    
-        // Encontrar la fila donde se desea agregar las teclas ENTER y DELETE
-        const bottomRow = document.querySelector(".key-row:last-child");
-    
-        // Crear y agregar la tecla ENTER
-        const enterKey = document.createElement("div");
-        enterKey.classList.add("key", "special-key");
-        enterKey.textContent = "ENTER";
-        enterKey.setAttribute("data-key", "Enter"); // Agregar atributo data-key
-        enterKey.addEventListener("click", checkGuess);
-        bottomRow.insertBefore(enterKey, bottomRow.firstChild);
-    
-        // Crear y agregar la tecla DELETE
-        const deleteKey = document.createElement("div");
-        deleteKey.classList.add("key", "special-key");
-        deleteKey.textContent = "DELETE";
-        deleteKey.setAttribute("data-key", "Backspace"); // Agregar atributo data-key
-        deleteKey.addEventListener("click", () => {
-            if (currentGuess.length > 0) {
-                currentGuess = currentGuess.slice(0, -1);
-                updateBoard();
-            }
-        });
-        bottomRow.appendChild(deleteKey);
+    if (wordDictionary.length === 0) {
+        console.error("El diccionario no se ha cargado correctamente.");
+        return;
     }
+
+    board.innerHTML = ""; // Limpiar el tablero antes de inicializar
+    for (let i = 0; i < 6 * 5; i++) {
+        const tile = document.createElement("div");
+        tile.classList.add("tile");
+        board.appendChild(tile);
+    }
+
+    const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+    rows.forEach((row) => {
+        const rowDiv = document.createElement("div");
+        rowDiv.classList.add("key-row");
+        row.split("").forEach((key) => {
+            const keyDiv = document.createElement("div");
+            keyDiv.classList.add("key");
+            keyDiv.textContent = key;
+            keyDiv.setAttribute("data-key", key); // Agregar atributo data-key
+            keyDiv.addEventListener("click", () => handleKeyPress(key));
+            rowDiv.appendChild(keyDiv);
+        });
+        keyboard.appendChild(rowDiv);
+    });
+
+    // Encontrar la fila donde se desea agregar las teclas ENTER y DELETE
+    const bottomRow = document.querySelector(".key-row:last-child");
+
+    // Crear y agregar la tecla ENTER
+    const enterKey = document.createElement("div");
+    enterKey.classList.add("key", "special-key");
+    enterKey.textContent = "ENTER";
+    enterKey.setAttribute("data-key", "Enter"); // Agregar atributo data-key
+    enterKey.addEventListener("click", checkGuess);
+    bottomRow.insertBefore(enterKey, bottomRow.firstChild);
+
+    // Crear y agregar la tecla DELETE
+    const deleteKey = document.createElement("div");
+    deleteKey.classList.add("key", "special-key");
+    deleteKey.textContent = "DELETE";
+    deleteKey.setAttribute("data-key", "Backspace"); // Agregar atributo data-key
+    deleteKey.addEventListener("click", () => {
+        if (currentGuess.length > 0) {
+            currentGuess = currentGuess.slice(0, -1);
+            updateBoard();
+        }
+    });
+    bottomRow.appendChild(deleteKey);
+}
 
     function handleKeyPress(key) {
         if (currentGuess.length < 5) {
@@ -219,77 +367,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 500);
     }
 
-    function saveGame(endTime = null) {
-        const gameData = {
-            currentAttempt,
-            currentGuess,
-            boardState: Array.from(document.querySelectorAll(".tile")).map(tile => tile.textContent),
-            startTime: startTime.toISOString(),
-            endTime: endTime ? endTime.toISOString() : null,
-            gameBoard
-        };
-        localStorage.setItem("wordleGame", JSON.stringify(gameData));
+    function updateStats(won, attempts) {
+        stats.gamesPlayed++;
+        if (won) {
+            stats.gamesWon++;
+            stats.currentStreak++;
+            if (stats.currentStreak > stats.maxStreak) {
+                stats.maxStreak = stats.currentStreak;
+            }
+        } else {
+            stats.currentStreak = 0;
+        }
+        stats.guessDistribution[attempts - 1]++;
+        localStorage.setItem("wordleStats", JSON.stringify(stats));
+    }
+
+    function showStats() {
+        const winPercentage = ((stats.gamesWon / stats.gamesPlayed) * 100).toFixed(2);
+        const statsHTML = `
+            <h2>Estadísticas</h2>
+            <p> Jugadas: ${stats.gamesPlayed}</p>
+            <p> Victorias: ${winPercentage}%</p>
+            <p> Racha Actual: ${stats.currentStreak}</p>
+            <p> Mejor Racha: ${stats.maxStreak}</p>
+            <p>
+                ${stats.guessDistribution.map((count, index) => 
+                    `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`
+                ).join('<br>')}
+            </p>`;
+        console.log(statsHTML); // Verificar el contenido generado
+        document.getElementById("postGameStats").innerHTML = statsHTML;
     }
 
     function loadSavedGame(data) {
         currentAttempt = data.currentAttempt;
         currentGuess = data.currentGuess;
         gameBoard = data.gameBoard;
-
-        const tiles = document.querySelectorAll(".tile");
-        data.boardState.forEach((letter, index) => {
-            tiles[index].textContent = letter;
-            if (letter) {
-                tiles[index].classList.add(
-                    wordToGuess[index % 5] === letter ? "correct" :
-                    wordToGuess.includes(letter) ? "present" : "absent"
-                );
-            }
-        });
-
+    
+        if (data.boardState) {
+            const tiles = document.querySelectorAll(".tile");
+            data.boardState.forEach((letter, index) => {
+                tiles[index].textContent = letter;
+                if (letter) {
+                    tiles[index].classList.add(
+                        wordToGuess[index % 5] === letter ? "correct" :
+                        wordToGuess.includes(letter) ? "present" : "absent"
+                    );
+                }
+            });
+        }
+    
         if (currentAttempt >= 6 || currentGuess === wordToGuess) {
             showPostGameScreen(data);
         }
-    }
-
-    function showPostGameScreen(data) {
-        const now = new Date();
-        const nextDay = new Date(now);
-        nextDay.setDate(now.getDate() + 1);
-        nextDay.setHours(0, 0, 0, 0);
-
-        const diff = nextDay - now;
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-
-        let message = data.message;
-        if (!message) {
-            if (data.currentGuess === wordToGuess) {
-                const timeTaken = new Date(data.endTime) - new Date(data.startTime);
-                const minutes = Math.floor(timeTaken / 60000);
-                const seconds = Math.floor((timeTaken % 60000) / 1000);
-                message = `Acertaste la palabra "${wordToGuess}" en ${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutos`;
-            } else {
-                message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
-            }
-        }
-
-        postGameMessage.innerHTML = `<p>${message}</p>`;
-        postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
-        if (data.currentGuess === wordToGuess) {
-            const gameBoardText = data.gameBoard.slice(0, data.currentAttempt + 1).map(row => row.join("")).join("<br>");
-            postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
-        }
-        postGameElement.classList.remove("hidden");
-        board.classList.add("hidden");
-        keyboard.classList.add("hidden");
-        messageElement.classList.add("hidden");
-        resultElement.classList.add("hidden");
-
-        showStats(); // Asegúrate de llamar a showStats aquí
     }
 
     function showModal(message, countdownText) {
@@ -310,40 +440,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function showResult(data) {
         resultElement.innerHTML = data;
         resultElement.classList.remove("hidden");
-    }
-
-    function endGame(endTime = null) {
-        if (endTime) {
-            saveGame(endTime);
-        }
-        const now = new Date();
-        const nextDay = new Date(now);
-        nextDay.setDate(now.getDate() + 1);
-        nextDay.setHours(0, 0, 0, 0);
-    
-        const diff = nextDay - now;
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-        const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-    
-        let message;
-        if (currentGuess === wordToGuess) {
-            const timeTaken = endTime - startTime;
-            const minutesTaken = Math.floor(timeTaken / 60000);
-            const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
-            message = `¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
-            updateStats(true, currentAttempt + 1);
-        } else {
-            message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
-            updateStats(false, currentAttempt + 1);
-        }
-    
-        showModal(message, countdownText);
-        showStats();
-        startCountdown();
-        keyboard.classList.add("disabled");
     }
 
     function startCountdown() {
@@ -449,4 +545,5 @@ fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/
     .then(response => response.text())
     .then(text => {
         wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
+        initializeGame(); // Inicializa el juego después de cargar el diccionario
     });

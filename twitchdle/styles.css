@@ -35,6 +35,7 @@ h1 {
     font-size: 48px;
     font-weight: 600;
     margin: 20px 0;
+    margin-top: 50px;
 }
 
 #board {
@@ -121,7 +122,11 @@ h1 {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
 }
 
 #result {
@@ -131,7 +136,13 @@ h1 {
 }
 
 .post-game {
+    display: none; 
     text-align: center;
+    margin-top: 0px;
+}
+
+.post-game.visible {
+    display: block !important;
 }
 
 .correct {
@@ -300,4 +311,42 @@ h1 {
 
 .shake {
     animation: shake 0.5s;
+}
+
+#userInfo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#userInfo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#userInfo span {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--col-primary-dark);
+}
+
+#loginWithTwitchButton {
+    padding: 10px 20px;
+    background-color: #6441a5;
+    color: var(--col-white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#loginWithTwitchButton:hover {
+    background-color: #9147ff;
 }
