@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
         // Redirigir a Twitch
         window.location.href = twitchAuthUrl;
-    });    
+    });
 
     function handleTwitchAuth() {
         const hash = window.location.hash;
