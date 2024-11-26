@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'http://localhost:8000/';
+        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
         const scope = 'user:read:email';
         const responseType = 'token';
         const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
@@ -161,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         postGame.classList.remove("hidden");
         postGame.classList.add("visible");
+
         board.classList.add("hidden");
         keyboard.classList.add("hidden");
         messageElement.classList.add("hidden");
