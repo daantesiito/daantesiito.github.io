@@ -1,3 +1,19 @@
+// Configuración de Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyA4jwDsKA3OfzGx59iEZixdTGc9ilq0JxA",
+    authDomain: "pasapalabra-a1320.firebaseapp.com",
+    databaseURL: "https://pasapalabra-a1320-default-rtdb.firebaseio.com",
+    projectId: "pasapalabra-a1320",
+    storageBucket: "pasapalabra-a1320.appspot.com",
+    messagingSenderId: "986445345846",
+    appId: "1:986445345846:web:7bdc7c987ee62c14e9d497",
+    measurementId: "G-2EZ1QXZ8BK"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 document.addEventListener("DOMContentLoaded", () => {
     const board = document.getElementById("board");
     const keyboard = document.getElementById("keyboard");
@@ -18,22 +34,88 @@ document.addEventListener("DOMContentLoaded", () => {
     const userName = document.getElementById("userName");
     const userAvatarUrl = localStorage.getItem("userAvatar");
     const now = new Date();
-    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const lastPlayedDate = new Date(localStorage.getItem("lastPlayedDate")).toDateString();
+    const today = new Date().toDateString();
     const lastPlayedTimestamp = localStorage.getItem("lastPlayedTimestamp");
     const isNewDay = !lastPlayedTimestamp || new Date(parseInt(lastPlayedTimestamp)).toDateString() !== now.toDateString();
+    const startDate = new Date('2024-11-30'); // Cambia esta fecha según sea necesario
+    let wordDictionary = [];
+    let wordList = [];
+    let wordToGuess = "";
+    let countdown;
 
-    const wordList = [
-        "AVION", "FILOS", "PILAS", "MANGO", "RAPTO", "VISTA", "FOCAS", "ALDEA", "MARCO", "PLUMA",
-        "TORTA", "BOTAS", "TIGRE", "PERRO", "GATOS", "CABRA", "JUEGO", "LUCES", "RUBIO", "NUEVO",
-        "SALTO", "RISAS", "LLAVE", "SILLA", "CAMPO", "BRISA", "CIELO", "LIMON", "PEZES", "MORAS",
-        "NIEVE"
-    ];
+    function initializeGame() {
+        console.log("Inicializando el juego...");
+        if (wordList.length === 0) {
+            console.error("El wordList no se ha cargado correctamente.");
+            return;
+        }
     
-    const today = new Date();
-    const dayIndex = today.getDate() - 1;
-    const wordToGuess = wordList[dayIndex % wordList.length];
-
-    const startTime = new Date();
+        const today = new Date().toDateString();
+        const startDate = new Date('2023-01-01'); // Cambia esta fecha según sea necesario
+        const dayIndex = Math.floor((new Date(today) - startDate) / (1000 * 60 * 60 * 24)) % wordList.length;
+        wordToGuess = wordList[dayIndex];
+        console.log("Palabra a adivinar:", wordToGuess);
+    
+        // Reiniciar el estado del juego
+        currentAttempt = 0;
+        currentGuess = "";
+        gameBoard = Array(6).fill("").map(() => Array(5).fill("⬛"));
+    
+        board.innerHTML = ""; // Limpiar el tablero antes de inicializar
+        for (let i = 0; i < 6 * 5; i++) {
+            const tile = document.createElement("div");
+            tile.classList.add("tile");
+            board.appendChild(tile);
+        }
+    
+        // Limpiar el contenido del teclado antes de agregar nuevas filas de teclas
+        keyboard.innerHTML = "";
+    
+        const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+        rows.forEach((row) => {
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("key-row");
+            row.split("").forEach((key) => {
+                const keyDiv = document.createElement("div");
+                keyDiv.classList.add("key");
+                keyDiv.textContent = key;
+                keyDiv.setAttribute("data-key", key); // Agregar atributo data-key
+                keyDiv.addEventListener("click", () => handleKeyPress(key));
+                rowDiv.appendChild(keyDiv);
+            });
+            keyboard.appendChild(rowDiv);
+        });
+    
+        // Encontrar la fila donde se desea agregar las teclas ENTER y DELETE
+        const bottomRow = document.querySelector(".key-row:last-child");
+    
+        // Crear y agregar la tecla ENTER
+        const enterKey = document.createElement("div");
+        enterKey.classList.add("key", "special-key");
+        enterKey.textContent = "ENTER";
+        enterKey.setAttribute("data-key", "Enter"); // Agregar atributo data-key
+        enterKey.addEventListener("click", checkGuess);
+        bottomRow.insertBefore(enterKey, bottomRow.firstChild);
+    
+        // Crear y agregar la tecla DELETE
+        const deleteKey = document.createElement("div");
+        deleteKey.classList.add("key", "special-key");
+        deleteKey.textContent = "DELETE";
+        deleteKey.setAttribute("data-key", "Backspace"); // Agregar atributo data-key
+        deleteKey.addEventListener("click", () => {
+            if (currentGuess.length > 0) {
+                currentGuess = currentGuess.slice(0, -1);
+                updateBoard();
+            }
+        });
+        bottomRow.appendChild(deleteKey);
+    
+        // Iniciar el temporizador
+        startTime = new Date();
+    }
+        
+    let startTime;
     let currentAttempt = 0;
     let currentGuess = "";
     let gameBoard = Array(6).fill("").map(() => Array(5).fill("⬛"));
@@ -61,26 +143,67 @@ document.addEventListener("DOMContentLoaded", () => {
         userName.textContent = `Logged in as: ${username}`;
         container.classList.remove("hidden");
 
-        if (savedGame && lastPlayedDate === today.toDateString()) {
+        console.log("savedGame:", savedGame);
+        console.log("gameFinished:", gameFinished);
+        console.log("lastPlayedDate:", lastPlayedDate);
+        console.log("today:", today);
+
+        if (savedGame && lastPlayedDate === today) {
             const gameData = JSON.parse(savedGame);
+            console.log("Juego guardado encontrado:", gameData);
             if (gameFinished === "true") {
                 showPostGameScreen(gameData);
             } else {
                 loadSavedGame(gameData);
             }
         } else {
-            if (lastPlayedDate !== today.toDateString()) {
+            if (lastPlayedDate !== today) {
+                console.log("Nuevo día detectado, inicializando nuevo juego...");
                 localStorage.removeItem("wordleGame");
-                localStorage.setItem("lastPlayedDate", today.toDateString());
+                localStorage.setItem("lastPlayedDate", today);
                 localStorage.setItem("gameFinished", "false");
                 initializeGame();
             }
         }
+
+        // Cargar el wordList y el diccionario desde los archivos de texto
+        Promise.all([
+            fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/twitchdle/words/wordList.txt')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    wordList = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+                    console.log("Contenido del archivo wordList.txt:", wordList); // Verificar el contenido del archivo
+                    if (!Array.isArray(wordList)) {
+                        throw new Error("El wordList no se ha cargado correctamente.");
+                    }
+                })
+                .catch(error => console.error('Error loading wordList:', error)),
+
+            fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/twitchdle/words/diccionario.txt')
+                .then(response => response.text())
+                .then(text => {
+                    wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
+                    console.log("Contenido del archivo diccionario.txt:", wordDictionary); // Verificar el contenido del archivo
+                })
+                .catch(error => console.error('Error loading wordDictionary:', error))
+        ]).then(() => {
+            // Inicializamos el juego después de cargar ambos archivos
+            if (wordList.length > 0 && wordDictionary.length > 0) {
+                initializeGame();
+            } else {
+                console.error("El wordList o el wordDictionary no se han cargado correctamente.");
+            }
+        });
     }
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        const redirectUri = 'http://localhost:8000/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
@@ -120,9 +243,43 @@ document.addEventListener("DOMContentLoaded", () => {
                     userName.textContent = `Logged in as: ${user.display_name}`;
                     container.classList.remove("hidden");
     
-                    // Inicializar el juego
-                    initializeGame();
-                    updateBoard();
+                    // Crear un archivo vacío con el userName en la carpeta TwitchdleUsernames
+                    const userRef = database.ref('TwitchdleUsernames/' + user.display_name);
+                    userRef.set(true);
+    
+                    // Cargar el wordList y el diccionario desde los archivos de texto
+                    Promise.all([
+                        fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/twitchdle/words/wordList.txt')
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.text();
+                            })
+                            .then(text => {
+                                wordList = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+                                console.log("Contenido del archivo wordList.txt:", wordList); // Verificar el contenido del archivo
+                                if (!Array.isArray(wordList)) {
+                                    throw new Error("El wordList no se ha cargado correctamente.");
+                                }
+                            })
+                            .catch(error => console.error('Error loading wordList:', error)),
+    
+                        fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/twitchdle/words/diccionario.txt')
+                            .then(response => response.text())
+                            .then(text => {
+                                wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
+                                console.log("Contenido del archivo diccionario.txt:", wordDictionary); // Verificar el contenido del archivo
+                            })
+                            .catch(error => console.error('Error loading wordDictionary:', error))
+                    ]).then(() => {
+                        // Inicializamos el juego después de cargar ambos archivos
+                        if (wordList.length > 0 && wordDictionary.length > 0) {
+                            initializeGame();
+                        } else {
+                            console.error("El wordList o el wordDictionary no se han cargado correctamente.");
+                        }
+                    });
     
                     // Limpiar la URL para eliminar los parámetros después del #
                     history.replaceState(null, '', window.location.pathname);
@@ -130,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .catch(error => console.error('Error fetching Twitch user:', error));
             }
         }
-    }    
+    }
 
     handleTwitchAuth();
 
@@ -143,89 +300,107 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showPostGameScreen(data) {
+        console.log("Mostrando pantalla de post-juego...");
+        console.log("Datos del juego:", data);
+    
         const now = new Date();
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-
+    
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+    
         const countdownText = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-
+    
         let message = data.message;
         if (!message) {
             if (data.currentGuess === wordToGuess) {
                 const timeTaken = new Date(data.endTime) - new Date(data.startTime);
-                const minutes = Math.floor(timeTaken / 60000);
-                const seconds = Math.floor((timeTaken % 60000) / 1000);
-                message = `Acertaste la palabra "${wordToGuess}" en ${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutos`;
+                const minutesTaken = Math.floor(timeTaken / 60000);
+                const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
+                message = `Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
             } else {
                 message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
             }
         }
-
+    
         postGameMessage.innerHTML = `<p>${message}</p>`;
         postGameCountdown.innerHTML = `<p>${countdownText}</p>`;
-        if (data.currentGuess === wordToGuess) {
-            const gameBoardText = data.gameBoard.slice(0, data.currentAttempt + 1).map(row => row.join("")).join("<br>");
+        if (data.gameBoard) {
+            const gameBoardText = data.gameBoard
+                .filter(row => row.some(cell => cell !== "⬛")) // Filtrar filas que no están completamente llenas de cuadrados negros
+                .map(row => row.join("")).join("<br>");
             postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
         }
+        console.log("Ocultando container y mostrando postGame...");
         postGame.classList.remove("hidden");
         postGame.classList.add("visible");
-
+        container.classList.add("hidden");
+        container.classList.remove("visible");
+    
         board.classList.add("hidden");
         keyboard.classList.add("hidden");
         messageElement.classList.add("hidden");
         resultElement.classList.add("hidden");
-
-        showStats(); // Asegúrate de llamar a showStats aquí
+    
+        showStats();
     }
 
     function endGame(endTime = null) {
+        console.log("Terminando el juego...");
         if (endTime) {
             saveGame(endTime);
         }
-    
+
         const now = new Date();
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-    
+
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
+
+        // Calcular el tiempo transcurrido
+        const timeTaken = endTime - startTime;
+        const minutesTaken = Math.floor(timeTaken / 60000);
+        const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
+
         let message;
         if (currentGuess === wordToGuess) {
-            const timeTaken = endTime - startTime;
-            const minutesTaken = Math.floor(timeTaken / 60000);
-            const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
             message = `¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
             updateStats(true, currentAttempt + 1);
         } else {
             message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
             updateStats(false, currentAttempt + 1);
         }
-    
+
         showModal(message, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
         showStats();
         startCountdown();
         keyboard.classList.add("disabled");
-    
+
         const gameData = {
+            currentAttempt,
+            currentGuess,
+            gameBoard,
             message,
             countdownText: `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`,
-            statsHTML: document.getElementById("postGameStats").innerHTML
+            statsHTML: document.getElementById("postGameStats").innerHTML,
+            gameFinished: true,
+            startTime: startTime.toISOString(),
+            endTime: endTime.toISOString()
         };
         localStorage.setItem("wordleGame", JSON.stringify(gameData));
-        showPostGameScreen(gameData);
+        localStorage.setItem("gameFinished", "true");
     }
 
     function saveGame(endTime = null) {
+        console.log("Guardando el juego...");
         const gameData = {
             currentAttempt,
             currentGuess,
@@ -233,63 +408,11 @@ document.addEventListener("DOMContentLoaded", () => {
             endTime,
             message: modalMessage.innerHTML,
             countdownText: modalCountdown.innerHTML,
-            statsHTML: postGameStats.innerHTML
+            statsHTML: postGameStats.innerHTML,
+            boardState: Array.from(document.querySelectorAll(".tile")).map(tile => tile.textContent)
         };
         localStorage.setItem("wordleGame", JSON.stringify(gameData));
     }
-
-    function initializeGame() {
-    if (wordDictionary.length === 0) {
-        console.error("El diccionario no se ha cargado correctamente.");
-        return;
-    }
-
-    board.innerHTML = ""; // Limpiar el tablero antes de inicializar
-    for (let i = 0; i < 6 * 5; i++) {
-        const tile = document.createElement("div");
-        tile.classList.add("tile");
-        board.appendChild(tile);
-    }
-
-    const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-    rows.forEach((row) => {
-        const rowDiv = document.createElement("div");
-        rowDiv.classList.add("key-row");
-        row.split("").forEach((key) => {
-            const keyDiv = document.createElement("div");
-            keyDiv.classList.add("key");
-            keyDiv.textContent = key;
-            keyDiv.setAttribute("data-key", key); // Agregar atributo data-key
-            keyDiv.addEventListener("click", () => handleKeyPress(key));
-            rowDiv.appendChild(keyDiv);
-        });
-        keyboard.appendChild(rowDiv);
-    });
-
-    // Encontrar la fila donde se desea agregar las teclas ENTER y DELETE
-    const bottomRow = document.querySelector(".key-row:last-child");
-
-    // Crear y agregar la tecla ENTER
-    const enterKey = document.createElement("div");
-    enterKey.classList.add("key", "special-key");
-    enterKey.textContent = "ENTER";
-    enterKey.setAttribute("data-key", "Enter"); // Agregar atributo data-key
-    enterKey.addEventListener("click", checkGuess);
-    bottomRow.insertBefore(enterKey, bottomRow.firstChild);
-
-    // Crear y agregar la tecla DELETE
-    const deleteKey = document.createElement("div");
-    deleteKey.classList.add("key", "special-key");
-    deleteKey.textContent = "DELETE";
-    deleteKey.setAttribute("data-key", "Backspace"); // Agregar atributo data-key
-    deleteKey.addEventListener("click", () => {
-        if (currentGuess.length > 0) {
-            currentGuess = currentGuess.slice(0, -1);
-            updateBoard();
-        }
-    });
-    bottomRow.appendChild(deleteKey);
-}
 
     function handleKeyPress(key) {
         if (currentGuess.length < 5) {
@@ -310,49 +433,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkGuess() {
-        if (currentGuess.length < 5) return;
-
-        if (!wordDictionary.includes(currentGuess)) {
-            showShakeAnimation();
+        if (currentGuess.length !== 5) {
+            showMessage("La palabra debe tener 5 letras.");
             return;
         }
-
+    
         const tiles = document.querySelectorAll(".tile");
-        for (let i = 0; i < 5; i++) {
-            const keyElement = document.querySelector(`.key[data-key="${currentGuess[i]}"]`);
-            if (currentGuess[i] === wordToGuess[i]) {
-                tiles[currentAttempt * 5 + i].classList.add("correct");
-                gameBoard[currentAttempt][i] = "🟩";
-                if (keyElement) {
-                    keyElement.classList.remove("present", "absent");
-                    keyElement.classList.add("correct");
-                }
-            } else if (wordToGuess.includes(currentGuess[i])) {
-                tiles[currentAttempt * 5 + i].classList.add("present");
-                gameBoard[currentAttempt][i] = "🟨";
-                if (keyElement && !keyElement.classList.contains("correct")) {
-                    keyElement.classList.remove("absent");
-                    keyElement.classList.add("present");
-                }
-            } else {
-                tiles[currentAttempt * 5 + i].classList.add("absent");
-                gameBoard[currentAttempt][i] = "⬛";
-                if (keyElement && !keyElement.classList.contains("correct") && !keyElement.classList.contains("present")) {
-                    keyElement.classList.add("absent");
+        const guessArray = currentGuess.split("");
+        const wordArray = wordToGuess.split("");
+        const letterCount = {};
+    
+        // Contar las letras en la palabra a adivinar
+        wordArray.forEach(letter => {
+            letterCount[letter] = (letterCount[letter] || 0) + 1;
+        });
+    
+        // Marcar las letras correctas (verdes)
+        guessArray.forEach((letter, index) => {
+            if (letter === wordArray[index]) {
+                tiles[currentAttempt * 5 + index].classList.add("correct");
+                gameBoard[currentAttempt][index] = "🟩";
+                letterCount[letter]--;
+            }
+        });
+    
+        // Marcar las letras presentes (amarillas) y ausentes (negras)
+        guessArray.forEach((letter, index) => {
+            if (letter !== wordArray[index]) {
+                if (wordArray.includes(letter) && letterCount[letter] > 0) {
+                    tiles[currentAttempt * 5 + index].classList.add("present");
+                    gameBoard[currentAttempt][index] = "🟨";
+                    letterCount[letter]--;
+                } else {
+                    tiles[currentAttempt * 5 + index].classList.add("absent");
+                    gameBoard[currentAttempt][index] = "⬛";
                 }
             }
-        }
-
+        });
+    
         const now = new Date();
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-
+    
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+    
         if (currentGuess === wordToGuess) {
             const endTime = new Date();
             const timeTaken = endTime - startTime;
@@ -389,6 +517,13 @@ document.addEventListener("DOMContentLoaded", () => {
             stats.currentStreak++;
             if (stats.currentStreak > stats.maxStreak) {
                 stats.maxStreak = stats.currentStreak;
+
+                // Enviar la racha más larga a Firebase
+                const username = localStorage.getItem("username");
+                if (username) {
+                    const streakRef = database.ref('longestStreakTwitchdle/' + username);
+                    streakRef.set(stats.maxStreak);
+                }
             }
         } else {
             stats.currentStreak = 0;
@@ -410,11 +545,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`
                 ).join('<br>')}
             </p>`;
-        console.log(statsHTML); // Verificar el contenido generado
+        console.log("Estadísticas generadas:", statsHTML); // Verificar el contenido generado
         document.getElementById("postGameStats").innerHTML = statsHTML;
     }
 
     function loadSavedGame(data) {
+        console.log("Cargando el juego guardado...");
         currentAttempt = data.currentAttempt;
         currentGuess = data.currentGuess;
         gameBoard = data.gameBoard;
@@ -432,7 +568,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     
-        if (currentAttempt >= 6 || currentGuess === wordToGuess) {
+        if (currentAttempt >= 6 || currentGuess === wordToGuess || data.gameFinished) {
             showPostGameScreen(data);
         }
     }
@@ -458,26 +594,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function startCountdown() {
-        const now = new Date();
-        const nextDay = new Date(now);
-        nextDay.setDate(now.getDate() + 1);
-        nextDay.setHours(0, 0, 0, 0);
-
-        function updateCountdown() {
-            const diff = nextDay - new Date();
-            if (diff <= 0) {
-                countdown.textContent = "¡Nueva palabra disponible!";
-                clearInterval(countdownInterval);
-            } else {
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                countdown.textContent = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
-            }
-        }
-
+        const updateCountdown = () => {
+            const now = new Date();
+            const nextDay = new Date(now);
+            nextDay.setDate(now.getDate() + 1);
+            nextDay.setHours(0, 0, 0, 0);
+    
+            const diff = nextDay - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+            postGameCountdown.innerHTML = `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`;
+        };
+    
         updateCountdown();
-        const countdownInterval = setInterval(updateCountdown, 1000);
+        countdown = setInterval(updateCountdown, 1000);
     }
 
     closeModal.addEventListener("click", () => {
@@ -552,12 +684,3 @@ document.addEventListener('DOMContentLoaded', () => {
                 emoteContainer.appendChild(emote);
             }
         });
-
-let wordDictionary = [];
-
-fetch('https://raw.githubusercontent.com/daantesiito/daantesiito.github.io/main/twitchdle/words/diccionario.txt')
-    .then(response => response.text())
-    .then(text => {
-        wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
-        initializeGame(); // Inicializa el juego después de cargar el diccionario
-    });
