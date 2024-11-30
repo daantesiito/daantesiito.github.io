@@ -1,4 +1,4 @@
-const wordList = [
+[
     "AVION",
     "FILOS",
     "PILAS",
@@ -48,5 +48,4 @@ const wordList = [
     "CORRE",
     "VACIO",
     "TIERRA",
-    // Agrega más palabras aquí
-];
+]
