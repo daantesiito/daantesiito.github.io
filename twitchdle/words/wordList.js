@@ -50,5 +50,3 @@ const wordList = [
     "TIERRA",
     // Agrega más palabras aquí
 ];
-
-export default wordList;
