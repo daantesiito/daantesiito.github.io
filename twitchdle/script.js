@@ -57,13 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
         wordToGuess = wordList[dayIndex];
         console.log("Palabra a adivinar:", wordToGuess);
     
+        const wordLength = wordToGuess.length;
+    
         // Reiniciar el estado del juego
         currentAttempt = 0;
         currentGuess = "";
-        gameBoard = Array(6).fill("").map(() => Array(5).fill("⬛"));
+        gameBoard = Array(6).fill("").map(() => Array(wordLength).fill("⬛"));
     
         board.innerHTML = ""; // Limpiar el tablero antes de inicializar
-        for (let i = 0; i < 6 * 5; i++) {
+        for (let i = 0; i < 6 * wordLength; i++) {
             const tile = document.createElement("div");
             tile.classList.add("tile");
             board.appendChild(tile);
@@ -433,8 +435,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkGuess() {
-        if (currentGuess.length !== 5) {
-            showMessage("La palabra debe tener 5 letras.");
+        if (currentGuess.length !== wordToGuess.length) {
+            showMessage(`La palabra debe tener ${wordToGuess.length} letras.`);
             return;
         }
     
@@ -451,7 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Marcar las letras correctas (verdes)
         guessArray.forEach((letter, index) => {
             if (letter === wordArray[index]) {
-                tiles[currentAttempt * 5 + index].classList.add("correct");
+                tiles[currentAttempt * wordToGuess.length + index].classList.add("correct");
                 gameBoard[currentAttempt][index] = "🟩";
                 letterCount[letter]--;
             }
@@ -461,11 +463,11 @@ document.addEventListener("DOMContentLoaded", () => {
         guessArray.forEach((letter, index) => {
             if (letter !== wordArray[index]) {
                 if (wordArray.includes(letter) && letterCount[letter] > 0) {
-                    tiles[currentAttempt * 5 + index].classList.add("present");
+                    tiles[currentAttempt * wordToGuess.length + index].classList.add("present");
                     gameBoard[currentAttempt][index] = "🟨";
                     letterCount[letter]--;
                 } else {
-                    tiles[currentAttempt * 5 + index].classList.add("absent");
+                    tiles[currentAttempt * wordToGuess.length + index].classList.add("absent");
                     gameBoard[currentAttempt][index] = "⬛";
                 }
             }
