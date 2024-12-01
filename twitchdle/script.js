@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'http://localhost:8000/';
+        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
