@@ -358,39 +358,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function endGame(endTime = null) {
         console.log("Terminando el juego...");
-        if (endTime) {
-            saveGame(endTime);
+        if (!endTime) {
+            endTime = new Date();
         }
-
+    
         const now = new Date();
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         nextDay.setHours(0, 0, 0, 0);
-
+    
         const diff = nextDay - now;
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        // Calcular el tiempo transcurrido
-        const timeTaken = endTime - startTime;
-        const minutesTaken = Math.floor(timeTaken / 60000);
-        const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
-
+    
         let message;
         if (currentGuess === wordToGuess) {
+            const timeTaken = endTime - startTime;
+            const minutesTaken = Math.floor(timeTaken / 60000);
+            const secondsTaken = Math.floor((timeTaken % 60000) / 1000);
             message = `¡Felicidades! Acertaste la palabra "${wordToGuess}" en ${minutesTaken}:${secondsTaken < 10 ? '0' : ''}${secondsTaken} minutos`;
             updateStats(true, currentAttempt + 1);
         } else {
             message = `No lograste acertar, palabra correcta: "${wordToGuess}"`;
             updateStats(false, currentAttempt + 1);
         }
-
+    
         showModal(message, `Siguiente palabra en: ${hours}h ${minutes}m ${seconds}s`);
         showStats();
         startCountdown();
         keyboard.classList.add("disabled");
-
+    
         const gameData = {
             currentAttempt,
             currentGuess,
@@ -442,6 +440,21 @@ document.addEventListener("DOMContentLoaded", () => {
     function checkGuess() {
         if (currentGuess.length !== wordToGuess.length) {
             showMessage(`La palabra debe tener ${wordToGuess.length} letras.`);
+            return;
+        }
+    
+        // Verificar si la palabra ingresada existe en el diccionario
+        if (!wordDictionary.includes(currentGuess.toUpperCase())) {
+            showMessage("La palabra no existe en el diccionario.");
+            const tiles = document.querySelectorAll(".tile");
+            for (let i = 0; i < wordToGuess.length; i++) {
+                tiles[currentAttempt * wordToGuess.length + i].classList.add("shake");
+            }
+            setTimeout(() => {
+                for (let i = 0; i < wordToGuess.length; i++) {
+                    tiles[currentAttempt * wordToGuess.length + i].classList.remove("shake");
+                }
+            }, 500); // Duración de la animación en milisegundos
             return;
         }
     
@@ -524,7 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
             stats.currentStreak++;
             if (stats.currentStreak > stats.maxStreak) {
                 stats.maxStreak = stats.currentStreak;
-
+    
                 // Enviar la racha más larga a Firebase
                 const username = localStorage.getItem("username");
                 if (username) {
@@ -532,10 +545,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     streakRef.set(stats.maxStreak);
                 }
             }
+            stats.guessDistribution[attempts - 1]++;
         } else {
             stats.currentStreak = 0;
         }
-        stats.guessDistribution[attempts - 1]++;
         localStorage.setItem("wordleStats", JSON.stringify(stats));
     }
 
@@ -565,18 +578,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.boardState) {
             const tiles = document.querySelectorAll(".tile");
             data.boardState.forEach((letter, index) => {
-                tiles[index].textContent = letter;
-                if (letter) {
-                    tiles[index].classList.add(
-                        wordToGuess[index % 5] === letter ? "correct" :
-                        wordToGuess.includes(letter) ? "present" : "absent"
-                    );
+                if (tiles[index]) {
+                    tiles[index].textContent = letter;
+                    if (letter) {
+                        tiles[index].classList.add(
+                            wordToGuess[index % wordToGuess.length] === letter ? "correct" :
+                            wordToGuess.includes(letter) ? "present" : "absent"
+                        );
+                    }
                 }
             });
-        }
-    
-        if (currentAttempt >= 6 || currentGuess === wordToGuess || data.gameFinished) {
-            showPostGameScreen(data);
         }
     }
 
