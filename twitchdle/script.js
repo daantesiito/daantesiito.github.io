@@ -64,6 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
         currentGuess = "";
         gameBoard = Array(6).fill("").map(() => Array(wordLength).fill("⬛"));
     
+        // Actualizar el estilo CSS del tablero dinámicamente
+        const board = document.getElementById('board');
+        board.style.gridTemplateColumns = `repeat(${wordLength}, 60px)`;
+    
         board.innerHTML = ""; // Limpiar el tablero antes de inicializar
         for (let i = 0; i < 6 * wordLength; i++) {
             const tile = document.createElement("div");
@@ -72,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     
         // Limpiar el contenido del teclado antes de agregar nuevas filas de teclas
+        const keyboard = document.getElementById("keyboard");
         keyboard.innerHTML = "";
     
         const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
@@ -142,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loginWithTwitchButton.style.display = "none";
         userInfo.classList.remove("hidden");
         userAvatar.src = userAvatarUrl;
-        userName.textContent = `Logged in as: ${username}`;
+        userName.textContent = `Username: ${username}`;
         container.classList.remove("hidden");
 
         console.log("savedGame:", savedGame);
@@ -242,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     loginWithTwitchButton.style.display = "none";
                     userInfo.classList.remove("hidden");
                     userAvatar.src = user.profile_image_url;
-                    userName.textContent = `Logged in as: ${user.display_name}`;
+                    userName.textContent = `Username: ${user.display_name}`;
                     container.classList.remove("hidden");
     
                     // Crear un archivo vacío con el userName en la carpeta TwitchdleUsernames
@@ -297,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loginWithTwitchButton.style.display = "none";
         userInfo.classList.remove("hidden");
         userAvatar.src = userAvatarUrl;
-        userName.textContent = `Logged in as: ${username}`;
+        userName.textContent = `Username: ${username}`;
         container.classList.remove("hidden");
     }
 
@@ -417,7 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function handleKeyPress(key) {
-        if (currentGuess.length < 5) {
+        if (currentGuess.length < wordToGuess.length) {
             currentGuess += key;
             updateBoard();
         }
@@ -426,10 +431,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateBoard() {
         const tiles = document.querySelectorAll(".tile");
         for (let i = 0; i < currentGuess.length; i++) {
-            tiles[currentAttempt * 5 + i].textContent = currentGuess[i];
+            tiles[currentAttempt * wordToGuess.length + i].textContent = currentGuess[i];
         }
-        for (let i = currentGuess.length; i < 5; i++) {
-            tiles[currentAttempt * 5 + i].textContent = "";
+        for (let i = currentGuess.length; i < wordToGuess.length; i++) {
+            tiles[currentAttempt * wordToGuess.length + i].textContent = "";
         }
         saveGame();
     }

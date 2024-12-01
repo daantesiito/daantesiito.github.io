@@ -40,7 +40,7 @@ h1 {
 
 #board {
     display: grid;
-    grid-template-columns: repeat(5, 60px);
+    grid-template-columns: repeat(5, 60px); /* Este valor se actualizará dinámicamente desde JavaScript */
     gap: 15px;
     justify-content: center;
 }
