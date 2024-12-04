@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let wordList = [];
     let wordToGuess = "";
     let countdown;
+    const keyboardState = {}; // Guardará el estado de cada letra
 
     function initializeGame() {
         console.log("Inicializando el juego...");
@@ -210,7 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        //const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        const redirectUri = 'http://localhost:8000/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
@@ -434,8 +436,38 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = currentGuess.length; i < wordToGuess.length; i++) {
             tiles[currentAttempt * wordToGuess.length + i].textContent = "";
         }
+    
+        // Actualiza el teclado acumulativamente
+        updateKeyboard();
         saveGame();
     }
+    
+    
+    function updateKeyboard() {
+        gameBoard.forEach(row => {
+            row.forEach((cell, index) => {
+                if (cell !== "⬛") {
+                    const letter = row[index];
+                    const keyElement = document.querySelector(`.key[data-key="${letter}"]`);
+                    if (keyElement) {
+                        const newState = 
+                            cell === "🟩" ? "correct" :
+                            cell === "🟨" ? "present" : "absent";
+    
+                        // Actualiza el estado global si es necesario
+                        if (!keyboardState[letter] || keyboardState[letter] !== "correct") {
+                            keyboardState[letter] = newState;
+                        }
+    
+                        // Aplica las clases acumulativas
+                        keyElement.classList.remove("correct", "present", "absent");
+                        keyElement.classList.add(keyboardState[letter]);
+                    }
+                }
+            });
+        });
+    }
+    
 
     function checkGuess() {
         if (currentGuess.length !== wordToGuess.length) {
@@ -490,6 +522,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
+    
+        // Actualizar el estado del teclado
+        guessArray.forEach((letter, index) => {
+            const keyElement = document.querySelector(`.key[data-key="${letter}"]`);
+            if (keyElement) {
+                // Determinar el estado de la letra
+                if (letter === wordArray[index]) {
+                    keyboardState[letter] = "correct"; // Prioridad más alta
+                } else if (wordArray.includes(letter) && keyboardState[letter] !== "correct") {
+                    keyboardState[letter] = "present"; // Prioridad media
+                } else if (!wordArray.includes(letter) && !keyboardState[letter]) {
+                    keyboardState[letter] = "absent"; // Prioridad más baja
+                }
+        
+                // Aplica las clases según el estado almacenado
+                keyElement.classList.remove("correct", "present", "absent");
+                keyElement.classList.add(keyboardState[letter]);
+            }
+        });        
     
         const now = new Date();
         const nextDay = new Date(now);
@@ -580,16 +631,27 @@ document.addEventListener("DOMContentLoaded", () => {
             data.boardState.forEach((letter, index) => {
                 if (tiles[index]) {
                     tiles[index].textContent = letter;
+                    const row = Math.floor(index / wordToGuess.length);
+                    const col = index % wordToGuess.length;
                     if (letter) {
                         tiles[index].classList.add(
-                            wordToGuess[index % wordToGuess.length] === letter ? "correct" :
-                            wordToGuess.includes(letter) ? "present" : "absent"
+                            gameBoard[row][col] === "🟩" ? "correct" :
+                            gameBoard[row][col] === "🟨" ? "present" : "absent"
                         );
                     }
                 }
             });
         }
+    
+        // Restablece el estado del teclado desde el objeto global
+        Object.keys(keyboardState).forEach(letter => {
+            const keyElement = document.querySelector(`.key[data-key="${letter}"]`);
+            if (keyElement) {
+                keyElement.classList.add(keyboardState[letter]);
+            }
+        });
     }
+    
 
     function showModal(message, countdownText) {
         modalMessage.innerHTML = message;
