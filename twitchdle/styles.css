@@ -67,7 +67,7 @@ h1 {
 
 .tile.present {
     background-color: var(--col-present);
-    color: var(--col-white);
+    color: var (--col-white);
     transform: scale(1.1);
 }
 
@@ -256,6 +256,14 @@ h1 {
 
 .email:hover {
     background-color: #c23321;
+}
+
+.discord {
+    background-color: #7289da;
+}
+
+.discord:hover {
+    background-color: #5a6fb1;
 }
 
 .emote {
