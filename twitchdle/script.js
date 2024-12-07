@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date().toDateString();
     const lastPlayedTimestamp = localStorage.getItem("lastPlayedTimestamp");
     const isNewDay = !lastPlayedTimestamp || new Date(parseInt(lastPlayedTimestamp)).toDateString() !== now.toDateString();
-    const startDate = new Date('2024-11-30'); // Cambia esta fecha según sea necesario
+    const startDate = new Date('2024-12-04'); // Cambia esta fecha según sea necesario
     let wordDictionary = [];
     let wordList = [];
     let wordToGuess = "";
@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     
         const today = new Date().toDateString();
-        const startDate = new Date('2023-01-01'); // Cambia esta fecha según sea necesario
         const dayIndex = Math.floor((new Date(today) - startDate) / (1000 * 60 * 60 * 24)) % wordList.length;
         wordToGuess = wordList[dayIndex];
         console.log("Palabra a adivinar:", wordToGuess);
@@ -211,7 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        //const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        const redirectUri = 'http://localhost:8000/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
@@ -604,6 +604,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showStats() {
         const winPercentage = ((stats.gamesWon / stats.gamesPlayed) * 100).toFixed(2);
+        const guessDistributionPercentage = stats.gamesWon > 0 ? stats.guessDistribution.map(count => ((count / stats.gamesWon) * 100).toFixed(2)) : Array(6).fill("0.00");
+    
         const statsHTML = `
             <h2>Estadísticas</h2>
             <p> Jugadas: ${stats.gamesPlayed}</p>
@@ -612,7 +614,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p> Mejor Racha: ${stats.maxStreak}</p>
             <p>
                 ${stats.guessDistribution.map((count, index) => 
-                    `${index + 1}: ${count} (${((count / stats.gamesPlayed) * 100).toFixed(2)}%)`
+                    `${index + 1}: ${count} (${guessDistributionPercentage[index]}%)`
                 ).join('<br>')}
             </p>`;
         console.log("Estadísticas generadas:", statsHTML); // Verificar el contenido generado
