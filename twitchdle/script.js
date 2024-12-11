@@ -147,8 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        //const redirectUri = 'https://daantesiito.github.io/twitchdle/';
-        const redirectUri = 'http://localhost:8000/';
+        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        //const redirectUri = 'http://localhost:8000/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
@@ -830,6 +830,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
 });
+
+if (location.hostname !== 'localhost') {
+    (function () {
+        const gtagScript = document.createElement('script');
+        gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-4CJBHXXVWY";
+        gtagScript.async = true;
+        document.head.appendChild(gtagScript);
+    
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+        dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-4CJBHXXVWY');
+    })();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
             let numEmotes = 100;
