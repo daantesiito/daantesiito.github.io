@@ -47,12 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initializeGame() {
         console.log("Inicializando el juego...");
-        startTime = new Date(); // Asegúrate de que esta línea esté presente
+        startTime = new Date(); // Establecer el tiempo de inicio
         console.log("Hora de inicio:", startTime);
-        console.log("Palabra objetivo al iniciar:", wordToGuess);
+    
         if (wordList.length === 0) {
             console.error("El wordList no se ha cargado correctamente.");
-            return; // Sal de la función si no hay wordList
+            return;
         }
     
         const today = new Date().toDateString();
@@ -67,60 +67,21 @@ document.addEventListener("DOMContentLoaded", () => {
         currentGuess = "";
         gameBoard = Array(6).fill("").map(() => Array(wordLength).fill("⬛"));
     
-        // Actualizar el estilo CSS del tablero dinámicamente
-        const board = document.getElementById('board');
+        // Configurar el tablero dinámicamente
+        const board = document.getElementById("board");
         board.style.gridTemplateColumns = `repeat(${wordLength}, 60px)`;
+        board.innerHTML = ""; // Limpiar el tablero
     
-        board.innerHTML = ""; // Limpiar el tablero antes de inicializar
         for (let i = 0; i < 6 * wordLength; i++) {
             const tile = document.createElement("div");
             tile.classList.add("tile");
             board.appendChild(tile);
         }
     
-        // Limpiar el contenido del teclado antes de agregar nuevas filas de teclas
-        const keyboard = document.getElementById("keyboard");
-        keyboard.innerHTML = "";
-    
-        const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-        rows.forEach((row) => {
-            const rowDiv = document.createElement("div");
-            rowDiv.classList.add("key-row");
-            row.split("").forEach((key) => {
-                const keyDiv = document.createElement("div");
-                keyDiv.classList.add("key");
-                keyDiv.textContent = key;
-                keyDiv.setAttribute("data-key", key); // Agregar atributo data-key
-                keyDiv.addEventListener("click", () => handleKeyPress(key));
-                rowDiv.appendChild(keyDiv);
-            });
-            keyboard.appendChild(rowDiv);
-        });
-    
-        // Encontrar la fila donde se desea agregar las teclas ENTER y DELETE
-        const bottomRow = document.querySelector(".key-row:last-child");
-    
-        // Crear y agregar la tecla ENTER
-        const enterKey = document.createElement("div");
-        enterKey.classList.add("key", "special-key");
-        enterKey.textContent = "ENTER";
-        enterKey.setAttribute("data-key", "Enter"); // Agregar atributo data-key
-        enterKey.addEventListener("click", checkGuess);
-        bottomRow.insertBefore(enterKey, bottomRow.firstChild);
-    
-        // Crear y agregar la tecla DELETE
-        const deleteKey = document.createElement("div");
-        deleteKey.classList.add("key", "special-key");
-        deleteKey.textContent = "DELETE";
-        deleteKey.setAttribute("data-key", "Backspace"); // Agregar atributo data-key
-        deleteKey.addEventListener("click", () => {
-            if (currentGuess.length > 0) {
-                currentGuess = currentGuess.slice(0, -1);
-                updateBoard();
-            }
-        });
-        bottomRow.appendChild(deleteKey);
-    
+        // Reiniciar estado del teclado y cargarlo
+        keyboardState = {};
+        loadKeyboard(keyboardState);
+
         // Iniciar el temporizador
         startTime = new Date();
     }
@@ -422,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const tiles = Array.from(document.querySelectorAll(".tile"));
         const boardState = tiles.map(tile => ({
             letter: tile.textContent,
-            class: Array.from(tile.classList).find(cls => ["correct", "present", "absent"].includes(cls)) || ""
+            class: Array.from(tile.classList).find(cls => ["correct", "present", "absent"].includes(cls)) || "",
         }));
     
         const gameData = {
@@ -430,13 +391,14 @@ document.addEventListener("DOMContentLoaded", () => {
             currentGuess,
             gameBoard,
             boardState,
-            keyboardState,
+            keyboardState, // Asegura que el estado del teclado se guarde
             wordToGuess,
-            gameFinished: localStorage.getItem("gameFinished") === "true"
+            gameFinished: localStorage.getItem("gameFinished") === "true",
         };
     
         localStorage.setItem("wordleGame", JSON.stringify(gameData));
-    }
+        console.log("Juego guardado:", gameData);
+    }    
 
     function loadRequiredFiles() {
         return Promise.all([
@@ -686,7 +648,6 @@ document.addEventListener("DOMContentLoaded", () => {
         currentAttempt = data.currentAttempt || 0;
         currentGuess = data.currentGuess || "";
         gameBoard = data.gameBoard || Array(6).fill("").map(() => Array(wordToGuess.length).fill("⬛"));
-        keyboardState = data.keyboardState || {};
 
         // Recuperar la palabra correcta del juego guardado
         if (data.wordToGuess) {
@@ -727,62 +688,81 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
+        // Cargar el estado del teclado
+        keyboardState = data.keyboardState || {};
         loadKeyboard(keyboardState);
+
+        console.log("Teclado generado:", document.getElementById('keyboard').innerHTML);
+
         console.log("Juego guardado cargado con éxito.");
     }
     
 
     function loadKeyboard(keyboardState) {
-        const keyboardContainer = document.getElementById('keyboard');
-        keyboardContainer.innerHTML = "";  // Limpiar el teclado
+        const keyboardContainer = document.getElementById("keyboard");
+        keyboardContainer.innerHTML = ""; // Limpiar el teclado
     
-        const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-        rows.forEach(row => {
+        // Definir las filas del teclado con teclas especiales en la última fila
+        const rows = [
+            { keys: "QWERTYUIOP", special: null },
+            { keys: "ASDFGHJKL", special: null },
+            { keys: "ZXCVBNM", special: { left: "ENTER", right: "DELETE" } },
+        ];
+    
+        rows.forEach((row) => {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("key-row");
-            row.split("").forEach(key => {
-                const keyDiv = document.createElement("div");
-                keyDiv.classList.add("key");
-                keyDiv.textContent = key;
-                keyDiv.setAttribute("data-key", key);
-                keyDiv.addEventListener("click", () => handleKeyPress(key));
-                
-                // Si hay un estado para la tecla, añade la clase correspondiente
+    
+            // Agregar tecla especial izquierda (si existe)
+            if (row.special?.left) {
+                const leftKey = createKey(row.special.left, "special-key");
+                rowDiv.appendChild(leftKey);
+            }
+    
+            // Agregar teclas normales
+            row.keys.split("").forEach((key) => {
+                const keyDiv = createKey(key, "key");
                 if (keyboardState[key]) {
                     keyDiv.classList.add(keyboardState[key]);
                 }
-    
                 rowDiv.appendChild(keyDiv);
             });
-            keyboardContainer.appendChild(rowDiv);
-        });
     
-        // Agregar teclas especiales (ENTER, DELETE) al final de la última fila
-        const bottomRow = document.createElement("div");
-        bottomRow.classList.add("key-row");
-        
-        const enterKey = document.createElement("div");
-        enterKey.classList.add("key", "special-key");
-        enterKey.textContent = "ENTER";
-        enterKey.setAttribute("data-key", "Enter");
-        enterKey.addEventListener("click", checkGuess);
-        bottomRow.appendChild(enterKey);
-    
-        const deleteKey = document.createElement("div");
-        deleteKey.classList.add("key", "special-key");
-        deleteKey.textContent = "DELETE";
-        deleteKey.setAttribute("data-key", "Backspace");
-        deleteKey.addEventListener("click", () => {
-            if (currentGuess.length > 0) {
-                currentGuess = currentGuess.slice(0, -1);
-                updateBoard();
+            // Agregar tecla especial derecha (si existe)
+            if (row.special?.right) {
+                const rightKey = createKey(row.special.right, "special-key");
+                rowDiv.appendChild(rightKey);
             }
-        });
-        bottomRow.appendChild(deleteKey);
     
-        keyboardContainer.appendChild(bottomRow);
+            keyboardContainer.appendChild(rowDiv);
+            console.log("Estado del teclado cargado:", keyboardState);
+            console.log("Teclado generado (HTML):", document.getElementById("keyboard").innerHTML);
+        });
     }
     
+    function createKey(label, className) {
+        const keyDiv = document.createElement("div");
+        keyDiv.classList.add("key", className);
+        keyDiv.textContent = label;
+    
+        if (label === "ENTER") {
+            keyDiv.setAttribute("data-key", "Enter");
+            keyDiv.addEventListener("click", checkGuess);
+        } else if (label === "DELETE") {
+            keyDiv.setAttribute("data-key", "Backspace");
+            keyDiv.addEventListener("click", () => {
+                if (currentGuess.length > 0) {
+                    currentGuess = currentGuess.slice(0, -1);
+                    updateBoard();
+                }
+            });
+        } else {
+            keyDiv.setAttribute("data-key", label);
+            keyDiv.addEventListener("click", () => handleKeyPress(label));
+        }
+    
+        return keyDiv;
+    }    
 
     function showModal(message, countdownText) {
         modalMessage.innerHTML = message;
