@@ -186,8 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
-        //const redirectUri = 'http://localhost:8000/';
+        //const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        const redirectUri = 'http://localhost:8000/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
@@ -532,9 +532,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Verificar si la palabra existe en el diccionario
         if (!wordDictionary.includes(currentGuess.toUpperCase())) {
             showMessage("La palabra no existe en el diccionario.");
-            showShakeAnimation();
+            showShakeAnimation(); // Llama a la función para realizar el shake
             return;
-        }
+        }        
     
         const tiles = document.querySelectorAll(".tile");
         const guessArray = currentGuess.split("");
@@ -602,16 +602,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }  
 
     function showShakeAnimation() {
-        const tiles = document.querySelectorAll(".tile");
-        for (let i = 0; i < 5; i++) {
-            tiles[currentAttempt * 5 + i].classList.add("shake");
+        const tiles = document.querySelectorAll(".tile"); // Selecciona todos los casilleros
+        const wordLength = wordToGuess.length; // Largo de la palabra
+        const startIndex = currentAttempt * wordLength; // Índice inicial del intento actual
+        const endIndex = startIndex + wordLength; // Índice final del intento actual
+    
+        // Aplica la animación solo a los casilleros del intento actual
+        for (let i = startIndex; i < endIndex; i++) {
+            tiles[i].classList.add("shake");
         }
+    
+        // Elimina la animación después de 500 ms
         setTimeout(() => {
-            for (let i = 0; i < 5; i++) {
-                tiles[currentAttempt * 5 + i].classList.remove("shake");
+            for (let i = startIndex; i < endIndex; i++) {
+                tiles[i].classList.remove("shake");
             }
         }, 500);
     }
+    
 
     function updateStats(won, attempts) {
         stats.gamesPlayed++;
