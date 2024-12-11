@@ -147,8 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     loginWithTwitchButton.addEventListener("click", () => {
         const clientId = '0oy4xx9zsvkxsbgwm6n0rmb28xtivy';
-        const redirectUri = 'https://daantesiito.github.io/twitchdle/';
-        //const redirectUri = 'http://localhost:8000/';
+        //const redirectUri = 'https://daantesiito.github.io/twitchdle/';
+        const redirectUri = 'http://localhost:8000/';
         const scope = 'user:read:email';
         const responseType = 'token';
     
@@ -293,10 +293,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (data.gameBoard) {
             const gameBoardText = data.gameBoard
-                .filter(row => row.some(cell => cell !== "⬛"))
-                .map(row => row.join("")).join("<br>");
+                .slice(0, data.currentAttempt + 1) // Mostrar solo hasta el último intento
+                .map(row => row.join(""))
+                .join("<br>");
             postGameMessage.innerHTML += `<p>${gameBoardText}</p>`;
-        }
+        }        
 
         // Ocultar elementos del juego y mostrar el post-juego
         container.classList.add("hidden");
