@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date().toDateString();
     const lastPlayedTimestamp = localStorage.getItem("lastPlayedTimestamp");
     const isNewDay = !lastPlayedTimestamp || new Date(parseInt(lastPlayedTimestamp)).toDateString() !== now.toDateString();
-    const startDate = new Date('2024-12-11'); // Cambia esta fecha según sea necesario
+    const startDate = new Date('2024-12-12'); // Cambia esta fecha según sea necesario
     let wordDictionary = [];
     let wordList = [];
     let wordToGuess = "";
