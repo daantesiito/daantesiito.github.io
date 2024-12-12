@@ -46,19 +46,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let keyboardState = {}; // Cambiar de const a let    
 
     function initializeGame() {
-        console.log("Inicializando el juego...");
+        //console.log("Inicializando el juego...");
         startTime = new Date(); // Establecer el tiempo de inicio
-        console.log("Hora de inicio:", startTime);
+        //console.log("Hora de inicio:", startTime);
     
         if (wordList.length === 0) {
-            console.error("El wordList no se ha cargado correctamente.");
+            //console.error("El wordList no se ha cargado correctamente.");
             return;
         }
     
         const today = new Date().toDateString();
         const dayIndex = Math.floor((new Date(today) - startDate) / (1000 * 60 * 60 * 24)) % wordList.length;
         wordToGuess = wordList[dayIndex];
-        console.log("Palabra a adivinar:", wordToGuess);
+        //console.log("Palabra a adivinar:", wordToGuess);
     
         const wordLength = wordToGuess.length;
     
@@ -114,10 +114,10 @@ document.addEventListener("DOMContentLoaded", () => {
         userName.textContent = `Username: ${username}`;
         container.classList.remove("hidden");
     
-        console.log("savedGame:", savedGame);
-        console.log("gameFinished:", gameFinished);
-        console.log("lastPlayedDate:", lastPlayedDate);
-        console.log("today:", today);
+        //console.log("savedGame:", savedGame);
+        //console.log("gameFinished:", gameFinished);
+        //console.log("lastPlayedDate:", lastPlayedDate);
+        //console.log("today:", today);
     
         loadRequiredFiles()
             .then(() => {
@@ -127,14 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     const gameData = JSON.parse(savedGame);
                 
                     if (gameFinished === "true") {
-                        console.log("El juego ya terminó. Mostrando pantalla de post-juego.");
+                        //console.log("El juego ya terminó. Mostrando pantalla de post-juego.");
                         showPostGameScreen(gameData);
                     } else {
-                        console.log("Cargando juego guardado...");
+                        //console.log("Cargando juego guardado...");
                         loadSavedGame(gameData);
                     }
                 } else {
-                    console.log("Iniciando un nuevo juego...");
+                    //console.log("Iniciando un nuevo juego...");
                     localStorage.setItem("lastPlayedDate", today);
                     localStorage.setItem("gameFinished", "false");
                     initializeGame();
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             })
                             .then(text => {
                                 wordList = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
-                                console.log("Contenido del archivo wordList.txt:", wordList); // Verificar el contenido del archivo
+                                //console.log("Contenido del archivo wordList.txt:", wordList); // Verificar el contenido del archivo
                                 if (!Array.isArray(wordList)) {
                                     throw new Error("El wordList no se ha cargado correctamente.");
                                 }
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(response => response.text())
                             .then(text => {
                                 wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
-                                console.log("Contenido del archivo diccionario.txt:", wordDictionary); // Verificar el contenido del archivo
+                                //console.log("Contenido del archivo diccionario.txt:", wordDictionary); // Verificar el contenido del archivo
                             })
                             .catch(error => console.error('Error loading wordDictionary:', error))
                     ])
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 initializeGame();
                             }
                         } else {
-                            console.error("Error: No se pudieron cargar wordList o wordDictionary.");
+                            //console.error("Error: No se pudieron cargar wordList o wordDictionary.");
                         }
                     });                    
     
@@ -247,8 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showPostGameScreen(data) {
-        console.log("Mostrando pantalla de post-juego...");
-        console.log("Datos del juego:", data);
+        //console.log("Mostrando pantalla de post-juego...");
+        //console.log("Datos del juego:", data);
     
         const now = new Date();
         const nextDay = new Date(now);
@@ -310,11 +310,11 @@ document.addEventListener("DOMContentLoaded", () => {
         messageElement.classList.add("hidden");
         resultElement.classList.add("hidden");
 
-        console.log("Datos del juego recibidos:", data);
-        console.log("Palabra a adivinar:", data.wordToGuess);
-        console.log("Mensaje:", data.message);
-        console.log("Mensaje enviado al post-juego:", data.message);
-        console.log("Palabra correcta:", data.wordToGuess);
+        //console.log("Datos del juego recibidos:", data);
+        //console.log("Palabra a adivinar:", data.wordToGuess);
+        //console.log("Mensaje:", data.message);
+        //console.log("Mensaje enviado al post-juego:", data.message);
+        //console.log("Palabra correcta:", data.wordToGuess);
 
         startCountdown();
 
@@ -322,10 +322,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function endGame(endTime = new Date()) {
-        console.log("Terminando el juego...");
+        //console.log("Terminando el juego...");
     
         if (!startTime || !(startTime instanceof Date)) {
-            console.error("startTime no está definido correctamente.");
+            //console.error("startTime no está definido correctamente.");
             startTime = new Date();
         }
     
@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateStats(false, currentAttempt + 1);
         }
 
-        console.log("Mensaje generado:", message);
+        //console.log("Mensaje generado:", message);
     
         const gameData = {
             currentAttempt,
@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         
         localStorage.setItem("wordleGame", JSON.stringify(gameData));
-        console.log("Datos del juego guardados:", gameData);
+        //console.log("Datos del juego guardados:", gameData);
         
         
         // Guarda el estado del juego en localStorage
@@ -398,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     
         localStorage.setItem("wordleGame", JSON.stringify(gameData));
-        console.log("Juego guardado:", gameData);
+        //console.log("Juego guardado:", gameData);
     }    
 
     function loadRequiredFiles() {
@@ -407,10 +407,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.text())
                 .then(text => {
                     wordList = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
-                    console.log("WordList cargado correctamente:", wordList.length, "palabras.");
+                    //console.log("WordList cargado correctamente:", wordList.length, "palabras.");
                 })
                 .catch(error => {
-                    console.error('Error cargando wordList:', error);
+                    //console.error('Error cargando wordList:', error);
                     throw error; // Re-lanzar para manejarlo arriba
                 }),
     
@@ -418,26 +418,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.text())
                 .then(text => {
                     wordDictionary = text.split('\n').map(word => word.trim().toUpperCase());
-                    console.log("Diccionario cargado correctamente:", wordDictionary.length, "palabras.");
+                    //console.log("Diccionario cargado correctamente:", wordDictionary.length, "palabras.");
                 })
                 .catch(error => {
-                    console.error('Error cargando wordDictionary:', error);
+                    //console.error('Error cargando wordDictionary:', error);
                     throw error; // Re-lanzar para manejarlo arriba
                 })
         ]);
     }               
 
     function handleKeyPress(key) {
-        console.log("Tecla presionada:", key);
+        //console.log("Tecla presionada:", key);
     
         const wordLength = wordToGuess.length;
     
         if (currentGuess.length < wordLength) {
             currentGuess += key;
-            console.log("currentGuess actualizado:", currentGuess);
+            //console.log("currentGuess actualizado:", currentGuess);
             updateBoard();
         } else {
-            console.log("No se puede agregar más letras a currentGuess.");
+            //console.log("No se puede agregar más letras a currentGuess.");
         }
     }   
          
@@ -489,8 +489,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     
         // Verificar si la palabra existe en el diccionario
-        console.log("Diccionario cargado:", wordDictionary);
-        console.log("Intento actual:", currentGuess);
+        //console.log("Diccionario cargado:", wordDictionary);
+        //console.log("Intento actual:", currentGuess);
 
         // Verificar si la palabra existe en el diccionario
         if (!wordDictionary.includes(currentGuess.toUpperCase())) {
@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
         // Asegúrate de que `startTime` esté definido
         if (!startTime || !(startTime instanceof Date)) {
-            console.error("startTime no está definido correctamente en checkGuess.");
+            //console.error("startTime no está definido correctamente en checkGuess.");
             startTime = new Date(); // Establece un valor predeterminado
         }
 
@@ -626,22 +626,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     `${index + 1}: ${count} (${guessDistributionPercentage[index]}%)`
                 ).join('<br>')}
             </p>`;
-        console.log("Estadísticas generadas:", statsHTML);
+        //console.log("Estadísticas generadas:", statsHTML);
         document.getElementById("postGameStats").innerHTML = statsHTML;
     }    
 
     // Función para cargar el estado guardado del juego
     function loadSavedGame(data) {
-        console.log("Cargando el juego guardado...");
+        //console.log("Cargando el juego guardado...");
     
         if (!wordToGuess || wordToGuess.length === 0) {
             if (wordList.length > 0) {
                 const today = new Date().toDateString();
                 const dayIndex = Math.floor((new Date(today) - startDate) / (1000 * 60 * 60 * 24)) % wordList.length;
                 wordToGuess = wordList[dayIndex];
-                console.log("Palabra objetivo inicializada:", wordToGuess);
+                //console.log("Palabra objetivo inicializada:", wordToGuess);
             } else {
-                console.error("Error: El wordList no está disponible para inicializar la palabra objetivo.");
+                //console.error("Error: El wordList no está disponible para inicializar la palabra objetivo.");
                 return;
             }
         }
@@ -653,19 +653,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // Recuperar la palabra correcta del juego guardado
         if (data.wordToGuess) {
             wordToGuess = data.wordToGuess;
-            console.log("Palabra correcta recuperada:", wordToGuess);
+            //console.log("Palabra correcta recuperada:", wordToGuess);
         } else {
-            console.error("No se encontró wordToGuess en los datos guardados.");
+            //console.error("No se encontró wordToGuess en los datos guardados.");
             wordToGuess = "Desconocida"; // Valor por defecto
         }
 
         if (data.gameFinished) {
-            console.log("El juego ya terminó. Mostrando pantalla de post-juego.");
+            //console.log("El juego ya terminó. Mostrando pantalla de post-juego.");
             showPostGameScreen(data);
             return;
         }
 
-        console.log("Reconstruyendo el tablero...");
+        //console.log("Reconstruyendo el tablero...");
         const wordLength = wordToGuess.length;
         const board = document.getElementById('board');
         board.style.gridTemplateColumns = `repeat(${wordLength}, 60px)`;
@@ -693,9 +693,9 @@ document.addEventListener("DOMContentLoaded", () => {
         keyboardState = data.keyboardState || {};
         loadKeyboard(keyboardState);
 
-        console.log("Teclado generado:", document.getElementById('keyboard').innerHTML);
+        //console.log("Teclado generado:", document.getElementById('keyboard').innerHTML);
 
-        console.log("Juego guardado cargado con éxito.");
+        //console.log("Juego guardado cargado con éxito.");
     }
     
 
@@ -736,8 +736,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
     
             keyboardContainer.appendChild(rowDiv);
-            console.log("Estado del teclado cargado:", keyboardState);
-            console.log("Teclado generado (HTML):", document.getElementById("keyboard").innerHTML);
+            //console.log("Estado del teclado cargado:", keyboardState);
+            //console.log("Teclado generado (HTML):", document.getElementById("keyboard").innerHTML);
         });
     }
     
@@ -818,7 +818,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("keydown", (event) => {
-        console.log("Evento de teclado capturado:", event.key);
+        //console.log("Evento de teclado capturado:", event.key);
         const key = event.key.toUpperCase();
         if (["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"].join("").includes(key)) {
             handleKeyPress(key);
