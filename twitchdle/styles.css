@@ -24,7 +24,7 @@ body {
 }
 
 .container {
-    margin-top: 5vh;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,30 +32,30 @@ body {
 
 h1 {
     color: var(--col-primary);
-    font-size: 4.8vh;
+    font-size: 48px;
     font-weight: 600;
-    margin: 2vh 0;
-    margin-top: 5vh;
+    margin: 20px 0;
+    margin-top: 50px;
 }
 
 #board {
     display: grid;
-    grid-template-columns: repeat(5, 6vw); /* Este valor se actualizará dinámicamente desde JavaScript */
-    gap: 1.5vw;
+    grid-template-columns: repeat(5, 60px); /* Este valor se actualizará dinámicamente desde JavaScript */
+    gap: 15px;
     justify-content: center;
 }
 
 .tile {
-    width: 6vw;
-    height: 6vw;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3.2vh;
+    font-size: 32px;
     font-weight: bold;
-    border: 0.2vw solid var(--col-primary-dark);
+    border: 2px solid var(--col-primary-dark);
     background-color: var(--col-white);
-    box-shadow: 0 0.4vw 0.8vw var(--col-shadow);
+    box-shadow: 0 4px 8px var(--col-shadow);
     transition: background-color 0.3s, transform 0.3s;
 }
 
@@ -80,29 +80,29 @@ h1 {
 #keyboard {
     display: flex;
     flex-direction: column;
-    gap: 1vh;
-    margin-top: 3vh;
+    gap: 10px;
+    margin-top: 30px;
 }
 
 .key-row {
     display: flex;
     justify-content: center;
-    gap: 1vh;
+    gap: 10px;
 }
 
 .key {
-    width: 5vw;
-    height: 5vw;
+    width: 50px;
+    height: 50px;
     background-color: var(--col-bg-light);
     text-align: center;
-    line-height: 5vw;
+    line-height: 50px;
     cursor: pointer;
-    border-radius: 0.5vw;
-    font-size: 1.8vh;
+    border-radius: 5px;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0.2vw 0.4vw var(--col-shadow);
+    box-shadow: 0 2px 4px var(--col-shadow);
     transition: background-color 0.3s, transform 0.3s;
 }
 
@@ -112,7 +112,7 @@ h1 {
 }
 
 .special-key {
-    width: 8vw;
+    width: 80px;
     background-color: var(--col-primary);
     color: var(--col-white);
 }
@@ -132,13 +132,13 @@ h1 {
 #result {
     display: none;
     text-align: center;
-    margin-top: 2vh;
+    margin-top: 20px;
 }
 
 .post-game {
     display: none; 
     text-align: center;
-    margin-top: 0;
+    margin-top: 0px;
 }
 
 .post-game.visible {
@@ -174,23 +174,20 @@ h1 {
 
 .modal-content {
     background-color: var(--col-white);
-    margin: 15vh auto;
-    padding: 3vh;
-    border: 0.2vw solid var(--col-primary-dark);
-    width: 80vw;
-    max-width: 60vw;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--col-primary-dark);
+    width: 80%;
+    max-width: 600px;
     text-align: center;
-    border-radius: 1vw;
-    box-shadow: 0 0.4vw 0.8vw var(--col-shadow);
-    position: relative; /* Asegura que el contenido del modal sea el contenedor de referencia para la "X" */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--col-shadow);
 }
 
 .close {
     color: var(--col-primary-dark);
-    position: absolute; /* Posiciona la "X" de forma absoluta */
-    top: 1vh; /* Ajusta la posición superior */
-    right: 1vw; /* Ajusta la posición derecha */
-    font-size: 2.8vh;
+    float: right;
+    font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -203,22 +200,22 @@ h1 {
 }
 
 .social-buttons {
-    margin-top: 2vh;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 1vh;
+    gap: 10px;
 }
 
 .social-button {
-    padding: 1vh 2vw;
-    border-radius: 0.5vw;
+    padding: 10px 20px;
+    border-radius: 5px;
     text-decoration: none;
     color: var(--col-white);
     font-weight: bold;
     transition: background-color 0.3s;
     display: flex;
     align-items: center;
-    gap: 0.5vw;
+    gap: 5px;
 }
 
 .github {
@@ -272,8 +269,8 @@ h1 {
 .emote {
     position: absolute;
     bottom: 100vh;
-    width: 10.2vw;
-    height: 5.6vh;
+    width: 102px;
+    height: 56px;
     pointer-events: none;
     z-index: 1;
     animation: fall linear infinite;
@@ -302,22 +299,22 @@ h1 {
 }
 
 #postGameStats {
-    margin-top: 2vh;
+    margin-top: 20px;
     text-align: center;
-    font-size: 1.6vh;
+    font-size: 16px;
 }
 
 #postGameStats h2 {
     color: var(--col-primary);
-    font-size: 2.4vh;
+    font-size: 24px;
     font-weight: 600;
-    margin-bottom: 1vh;
+    margin-bottom: 10px;
 }
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-1vw); }
-    20%, 40%, 60%, 80% { transform: translateX(1vw); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
 }
 
 .shake {
@@ -326,36 +323,36 @@ h1 {
 
 #userInfo {
     position: absolute;
-    top: 1vh;
-    right: 1vw;
+    top: 10px;
+    right: 10px;
     display: flex;
     align-items: center;
-    margin-top: 2vh;
+    margin-top: 20px;
 }
 
 #userInfo img {
-    width: 5vw;
-    height: 5vw;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin-right: 1vw;
+    margin-right: 10px;
 }
 
 #userInfo span {
-    font-size: 1.8vh;
+    font-size: 18px;
     font-weight: bold;
     color: var(--col-primary-dark);
 }
 
 #loginWithTwitchButton, #instructionsToggleButton {
-    padding: 1vh 2vw;
+    padding: 10px 20px;
     background-color: #6441a5;
     color: var(--col-white);
     border: none;
-    border-radius: 0.5vw;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1.8vh;
+    font-size: 18px;
     font-weight: bold;
-    margin-top: 2vh;
+    margin-top: 20px;
 }
 
 #loginWithTwitchButton:hover {
@@ -363,16 +360,16 @@ h1 {
 }
 
 #instructionsToggleButton {
-    margin-top: 6vh;
-    margin-left: 18vw;
+    margin-top: 60px;
+    margin-left: 180px;
 }
 
 #instructionsContainer {
     position: absolute;
-    top: 1vh;
-    left: 1vw;
+    top: 10px;
+    left: 10px;
     z-index: 10;
-    max-width: 30vw;
+    max-width: 300px;
 }
 
 #instructionsModal {
@@ -389,23 +386,23 @@ h1 {
 
 #instructionsModal .modal-content {
     background-color: var(--col-white);
-    margin: 15vh auto;
-    padding: 3vh; /* Aumenta el padding para evitar superposición */
-    border: 0.2vw solid var(--col-primary-dark);
-    width: 80vw;
-    max-width: 60vw;
+    margin: 15% auto;
+    padding: 30px; /* Aumenta el padding para evitar superposición */
+    border: 1px solid var(--col-primary-dark);
+    width: 80%;
+    max-width: 600px;
     text-align: center;
-    border-radius: 1vw;
-    box-shadow: 0 0.4vw 0.8vw var(--col-shadow);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--col-shadow);
     position: relative; /* Asegura que el contenido del modal sea el contenedor de referencia para la "X" */
 }
 
 #instructionsModal .close {
     color: var(--col-primary-dark);
     position: absolute; /* Posiciona la "X" de forma absoluta */
-    top: 1vh; /* Ajusta la posición superior */
-    right: 1vw; /* Ajusta la posición derecha */
-    font-size: 2.8vh;
+    top: 10px; /* Ajusta la posición superior */
+    right: 10px; /* Ajusta la posición derecha */
+    font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -418,10 +415,10 @@ h1 {
 }
 
 .instruction-icon {
-    width: 2vw;
-    height: 2vh;
+    width: 20px;
+    height: 20px;
     vertical-align: middle;
-    margin-left: 0.5vw;
+    margin-left: 5px;
 }
 
 @media (max-width: 768px) {
@@ -431,27 +428,27 @@ h1 {
 
     /* Otros ajustes responsivos para móvil */
     #board {
-        grid-template-columns: repeat(auto-fit, minmax(4vw, 1fr));
-        gap: 1vw;
+        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+        gap: 10px;
     }
 
     .tile {
-        width: 4vw;
-        height: 4vw;
-        font-size: 2.4vh;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
     }
 
     #keyboard .key {
-        width: 4vw;
-        height: 4vw;
-        font-size: 1.4vh;
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
     }
 
     .container {
-        padding: 1vh;
+        padding: 10px;
     }
 
     h1 {
-        font-size: 3.6vh;
+        font-size: 36px;
     }
 }
