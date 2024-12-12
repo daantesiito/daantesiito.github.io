@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date().toDateString();
     const lastPlayedTimestamp = localStorage.getItem("lastPlayedTimestamp");
     const isNewDay = !lastPlayedTimestamp || new Date(parseInt(lastPlayedTimestamp)).toDateString() !== now.toDateString();
-    const startDate = new Date('2024-12-04'); // Cambia esta fecha según sea necesario
+    const startDate = new Date('2024-12-11'); // Cambia esta fecha según sea necesario
     let wordDictionary = [];
     let wordList = [];
     let wordToGuess = "";
@@ -903,3 +903,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 emoteContainer.appendChild(emote);
             }
         });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('instructionsToggleButton');
+    const instructionsModal = document.getElementById('instructionsModal');
+    const closeInstructionsModal = document.getElementById('closeInstructionsModal');
+
+    if (toggleButton && instructionsModal && closeInstructionsModal) {
+        toggleButton.addEventListener('click', () => {
+            instructionsModal.classList.remove('hidden');
+            instructionsModal.classList.add('visible');
+        });
+
+        closeInstructionsModal.addEventListener('click', () => {
+            instructionsModal.classList.add('hidden');
+            instructionsModal.classList.remove('visible');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === instructionsModal) {
+                instructionsModal.classList.add('hidden');
+                instructionsModal.classList.remove('visible');
+            }
+        });
+    }
+});

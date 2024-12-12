@@ -28,6 +28,41 @@
         <span id="userName"></span>
     </div>
     <button id="loginWithTwitchButton">LOGIN CON TWITCH</button>
+    <div id="instructionsContainer">
+        <button id="instructionsToggleButton">INSTRUCCIONES</button>
+    </div>
+    <div id="instructionsModal" class="modal hidden">
+        <div class="modal-content">
+            <span id="closeInstructionsModal" class="close">&times;</span>
+            <div id="instructionsContent">
+                <p>
+                    El objetivo del juego es simple, adivinar la palabra oculta. La palabra puede tener entre 3 y 7 letras y tenes 6 intentos para adivinarla.
+                </p>
+                <p> 
+                    La palabra es la misma para todas las personas en ese día. Cada intento debe ser una palabra válida. En cada ronda, el juego 
+                    pinta cada letra de un color indicando si esa letra se encuentra o no en la palabra y si está en la posición correcta.
+                </p>
+                <p>
+                    <span style="color: var(--col-correct); font-weight: bold;">VERDE</span> 
+                    significa que la letra está en la palabra y en la posición CORRECTA 
+                    <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/twitchdle/media/VERDE.png?raw=true" alt="Letra verde" class="instruction-icon">
+                </p>
+                <p>
+                    <span style="color: var(--col-present); font-weight: bold;">AMARILLO</span> 
+                    significa que la letra está presente en la palabra pero en la posición INCORRECTA 
+                    <img src="images/yellow_letter.png" alt="Letra amarilla" class="instruction-icon">
+                </p>
+                <p>
+                    <span style="color: var(--col-absent); font-weight: bold;">GRIS</span> 
+                    significa que la letra NO está presente en la palabra 
+                    <img src="images/gray_letter.png" alt="Letra gris" class="instruction-icon">
+                </p>
+                <p> 
+                    El login con twitch solo guarda tu nombre de usuario para poder usarlo como "cuenta" y que no se repita.
+                </p>
+            </div>
+        </div>
+    </div>
     <div class="container hidden">
         <div id="board"></div>
         <div id="keyboard"></div>
