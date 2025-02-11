@@ -2,7 +2,7 @@
 const firebaseConfig = {
     apiKey: "AIzaSyA4jwDsKA3OfzGx59iEZixdTGc9ilq0JxA",
     authDomain: "pasapalabra-a1320.firebaseapp.com",
-    databaseURL: "https://pasapalabra-a1320-default-rtdb.firebaseio.com",
+    databaseURL: "https://pasapalabra-a1320-default-rtdb.firebaseio.com/",
     projectId: "pasapalabra-a1320",
     storageBucket: "pasapalabra-a1320.appspot.com",
     messagingSenderId: "986445345846",
