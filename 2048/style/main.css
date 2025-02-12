@@ -9,6 +9,11 @@
   --col-primary-light: #c096ff;
   --col-shadow: rgba(0, 0, 0, 0.25);
   --col-white: #fff;
+  --col-kick-primary: #00e701;
+  --col-kick-primary-dark: #00b501;
+  --col-kick-primary-light: #66ff66;
+  --col-kick-bg: #e5ffe5;
+  --col-kick-bg-lighter: #ccffcc;
 }
 
 html, body {
@@ -18,9 +23,6 @@ html, body {
   color: var(--col-primary-dark);
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px; }
-
-body {
-  margin: 80px 0; }
 
 .heading:after {
   content: "";
@@ -58,9 +60,11 @@ h1.title {
   100% {
     top: -50px;
     opacity: 0; } }
+    
 .scores-container {
   float: right;
-  text-align: right; }
+  text-align: right;
+  margin-top: 25px; }
 
 .score-container, .best-container {
   position: relative;
@@ -405,6 +409,47 @@ hr {
     @media screen and (max-width: 520px) {
       .tile.tile-super .tile-inner {
         font-size: 10px; } }
+
+.tile-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensure the image fits within the tile while maintaining aspect ratio */
+}
+
+/* Maintain background colors for tiles with images */
+.tile-2 {
+  background: #eee4da;
+}
+.tile-4 {
+  background: #ede0c8;
+}
+.tile-8 {
+  background: #f2b179;
+}
+.tile-16 {
+  background: #f59563;
+}
+.tile-32 {
+  background: #f67c5f;
+}
+.tile-64 {
+  background: #f65e3b;
+}
+.tile-128 {
+  background: #edcf72;
+}
+.tile-256 {
+  background: #edcc61;
+}
+.tile-512 {
+  background: #edc850;
+}
+.tile-1024 {
+  background: #edc53f;
+}
+.tile-2048 {
+  background: #edc22e;
+}
 
 @-webkit-keyframes appear {
   0% {
@@ -836,6 +881,163 @@ hr {
   color: var(--col-white);
 }
 
+#btn-guide {
+  padding: 10px 20px;
+  background-color: var(--col-primary);
+  color: var(--col-white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#btn-guide:hover {
+  background-color: var(--col-primary-dark);
+}
+
+#btn-guide a {
+  text-decoration: none;
+  color: var(--col-white);
+}
+
+#imageModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--col-white);
+  border: 2px solid var(--col-primary);
+  border-radius: 10px;
+  z-index: 1000;
+  padding: 10px; /* Reduce el padding para evitar márgenes extra */
+  box-shadow: 0 0 10px var(--col-shadow);
+  width: auto; /* Ajusta al contenido */
+  height: auto; /* Ajusta al contenido */
+  max-width: 85%;
+  max-height: 85%;
+  overflow: auto;
+  display: flex; /* Usa flexbox para centrar */
+  flex-direction: column; /* Asegura que el contenido se organice verticalmente */
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente */
+}
+
+#imageModal img {
+  width: 100%;
+  height: auto;
+  max-width: 600px; /* Establece un tamaño máximo razonable */
+  max-height: 80vh; /* No permite que supere el 80% de la pantalla */
+}
+
+#imageModal .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: black;
+  color: var(--col-white);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+
 .container.hidden {
   display: none;
+}
+
+.theme-switcher {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-switcher img {
+  width: 24px; /* Adjust the size of the logos */
+  height: 24px;
+  max-width: 100%; /* Ensure the image does not exceed its container */
+  max-height: 100%; /* Ensure the image does not exceed its container */
+  cursor: pointer;
+  margin: 0 5px; /* Adjust the margin between the logos and the bar */
+}
+
+.theme-switcher span {
+  font-size: 24px; /* Ajustar el tamaño de la barra */
+  color: var(--col-primary-dark);
+}
+
+.theme-switcher button {
+  background-color: var(--col-primary);
+  color: var(--col-white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+}
+
+.theme-switcher button:hover {
+  background-color: var(--col-primary-dark);
+}
+
+body.kick-theme, html.kick-theme {
+  background-color: var(--col-kick-bg) !important;
+  color: var(--col-kick-primary-dark) !important;
+}
+
+body.kick-theme .score-container, 
+body.kick-theme .best-container, 
+body.kick-theme .game-container {
+  background: var(--col-kick-primary-dark) !important;
+}
+
+body.kick-theme #userInfo span {
+  color: var(--col-kick-primary-dark) !important;
+}
+
+body.kick-theme .restart-button, 
+body.kick-theme .game-message a,
+body.kick-theme #btn-top,
+body.kick-theme #themeSwitcherButton {
+  background: var(--col-kick-primary) !important;
+  color: var(--col-white) !important; /* Ensure text color is white for better visibility */
+}
+
+body.kick-theme .game-message.game-won {
+  background: rgba(0, 229, 1, 0.5) !important;
+}
+
+/* Ensure text color changes for better visibility */
+body.kick-theme .score-container, 
+body.kick-theme .best-container, 
+body.kick-theme .game-container, 
+body.kick-theme .restart-button, 
+body.kick-theme #btn-top,
+body.kick-theme #themeSwitcherButton {
+  color: var(--col-white) !important;
+}
+
+body.kick-theme .game-message.game-won, body.kick-theme .game-container, body.kick-theme .game-message.game-over {
+  color: var(--col-kick-primary-dark) !important;
+}
+
+body.kick-theme #imageModal {
+  border: 2px solid var(--col-kick-primary) !important;
+}
+
+body.kick-theme #btn-guide:hover {
+  background-color: var(--col-kick-primary-dark);
+}
+
+body.kick-theme #btn-guide {
+  background: var(--col-kick-primary) !important;
 }

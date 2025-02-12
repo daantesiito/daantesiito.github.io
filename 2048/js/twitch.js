@@ -33,8 +33,8 @@ if (!username) {
 
 loginWithTwitchButton.addEventListener("click", () => {
     const clientId = '9atac9btbos4bjh4qms4kawv2eiyyt';
-    //const redirectUri = 'https://daantesiito.github.io/twitch2048/';
-    const redirectUri = 'http://localhost:8000/';
+    const redirectUri = 'https://daantesiito.github.io/2048/';
+    //const redirectUri = 'http://localhost:8000/';
     const scope = 'user:read:email';
     const responseType = 'token';
 
@@ -65,10 +65,6 @@ function handleTwitchAuth() {
                 // Guardar información del usuario en localStorage
                 localStorage.setItem("username", user.display_name);
                 localStorage.setItem("userAvatar", user.profile_image_url);
-
-                // Verificar que los datos se guardaron correctamente
-                console.log("Username guardado:", localStorage.getItem("username"));
-                console.log("Avatar guardado:", localStorage.getItem("userAvatar"));
 
                 // Actualizar la UI
                 loginWithTwitchButton.style.display = "none";

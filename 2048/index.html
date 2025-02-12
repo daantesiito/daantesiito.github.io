@@ -5,7 +5,7 @@
   <title>2048</title>
 
   <link href="style/main.css" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="shortcut icon" href="logo.ico">
   <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
   <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
   <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x920.png"  media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone, retina -->
@@ -17,6 +17,9 @@
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <body>
+  <div class="theme-switcher">
+    <button id="themeSwitcherButton">TWITCH / KICK</button>
+  </div>
   <button id="loginWithTwitchButton">LOGIN CON TWITCH</button>
   <div class="container">
     <div id="userInfo" class="hidden">
@@ -24,6 +27,9 @@
       <span id="userName"></span>
       <button id="btn-top">
         <a href="https://twitch-bf66f.web.app/" target="_blank" rel="noopener noreferrer">TOP</a>
+      </button>
+      <button id="btn-guide">
+        <a href="#">GUIA</a>
       </button>
     </div>
     <div class="heading">
@@ -35,7 +41,7 @@
     </div>
 
     <div class="above-game">
-      <p class="game-intro">Junta los numeros para conseguir <strong>la ficha 2048</strong></p>
+      <p class="game-intro">Junta los EMOTES para conseguir <strong>la ficha del OMEGALUL</strong></p>
       <a class="restart-button">Nuevo Juego</a>
     </div>
 
@@ -81,8 +87,13 @@
     </div>
 
     <p class="game-explanation">
-      <strong class="important">Como Jugar:</strong> Usá las <strong>flechas del teclado</strong> para mover las fichas. Cuando dos fichas con el mismo número se tocan, <strong>se fusionan en una sola</strong>.
+      <strong class="important">Como Jugar:</strong> Usá las <strong>flechas del teclado</strong> para mover las fichas. Cuando dos fichas con el mismo emote se tocan, <strong>se fusionan en una sola</strong>.
     </p>
+  </div>
+
+  <div id="imageModal">
+    <button class="close">&times;</button>
+    <img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/2048/media/guia.png?raw=true" alt="Guia">
   </div>
 
   <!-- Scripts de Firebase -->
@@ -99,6 +110,8 @@
   <script src="js/local_storage_manager.js"></script>
   <script src="js/game_manager.js"></script>
   <script src="js/application.js"></script>
+  <script src="js/theme_switcher.js"></script>
   <script src="js/twitch.js"></script>
+  
 </body>
 </html>

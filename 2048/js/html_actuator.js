@@ -62,7 +62,45 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = tile.value;
+
+  // Replace text content with an image for specific tile values
+  switch (tile.value) {
+    case 2:
+      inner.innerHTML = '<img src="../media/FeelsWeirdMan-4x.png" alt="2">';
+      break;
+    case 4:
+      inner.innerHTML = '<img src="../media/o7-4x.png" alt="4">';
+      break;
+    case 8:
+      inner.innerHTML = '<img src="../media/sus-4x.png" alt="8">';
+      break;
+    case 16:
+      inner.innerHTML = '<img src="../media/pfft-4x.png" alt="16">';
+      break;
+    case 32:
+      inner.innerHTML = '<img src="../media/CAUGHT-4x.png" alt="32">';
+      break;
+    case 64:
+      inner.innerHTML = '<img src="../media/MAJ-4x.png" alt="64">';
+      break;
+    case 128:
+      inner.innerHTML = '<img src="../media/monkaS-4x.png" alt="128">';
+      break;
+    case 256:
+      inner.innerHTML = '<img src="../media/monkaW-4x.png" alt="256">';
+      break;
+    case 512:
+      inner.innerHTML = '<img src="../media/ok-4x.png" alt="512">';
+      break;
+    case 1024:
+      inner.innerHTML = '<img src="../media/POGGERS-4x.png" alt="1024">';
+      break;
+    case 2048:
+      inner.innerHTML = '<img src="../media/OMEGALUL-4x.png" alt="2048">';
+      break;
+    default:
+      inner.textContent = tile.value;
+  }
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
