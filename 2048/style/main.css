@@ -593,7 +593,7 @@ hr {
 }
 
 .game-explanation {
-  margin-top: 50px; }
+  margin-top: 30px; }
 
 @media screen and (max-width: 520px) {
   html, body {
@@ -1040,4 +1040,77 @@ body.kick-theme #btn-guide:hover, body.kick-theme #loginWithTwitchButton:hover {
 
 body.kick-theme #btn-guide, body.kick-theme #loginWithTwitchButton {
   background: var(--col-kick-primary) !important;
+}
+
+h3, h4 {
+  text-align: center;
+  color: red;
+  margin: 0px;
+}
+
+.social-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.social-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: var(--col-white);
+  font-weight: bold;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.github {
+  background-color: #333;
+}
+
+.github:hover {
+  background-color: #555;
+}
+
+.cafecito {
+  background-color: #0077b6;
+}
+
+.cafecito:hover {
+  background-color: #0096c7;
+}
+
+.instagram {
+  background-color: #e1306c;
+}
+
+.instagram:hover {
+  background-color: #fd1d1d;
+}
+
+.twitch {
+  background-color: #6441a5;
+}
+
+.twitch:hover {
+  background-color: #9147ff;
+}
+
+.email {
+  background-color: #d44638;
+}
+
+.email:hover {
+  background-color: #c23321;
+}
+
+.discord {
+  background-color: #7289da;
+}
+
+.discord:hover {
+  background-color: #5a6fb1;
 }
