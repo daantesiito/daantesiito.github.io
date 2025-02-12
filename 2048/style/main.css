@@ -820,7 +820,7 @@ hr {
     margin-top: 30px !important; }
 
   .theme-switcher {
-    display: none;
+    display: none !important;
   }
 }
 
