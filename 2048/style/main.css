@@ -817,7 +817,12 @@ hr {
     line-height: 30px !important;
     margin-top: 90px !important; }
   .game-message .lower {
-    margin-top: 30px !important; } }
+    margin-top: 30px !important; }
+
+  .theme-switcher {
+    display: none;
+  }
+}
 
 #userInfo {
   position: absolute;
