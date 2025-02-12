@@ -1034,10 +1034,10 @@ body.kick-theme #imageModal {
   border: 2px solid var(--col-kick-primary) !important;
 }
 
-body.kick-theme #btn-guide:hover {
+body.kick-theme #btn-guide:hover, body.kick-theme #loginWithTwitchButton:hover {
   background-color: var(--col-kick-primary-dark);
 }
 
-body.kick-theme #btn-guide {
+body.kick-theme #btn-guide, body.kick-theme #loginWithTwitchButton {
   background: var(--col-kick-primary) !important;
 }
