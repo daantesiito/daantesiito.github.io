@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>2048</title>
-
   <link href="style/main.css" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="logo.ico">
   <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
@@ -129,6 +128,22 @@
 
     gtag('config', 'G-PTK4PBJ1KG');
   </script>
-  
+  <script>
+    // Deshabilitar el acceso a la consola (versión corregida)
+  (function() {
+    var _z = console;
+    Object.defineProperty(window, "console", {
+      get: function() {
+        if (_z && _z._commandLineAPI) {
+          throw "Acceso a la consola deshabilitado";
+        }
+        return _z;
+      },
+      set: function(val) {
+        _z = val;
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
