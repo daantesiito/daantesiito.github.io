@@ -75,9 +75,6 @@
   GameManager.prototype.actuate = function() {
     const username = localStorage.getItem("username");
     const bestScore = this.storageManager.getBestScore();
-
-    console.log("Actuando juego - Score:", this.score, "BestScore:", bestScore);
-
     // Si el juego terminó, se guarda el puntaje y se limpia el estado
     if (this.over || this.won) {
       if (this.storageManager.getBestScore() < this.score) {
@@ -86,8 +83,6 @@
         if (username) {
           const userScoreRef = database.ref(`2048UserScores/${username}`);
           userScoreRef.set(`${this.score}`)
-            .then(() => console.log(`Nuevo BestScore guardado en Firebase para ${username}`))
-            .catch((error) => console.error("Error al guardar en Firebase:", error));
         }
       }
       this.storageManager.clearGameState();
