@@ -98,6 +98,18 @@ HTMLActuator.prototype.addTile = function (tile) {
     case 2048:
       inner.innerHTML = '<img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/2048/media/OMEGALUL-4x.png?raw=true" alt="2048">';
       break;
+    case 4096:
+      inner.innerHTML = '<img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/2048/media/Chadge-4x.png?raw=true" alt="4096">';
+      break;
+    case 8192:
+      inner.innerHTML = '<img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/2048/media/dosecat-4x.png?raw=true" alt="8192">';
+      break;
+    case 16384:
+      inner.innerHTML = '<img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/2048/media/Ratge-4x.png?raw=true" alt="16384">';
+      break;
+    case 32768:
+      inner.innerHTML = '<img src="https://github.com/daantesiito/daantesiito.github.io/blob/main/2048/media/PepeClown-4x.png?raw=true" alt="32768">';
+      break;
     default:
       inner.textContent = tile.value;
   }
