@@ -1,0 +1,3 @@
+twitchio
+requests
+python-dotenv
